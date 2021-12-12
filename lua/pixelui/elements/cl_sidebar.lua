@@ -38,6 +38,7 @@ function PANEL:Paint(w, h)
     if self:IsHovered() then
         textCol = PIXEL.Colors.PrimaryText
         backgroundCol = self.BackgroundHoverCol
+        backgroundThingCol = ARSENIC.Colors.Primary
     end
 
     if self:IsDown() or self:GetToggle() then
