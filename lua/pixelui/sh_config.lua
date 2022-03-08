@@ -20,6 +20,7 @@
     0 = No - forced off.
     1 = No - but users can opt in via convar (pixel_ui_override_popups).
     2 = Yes - but users must opt in via convar.
+    2 = Yes - but users must opt in via convar.
     3 = Yes - forced on.
 ]]
 PIXEL.OverrideDermaMenus = 0
@@ -155,29 +156,6 @@ PIXEL.Themes["DiscordDark"] = {
 
     Primary = Color(88, 101, 242),
     Disabled = Color(114, 118, 125),
-    Positive = Color(87, 242, 135),
-    Negative = Color(237, 66, 69),
-
-    Diamond = Color(185, 242, 255),
-    Gold = Color(255, 215, 0),
-    Silver = Color(192, 192, 192),
-    Bronze = Color(145, 94, 49),
-
-    Transparent = Color(0, 0, 0, 0)
-}
-
-PIXEL.Themes["DiscordLight"] = {
-    Background = Color(255, 255, 255),
-    Header = Color(242, 243, 245),
-    SecondaryHeader = Color(220, 223, 227),
-    Scroller = Color(204, 204, 204),
-
-    PrimaryText = Color(6, 6, 7),
-    SecondaryText = Color(79, 86, 96),
-    DisabledText = Color(79, 86, 96),
-
-    Primary = Color(88, 101, 242),
-    Disabled = Color(79, 86, 96),
     Positive = Color(87, 242, 135),
     Negative = Color(237, 66, 69),
 
