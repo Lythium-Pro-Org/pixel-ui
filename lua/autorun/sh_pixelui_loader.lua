@@ -60,7 +60,7 @@ resource.AddWorkshop("2468112758")
 hook.Add("Think", "PIXEL.UI.VersionChecker", function()
 	hook.Remove("Think", "PIXEL.UI.VersionChecker")
 
-	http.Fetch("https://raw.githubusercontent.com/TomDotBat/pixel-ui/master/VERSION", function(body)
+	http.Fetch("https://github.com/Pulsar-Dev/pixel-ui/blob/master/VERSION", function(body)
 		if PIXEL.UI.Version ~= string.Trim(body) then
 			local red = Color(192, 27, 27)
 
