@@ -54,7 +54,7 @@ function PANEL:Paint(w, h)
     self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
-    if self:GetDrawOutline() then 
+    if self:GetDrawOutline() then
         PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
         PIXEL.DrawRoundedBox(0, 0, 0, PIXEL.Scale(3), h, hoverLineCol, PIXEL.Scale(1))
     end
@@ -62,7 +62,7 @@ function PANEL:Paint(w, h)
     local imgurID = self:GetImgurID()
     if imgurID then
         local iconSize = h * .65
-        PIXEL.DrawImgur(PIXEL.Scale(10), (h - iconSize) / 2, iconSize, iconSize, imgurID, self.TextCol)
+        PIXEL.DrawImgur(PIXEL.Scale(10), (h - iconSize) / 2, iconSize, iconSize, imgurID, Color(255,255,255))
         PIXEL.DrawSimpleText(self:GetName(), "SidebarItem", PIXEL.Scale(20) + iconSize, h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         return
     end
