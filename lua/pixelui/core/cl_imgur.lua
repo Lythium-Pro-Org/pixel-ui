@@ -21,19 +21,26 @@ local queue = {}
 local useProxy = false
 
 file.CreateDir("pixel")
+file.CreateDir("pixel/icons")
 
 local function processQueue()
     if queue[1] then
         local id, matSettings, callback = unpack(queue[1])
 
-        http.Fetch((useProxy and "https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com/" or "https://i.imgur.com/") .. id .. ".png",
-            function(body, len, headers, code)
-                if len > 2097152 then
-                    materials[id] = Material("nil")
-                else
-                    file.Write("pixel/" .. id .. ".png", body)
-                    materials[id] = Material("../data/pixel/" .. id .. ".png", matSettings or "noclamp smooth mips")
-                end
+    if file.Exists("pixel/icons/" .. id .. ".png", "DATA") then
+        materials[id] = Material("../data/pixel/icons/" .. id .. ".png", matSettings or "noclamp smooth mips")
+        return callback(materials[id])
+    end
+
+    http.Fetch(useproxy and "https://proxy.duckduckgo.com/iu/?u=https://i.imgur.com" or "https://i.imgur.com/" .. id .. ".png",
+        function(body, len, headers, code)
+            if len > 2097152 then
+                materials[id] = Material("nil")
+                return callback(materials[id])
+            end
+
+            file.Write("pixel/icons/" .. id .. ".png", body)
+            materials[id] = Material("../data/pixel/icons/" .. id .. ".png", matSettings or "noclamp smooth mips")
 
                 callback(materials[id])
             end,

@@ -1,43 +1,35 @@
+
 --[[
-	PIXEL UI - Copyright Notice
-	© 2023 Thomas O'Sullivan - All rights reserved
+PIXEL UI
+Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <https://www.gnu.org/licenses/>.
---]]
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+]]
 
 local PANEL = {}
 
-AccessorFunc(PANEL, "MaskSize", "MaskSize", FORCE_NUMBER)
+AccessorFunc(PANEL, "Rounding", "Rounding", FORCE_NUMBER)
 
 function PANEL:Init()
     self.Avatar = vgui.Create("AvatarImage", self)
     self.Avatar:SetPaintedManually(true)
 
     self.CirclePoly = {}
-    self:SetMaskSize(1)
+    self:SetRounding(10)
 end
 
 function PANEL:PerformLayout(w, h)
     self.Avatar:SetSize(w, h)
-
-    self.CirclePoly = {}
-    local maskSize = self:GetMaskSize()
-
-    local t = 0
-    for i = 1, 360 do
-        t = math.rad(i * 720) / 720
-        self.CirclePoly[i] = {x = w / 2 + math.cos(t) * maskSize, y = h / 2 + math.sin(t) * maskSize}
-    end
 end
 
 function PANEL:SetPlayer(ply, size)
@@ -48,9 +40,6 @@ function PANEL:SetSteamID(id, size)
     self.Avatar:SetSteamID(id, size)
 end
 
-local render = render
-local surface = surface
-local whiteTexture = surface.GetTextureID("vgui/white")
 function PANEL:Paint(w, h)
     render.ClearStencil()
     render.SetStencilEnable(true)
@@ -64,9 +53,7 @@ function PANEL:Paint(w, h)
     render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_NEVER)
     render.SetStencilReferenceValue(1)
 
-    surface.SetTexture(whiteTexture)
-    surface.SetDrawColor(255, 255, 255, 255)
-    surface.DrawPoly(self.CirclePoly)
+    PIXEL.DrawFullRoundedBox(self:GetRounding(), 0, 0, w, h, color_white)
 
     render.SetStencilFailOperation(STENCILOPERATION_ZERO)
     render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
