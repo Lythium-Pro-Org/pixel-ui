@@ -21,8 +21,9 @@ local materials = {}
 file.CreateDir("pixel")
 file.CreateDir("pixel/icons")
 
-function PIXEL.GetImgur(id, callback, useproxy, matSettings)
-    if materials[id] then return callback(materials[id]) end
+local function processQueue()
+    if queue[1] then
+        local id, matSettings, callback = unpack(queue[1])
 
     if file.Exists("pixel/icons/" .. id .. ".png", "DATA") then
         materials[id] = Material("../data/pixel/icons/" .. id .. ".png", matSettings or "noclamp smooth mips")
@@ -35,6 +36,9 @@ function PIXEL.GetImgur(id, callback, useproxy, matSettings)
                 materials[id] = Material("nil")
                 return callback(materials[id])
             end
+
+            file.Write("pixel/icons/" .. id .. ".png", body)
+            materials[id] = Material("../data/pixel/icons/" .. id .. ".png", matSettings or "noclamp smooth mips")
 
             file.Write("pixel/icons/" .. id .. ".png", body)
             materials[id] = Material("../data/pixel/icons/" .. id .. ".png", matSettings or "noclamp smooth mips")
