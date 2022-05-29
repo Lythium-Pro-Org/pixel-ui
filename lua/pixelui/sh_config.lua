@@ -26,6 +26,11 @@
 PIXEL.OverrideDermaMenus = 0
 
 --[[
+    Should we disable the PIXEL UI Reskin of the notification?
+]]
+PIXEL.DisableNotification = false
+
+--[[
     The Imgur ID of the progress image you want to appear when Imgur content is loading.
 ]]
 PIXEL.ProgressImageID = "635PPvg"
