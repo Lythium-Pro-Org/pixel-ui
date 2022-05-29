@@ -54,11 +54,6 @@ PIXEL.DefaultTheme = "Dark"
 
 PIXEL.Themes = PIXEL.Themes or {} -- do not touch
 PIXEL.Themes["Dark"] = {
-
-PIXEL.DefaultTheme = "Dark"
-
-PIXEL.Themes = PIXEL.Themes or {} -- do not touch
-PIXEL.Themes["Dark"] = {
     Background = Color(22, 22, 22),
     Header = Color(28, 28, 28),
     SecondaryHeader = Color(43, 43, 43),
