@@ -28,16 +28,12 @@ function PIXEL.SetTheme(theme)
 
     if PIXEL.Themes[theme] then
         PIXEL.Colors = PIXEL.Themes[theme]
+        if CLIENT then
+            local ply = LocalPlayer()
+            ply.PIXELTheme = theme
+        end
     else
-        print("PIXELUI: Invalid Theme")
         return false
-    end
-end
-
-local function printThemes()
-    print("PIXELUI: Valid Theme Options")
-    for k, v in pairs(PIXEL.Themes) do
-        print(" - " .. k)
     end
 end
 
@@ -48,15 +44,6 @@ hook.Add("InitPostEntity", "PIXELUI.LoadTheme", function()
     end
     local theme = file.Read("pixel/theme.txt", "DATA")
     PIXEL.Colors = PIXEL.Themes[theme]
-end)
-
-concommand.Add("pixel_set_theme", function(ply, cmd, args)
-    if !args[1] then
-        printThemes()
-        return
-    end
-
-    PIXEL.SetTheme(args[1])
 end)
 
 concommand.Add("pixel_reset_theme", function(ply, cmd, args)
