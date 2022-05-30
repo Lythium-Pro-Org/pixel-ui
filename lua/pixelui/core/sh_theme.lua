@@ -33,6 +33,7 @@ function PIXEL.SetTheme(theme)
             ply.PIXELTheme = theme
         end
     else
+        PIXEL.Colors = PIXEL.Themes[PIXEL.DefaultTheme]
         return false
     end
 end
