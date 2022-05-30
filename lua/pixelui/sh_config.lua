@@ -52,7 +52,7 @@ PIXEL.Themes["Dark"] = {
     SecondaryText = Color(220, 220, 220),
     DisabledText = Color(40, 40, 40),
 
-    Primary = Color(77, 79, 199),
+    Primary = Color(74, 61, 255),
     Disabled = Color(180, 180, 180),
     Positive = Color(68, 235, 124),
     Negative = Color(235, 68, 68),
@@ -75,7 +75,7 @@ PIXEL.Themes["Light"] = {
     SecondaryText = HexColor("#808080"),
     DisabledText = HexColor("#9ba0a3"),
 
-    Primary = HexColor("#6f42c1"),
+    Primary = Color(74, 61, 255),
     Disabled = HexColor("#9ba0a3"),
     Positive = HexColor("#79CB60"),
     Negative = HexColor("#d73a49"),
@@ -94,7 +94,7 @@ PIXEL.Themes["GitHubDark"] = {
     SecondaryHeader = HexColor("#2b3036"),
     Scroller = HexColor("#2f363d"),
 
-    PrimaryText = HexColor("#b7d1d9"),
+    PrimaryText = Color(74, 61, 255),
     SecondaryText = HexColor("#c9d1d9"),
     DisabledText = HexColor("#39414a"),
 
@@ -121,10 +121,56 @@ PIXEL.Themes["NightOwl"] = {
     SecondaryText = HexColor("#d9d9d9"), -- Buttons
     DisabledText = HexColor("#697098"), -- Disabled
 
-    Primary = HexColor("#c792ea"), -- Purple
+    Primary = Color(74, 61, 255),
     Disabled = HexColor("#697098"), -- Disabled
     Positive = HexColor("#addb67"), -- Green
     Negative = HexColor("#ff6363"), -- Red
+
+    Diamond = Color(185, 242, 255),
+    Gold = Color(255, 215, 0),
+    Silver = Color(192, 192, 192),
+    Bronze = Color(145, 94, 49),
+
+    Transparent = Color(0, 0, 0, 0)
+}
+
+PIXEL.Themes["DiscordDark"] = {
+    Background = Color(54, 57, 63),
+    Header = Color(47, 49, 54),
+    SecondaryHeader = Color(51, 54, 59),
+    Scroller = Color(32, 34, 37),
+
+    PrimaryText = Color(255, 255, 255),
+    SecondaryText = Color(185, 187, 190),
+    DisabledText = Color(40, 40, 40),
+
+    Primary = Color(88, 101, 242),
+    Disabled = Color(114, 118, 125),
+    Positive = Color(87, 242, 135),
+    Negative = Color(237, 66, 69),
+
+    Diamond = Color(185, 242, 255),
+    Gold = Color(255, 215, 0),
+    Silver = Color(192, 192, 192),
+    Bronze = Color(145, 94, 49),
+
+    Transparent = Color(0, 0, 0, 0)
+}
+
+PIXEL.Themes["DiscordLight"] = {
+    Background = Color(255, 255, 255),
+    Header = Color(242, 243, 245),
+    SecondaryHeader = Color(220, 223, 227),
+    Scroller = Color(204, 204, 204),
+
+    PrimaryText = Color(6, 6, 7),
+    SecondaryText = Color(79, 86, 96),
+    DisabledText = Color(79, 86, 96),
+
+    Primary = Color(88, 101, 242),
+    Disabled = Color(79, 86, 96),
+    Positive = Color(87, 242, 135),
+    Negative = Color(237, 66, 69),
 
     Diamond = Color(185, 242, 255),
     Gold = Color(255, 215, 0),
