@@ -57,6 +57,25 @@ do
         PIXEL.RegisterFontUnscaled(name, font, PIXEL.Scale(size), weight)
     end
 
+    function PIXEL.GenerateFont(size, weight, font, name)
+        weight = weight or 700
+        PIXEL.Fonts = PIXEL.Fonts or {}
+        fontName = name or "PIXEL.Font.Size" .. size
+        font = font or "Open Sans Bold"
+
+        if !PIXEL.Fonts[fontName] or PIXEL.Fonts[fontName].size != size or PIXEL.Fonts[fontName].weight != weight then
+            PIXEL.Fonts[fontName] = {
+                name = fontName,
+                size = size,
+                weight = weight
+            }
+            PIXEL.RegisterFont(fontName, font, size, weight)
+            return fontName
+        end
+
+        return fontName
+    end
+
     hook.Add("OnScreenSizeChanged", "PIXEL.UI.ReRegisterFonts", function()
         for k,v in pairs(scaledFonts) do
             PIXEL.RegisterFont(k, v.font, v.size, v.weight)
