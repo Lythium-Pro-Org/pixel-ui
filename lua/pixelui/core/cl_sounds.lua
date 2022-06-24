@@ -17,6 +17,9 @@ do
         PIXEL.PlaySound("buttons-navigation", buttonSounds[randSound])
     end
 
+    function PIXEL.PlayKeyType()
+        PIXEL.PlayButtonSound()
+    end
 
     function PIXEL.PlayExpand(type)
         if type == "open" then
@@ -47,6 +50,16 @@ do
 
     function PIXEL.PlayError(num)
         if not num then num = 1 end
-        PIXEL.PlaySound("errors-cancel", "Cancel_" .. num)
+        PIXEL.PlaySound("errors-cancel", "Error_" .. num)
+    end
+
+    function PIXEL.PlayComplete(num)
+        if not num then num = 1 end
+        PIXEL.PlaySound("complete-success", "Complete_" .. num)
+    end
+
+    function PIXEL.PlaySuccess(num)
+        if not num then num = 1 end
+        PIXEL.PlaySound("complete-success", "Success_" .. num)
     end
 end

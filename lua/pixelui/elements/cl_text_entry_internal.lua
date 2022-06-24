@@ -138,6 +138,7 @@ function PANEL:UpdateFromMenu()
 end
 
 function PANEL:OnTextChanged(noMenuRemoval)
+    PIXEL.PlayKeyType()
     self.HistoryPos = 0
 
     if self:GetUpdateOnType() then
