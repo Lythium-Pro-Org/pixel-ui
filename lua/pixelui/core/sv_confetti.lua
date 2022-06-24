@@ -1,4 +1,4 @@
-if SERVER then
+do
     util.AddNetworkString("PIXEL.SpawnConfetti")
     util.PrecacheSound("pixel_confetti.mp3")
     function PIXEL.SpawnConfetti(ply)
@@ -11,11 +11,4 @@ if SERVER then
     net.Receive("PIXEL.SpawnConfetti", function(_, ply)
         PIXEL.SpawnConfetti(ply)
     end)
-end
-
-if CLIENT then
-    function PIXEL.SpawnConfetti()
-        net.Start("PIXEL.SpawnConfetti")
-        net.SendToServer()
-    end
 end
