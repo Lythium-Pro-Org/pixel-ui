@@ -26,10 +26,18 @@ AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 
 PIXEL.RegisterFont("UI.MenuOption", "Open Sans SemiBold", 18)
 
+function PANEL:Hide()
+    self.Hidden = true
+end
+function PANEL:Show()
+    self.Hidden = false
+end
+
 function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetFont("UI.MenuOption")
     self:SetChecked(false)
+    self:SetClicky(false)
 
     self.NormalCol = PIXEL.Colors.Transparent
     self.HoverCol = PIXEL.Colors.Scroller
@@ -65,6 +73,7 @@ end
 function PANEL:OnCursorExited() end
 
 function PANEL:Paint(w, h)
+    if self.Hidden then return end
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
 
     surface.SetDrawColor(self.BackgroundCol)

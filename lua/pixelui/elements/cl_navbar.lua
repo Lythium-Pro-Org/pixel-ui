@@ -25,6 +25,7 @@ PIXEL.RegisterFont("UI.NavbarItem", "Open Sans SemiBold", 22)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetColor(PIXEL.Colors.Primary)
+    self:SetClicky(false)
 
     self.NormalCol = PIXEL.Colors.PrimaryText
     self.HoverCol = PIXEL.Colors.SecondaryText

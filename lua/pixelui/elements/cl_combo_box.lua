@@ -24,11 +24,12 @@ AccessorFunc(PANEL, "m_bDoSort", "SortItems", FORCE_BOOL)
 
 function PANEL:Init()
     self:SetSizeToText(true)
-
+    self:SetClicky(false)
     self:Clear()
 
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetSortItems(true)
+    self:SetSounds(false)
 end
 
 function PANEL:PerformLayout(w, h)
@@ -129,7 +130,7 @@ end
 
 function PANEL:OpenMenu(pControlOpener)
     if pControlOpener and pControlOpener == self.TextEntry then return end
-
+    PIXEL.PlayExpand("open")
     if #self.Choices == 0 then return end
 
     if IsValid(self.Menu) then
@@ -171,6 +172,7 @@ function PANEL:OpenMenu(pControlOpener)
 
     self.Menu.OnRemove = function(s)
         if not IsValid(self) then return end
+        PIXEL.PlayExpand("close")
         self:SetToggle(false)
     end
 end
@@ -199,8 +201,7 @@ function PANEL:SetValue(strValue)
 end
 
 function PANEL:DoClick()
-    if self:IsMenuOpen() then return self:CloseMenu() end
-    self:OpenMenu()
+    if not self:IsMenuOpen() then self:OpenMenu() end
 end
 
 function PANEL:PaintOver(w, h)
