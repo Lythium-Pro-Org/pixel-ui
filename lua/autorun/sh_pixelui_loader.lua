@@ -56,16 +56,16 @@ hook.Run("PIXEL.UI.FullyLoaded")
 
 if CLIENT then return end
 
-resource.AddWorkshop("2468112758")
+resource.AddWorkshop("2825396224")
 
 hook.Add("Think", "PIXEL.UI.VersionChecker", function()
 	hook.Remove("Think", "PIXEL.UI.VersionChecker")
 
-	http.Fetch("https://raw.githubusercontent.com/TomDotBat/pixel-ui/master/VERSION", function(body)
+	http.Fetch("https://raw.githubusercontent.com/Pulsar-Dev/pixel-ui/master/VERSION", function(body)
 		if PIXEL.UI.Version ~= string.Trim(body) then
 			local red = Color(192, 27, 27)
 
-			MsgC(red, "[PIXEL UI] There is an update available, please download it at: https://github.com/TomDotBat/pixel-ui/releases\n")
+			MsgC(red, "[PIXEL UI] There is an update available, please download it at: https://github.com/Pulsar-Dev/pixel-ui/releases/latest\n")
 			MsgC(red, "\nYour version: " .. PIXEL.UI.Version .. "\n")
 			MsgC(red, "New  version: " .. body .. "\n")
 			return
