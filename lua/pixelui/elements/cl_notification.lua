@@ -20,6 +20,7 @@ function PIXEL.Notify(text, type, length)
 	local notif = vgui.Create("PIXEL.Notification", parent)
 	notif:SetLength(math.max(length, 0))
 	notif:SetText(text)
+	notif:SetType(type)
 	table.insert(Notices, notif)
 
 	if ply.NotifyAmount > 0 then
@@ -46,6 +47,21 @@ local PANEL = {}
 function PANEL:SetText(txt)
 	self.NotifyText = txt
 	self:SetWide(PIXEL.GetTextSize(txt, "PIXEL.NotifyFont") + sc(25))
+end
+
+function PANEL:SetType(type)
+	self.NotifyType = type
+	if type == NOTIFY_GENERIC then
+		PIXEL.PlayNotify()
+	elseif type == NOTIFY_ERROR then
+		PIXEL.PlayError(1)
+	elseif type == NOTIFY_UNDO then
+		PIXEL.PlayError(2)
+	elseif type == NOTIFY_HINT then
+		PIXEL.PlaySuccess(1)
+	elseif type == NOTIFY_CLEANUP then
+		PIXEL.PlayError(5)
+	end
 end
 
 function PANEL:SetLength(sec)
@@ -84,7 +100,6 @@ function PANEL:Open()
 	self:SetAlpha(0)
 	self:SetVisible(true)
 	self:AlphaTo(255, .1, 0)
-	PIXEL.PlayNotify()
 end
 
 function PANEL:Close()
