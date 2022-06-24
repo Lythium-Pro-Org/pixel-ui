@@ -26,6 +26,8 @@ PIXEL.RegisterFont("UI.NavbarItem", "Open Sans SemiBold", 22)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetColor(PIXEL.Colors.Primary)
+    self:SetClicky(false)
+    self:SetSounds(false)
 
     self.NormalCol = PIXEL.Colors.PrimaryText
     self.HoverCol = PIXEL.Colors.SecondaryText
@@ -94,6 +96,7 @@ end
 function PANEL:SelectItem(id)
     local item = self.Items[id]
     if not item then return end
+    PIXEL.PlayChangeTab()
 
     if self.SelectedItem and self.SelectedItem == id then return end
     self.SelectedItem = id

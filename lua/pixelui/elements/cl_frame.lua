@@ -201,6 +201,8 @@ function PANEL:PerformLayout(w, h)
 end
 
 function PANEL:Open()
+	PIXEL.PlayButtonSound()
+	self:SetVisible(false)
 	self:SetAlpha(0)
 	self:SetVisible(true)
 	self:AlphaTo(255, .1, 0)
@@ -231,9 +233,12 @@ function PANEL:PaintHeader(x, y, w, h)
 	PIXEL.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PIXEL.Scale(8), y + h / 2, PIXEL.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER)
 end
 
+function PANEL:PaintMore(w,h) end
+
 function PANEL:Paint(w, h)
 	PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, PIXEL.Colors.Background)
 	self:PaintHeader(0, 0, w, PIXEL.Scale(30))
+	self:PaintMore(w, h)
 end
 
 vgui.Register("PIXEL.Frame", PANEL, "EditablePanel")

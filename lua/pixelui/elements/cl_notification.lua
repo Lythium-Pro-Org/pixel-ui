@@ -1,7 +1,8 @@
 
 local sc = PIXEL.Scale
 local Notices = {}
-local notifAmount = 0
+local notifyAmount = 0
+
 surface.CreateFont("PIXEL.NotifyFont", {
 	font = "Open Sans Bold",
 	size = 25,
@@ -11,22 +12,25 @@ surface.CreateFont("PIXEL.NotifyFont", {
 
 
 function PIXEL.Notify(text, type, length)
+	local ply = LocalPlayer()
+	if not ply.NotifyAmount then ply.NotifyAmount = 0 end
+	ply.NotifyAmount = ply.NotifyAmount + 1
 	local parent = nil
 	if ( GetOverlayPanel ) then parent = GetOverlayPanel() end
-
 	local notif = vgui.Create("PIXEL.Notification", parent)
 	notif:SetLength(math.max(length, 0))
 	notif:SetText(text)
+	notif:SetType(type)
+	table.insert(Notices, notif)
 
-	if notifAmount > 0 then
-		notif:SetPos(ScrW() - notif:GetWide() - sc(25), ScrH() - sc(200) - (sc(50) * notifAmount))
+	if ply.NotifyAmount > 0 then
+		notif:SetPos(ScrW() - notif:GetWide() - sc(25), ScrH() - sc(200) - (sc(50) * ply.NotifyAmount))
 	else
 		notif:SetPos(ScrW() - notif:GetWide() - sc(25), ScrH() - sc(200))
 	end
-	table.insert(Notices, notif)
 end
 
-hook.Add("Initialize", "NotificationOverride", function()
+hook.Add("Initialize", "PIXEL.NotificationOverride", function()
 	local oldNotification = notification.AddLegacy
 
 	function notification.AddLegacy(text, type, length)
@@ -42,8 +46,22 @@ local PANEL = {}
 
 function PANEL:SetText(txt)
 	self.NotifyText = txt
-	surface.SetFont("PIXEL.NotifyFont")
-	self:SetWide(surface.GetTextSize(txt) + sc(25))
+	self:SetWide(PIXEL.GetTextSize(txt, "PIXEL.NotifyFont") + sc(25))
+end
+
+function PANEL:SetType(type)
+	self.NotifyType = type
+	if type == NOTIFY_GENERIC then
+		PIXEL.PlayNotify()
+	elseif type == NOTIFY_ERROR then
+		PIXEL.PlayError(1)
+	elseif type == NOTIFY_UNDO then
+		PIXEL.PlayError(2)
+	elseif type == NOTIFY_HINT then
+		PIXEL.PlaySuccess(1)
+	elseif type == NOTIFY_CLEANUP then
+		PIXEL.PlayError(5)
+	end
 end
 
 function PANEL:SetLength(sec)
@@ -56,7 +74,6 @@ function PANEL:SetLength(sec)
 end
 
 function PANEL:Init()
-	notifAmount = notifAmount + 1
 	self:SetTall(sc(40))
 	self:SetWide(sc(40))
 	self.NotifyText = ""
@@ -79,12 +96,6 @@ function PANEL:Paint(w, h)
 	PIXEL.DrawSimpleText(self.NotifyText, "PIXEL.NotifyFont", w / 2, h / 2 - sc(1), PIXEL.Colors.PrimaryText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
-function PANEL:SetProgress(frac)
-end
-
-function PANEL:KillSelf()
-end
-
 function PANEL:Open()
 	self:SetAlpha(0)
 	self:SetVisible(true)
@@ -92,14 +103,18 @@ function PANEL:Open()
 end
 
 function PANEL:Close()
+	local ply = LocalPlayer()
 	self:AlphaTo(0, .1, 0, function(anim, pnl)
 		if not IsValid(pnl) then return end
 		pnl:SetVisible(false)
 		pnl:Remove()
 	end)
 
-	notifAmount = notifAmount - 1
+	ply.NotifyAmount = ply.NotifyAmount - 1
 end
 
+function PANEL:SetProgress(frac) end
+
+function PANEL:KillSelf() end
 
 vgui.Register("PIXEL.Notification", PANEL, "EditablePanel")

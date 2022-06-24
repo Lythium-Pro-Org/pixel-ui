@@ -27,6 +27,8 @@ PIXEL.RegisterFont("SidebarItem", "Open Sans Bold", 19)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetDrawOutline(true)
+    self:SetClicky(false)
+    self:SetSounds(false)
 
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
@@ -132,6 +134,8 @@ end
 function PANEL:SelectItem(id)
     local item = self.Items[id]
     if not item then return end
+
+    PIXEL.PlayChangeTab()
 
     if self.SelectedItem and self.SelectedItem == id then return end
     self.SelectedItem = id
