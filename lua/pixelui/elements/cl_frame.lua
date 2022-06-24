@@ -201,6 +201,8 @@ function PANEL:PerformLayout(w, h)
 end
 
 function PANEL:Open()
+	PIXEL.PlayButtonSound()
+	self:SetVisible(false)
 	self:SetAlpha(0)
 	self:SetVisible(true)
 	self:AlphaTo(255, .1, 0)
