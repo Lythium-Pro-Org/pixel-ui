@@ -31,6 +31,7 @@ function PANEL:Init()
     self:SetFont("UI.MenuOption")
     self:SetChecked(false)
     self:SetIconColor(PIXEL.Colors.PrimaryText)
+
     self.NormalCol = PIXEL.Colors.Transparent
     self.HoverCol = PIXEL.Colors.Scroller
     self.BackgroundCol = PIXEL.CopyColor(self.NormalCol)
@@ -65,6 +66,7 @@ function PANEL:OnCursorExited()
 end
 
 function PANEL:Paint(w, h)
+    if self.Hidden then return end
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 

@@ -316,6 +316,8 @@ end
 function PANEL:PaintMore(w, h)
 end
 
+function PANEL:PaintMore(w,h) end
+
 function PANEL:Paint(w, h)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
     local contentX, contentY = self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding

@@ -29,6 +29,7 @@ function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetSortItems(true)
     self:SetSounds(false)
+    self:SetSounds(false)
 end
 
 function PANEL:PerformLayout(w, h)
@@ -142,6 +143,7 @@ end
 
 function PANEL:OpenMenu(pControlOpener)
     if pControlOpener and pControlOpener == self.TextEntry then return end
+    PIXEL.PlayExpand("open")
     if #self.Choices == 0 then return end
     PIXEL.PlayExpand("open")
     self:OnOpen()

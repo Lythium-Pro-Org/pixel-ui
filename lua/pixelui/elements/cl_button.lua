@@ -58,9 +58,9 @@ function PANEL:OnMousePressed(mouseCode)
         PIXEL.PlayButtonSound()
     end
 
-    if not localPly then
-        localPly = LocalPlayer()
-    end
+	if not localPly then
+		localPly = LocalPlayer()
+	end
 
     if self:IsSelectable() and mouseCode == MOUSE_LEFT and (input.IsShiftDown() or input.IsControlDown()) and not (localPly:KeyDown(IN_FORWARD) or localPly:KeyDown(IN_BACK) or localPly:KeyDown(IN_MOVELEFT) or localPly:KeyDown(IN_MOVERIGHT)) then return self:StartBoxSelection() end
     self:MouseCapture(true)
@@ -74,10 +74,10 @@ function PANEL:OnMouseReleased(mouseCode)
     if not self:IsEnabled() then return end
     if not self.Depressed and dragndrop.m_DraggingMain ~= self then return end
 
-    if self.Depressed then
-        self.Depressed = nil
-        self:OnReleased(mouseCode)
-    end
+	if self.Depressed then
+		self.Depressed = nil
+		self:OnReleased(mouseCode)
+	end
 
     if self:DragMouseRelease(mouseCode) then return end
 
@@ -92,15 +92,15 @@ function PANEL:OnMouseReleased(mouseCode)
     if not self.Hovered then return end
     self.Depressed = true
 
-    if mouseCode == MOUSE_RIGHT then
-        self:DoRightClick()
-    elseif mouseCode == MOUSE_LEFT then
-        self:DoClick()
-    elseif mouseCode == MOUSE_MIDDLE then
-        self:DoMiddleClick()
-    end
+	if mouseCode == MOUSE_RIGHT then
+		self:DoRightClick()
+	elseif mouseCode == MOUSE_LEFT then
+		self:DoClick()
+	elseif mouseCode == MOUSE_MIDDLE then
+		self:DoMiddleClick()
+	end
 
-    self.Depressed = nil
+	self.Depressed = nil
 end
 
 function PANEL:PaintExtra(w, h)
@@ -114,19 +114,21 @@ function PANEL:Paint(w, h)
         return
     end
 
-    local bgCol = self.NormalCol
+	local bgCol = self.NormalCol
 
-    if self:IsDown() or self:GetToggle() then
-        bgCol = self.ClickedCol
-    elseif self:IsHovered() then
-        bgCol = self.HoverCol
-    end
+	if self:IsDown() or self:GetToggle() then
+		bgCol = self.ClickedCol
+	elseif self:IsHovered() and not self.Clicky then
+		bgCol = self.HoverCol
+	end
 
-    self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
+	if not self.Clicky then
+		self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
+	end
 
     PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
-    self:PaintExtra(w, h)
+	self:PaintExtra(w, h)
 end
 
 function PANEL:IsDown()
@@ -153,3 +155,29 @@ function PANEL:DoMiddleClick()
 end
 
 vgui.Register("PIXEL.Button", PANEL, "Panel")
+
+concommand.Add("test", function()
+	local pnl = vgui.Create("PIXEL.Frame")
+	pnl:SetTitle("Test")
+	pnl:SetSize(650, 350)
+	pnl:Center()
+	local btn1 = pnl:Add("PIXEL.Button")
+	btn1:SetClicky(true)
+	btn1:SetSize(480, 200)
+	btn1:SetPos(10, 50)
+
+	local btn2 = pnl:Add("PIXEL.Button")
+	btn2:SetClicky(true)
+	btn2:SetSize(100, 25)
+	btn2:SetPos(10, 275)
+
+	local btn3 = pnl:Add("PIXEL.Button")
+	btn3:SetClicky(true)
+	btn3:SetSize(50, 200)
+	btn3:SetPos(525, 50)
+
+	local btn4 = pnl:Add("PIXEL.Button")
+	btn4:SetClicky(true)
+	btn4:SetSize(300, 30)
+	btn4:SetPos(125, 275)
+end)

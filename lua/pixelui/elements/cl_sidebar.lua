@@ -24,7 +24,9 @@ PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetDrawOutline(true)
+
     self:SetSounds(false)
+
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
     self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
@@ -34,7 +36,6 @@ end
 function PANEL:Paint(w, h)
     local textCol = PIXEL.Colors.SecondaryText
     local backgroundCol = PIXEL.Colors.Transparent
-    local hoverLineCol = PIXEL.Colors.Transparent
 
     if self:IsHovered() then
         textCol = PIXEL.Colors.PrimaryText
@@ -44,8 +45,7 @@ function PANEL:Paint(w, h)
 
     if self:IsDown() or self:GetToggle() then
         textCol = PIXEL.Colors.PrimaryText
-        backgroundCol = self.BackgroundHoverCol
-        hoverLineCol = PIXEL.Colors.Primary
+        backgroundCol = self.BackgroundSelectCol
     end
 
     local animTime = FrameTime() * 12
@@ -53,8 +53,7 @@ function PANEL:Paint(w, h)
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
     if self:GetDrawOutline() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
-        PIXEL.DrawRoundedBox(0, 0, 0, PIXEL.Scale(3), h, hoverLineCol, PIXEL.Scale(1))
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, backgroundCol, PIXEL.Scale(1))
     end
 
     local imgurID = self:GetImgurID()

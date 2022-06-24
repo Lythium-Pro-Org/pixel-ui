@@ -212,6 +212,28 @@ function PANEL:Open(x, y, skipanimation, ownerpanel)
     self:MakePopup()
     self:SetVisible(true)
     self:SetKeyboardInputEnabled(false)
+
+    self.DrawTall = PIXEL.Scale(0)
+    local children = self:GetCanvas():GetChildren()
+    local childTall = children[1]:GetTall()
+    local childCount = 1
+    for k, v in pairs(children) do
+        v:Hide(false)
+    end
+    timer.Create("PIXEL.Menu.Open", 0.025, self:ChildCount(), function()
+        if not IsValid(self) then return end
+        self.DrawTall = self.DrawTall + childTall
+        children[childCount]:Show(true)
+        childCount = childCount + 1
+
+        if self:ChildCount() == childCount then
+            self.DrawTall = self:GetTall()
+        end
+    end)
+end
+
+function PANEL:Paint(w, h)
+    PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, self.DrawTall, self.BackgroundCol)
 end
 
 function PANEL:Paint(w, h)
