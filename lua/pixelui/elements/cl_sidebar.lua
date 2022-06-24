@@ -130,7 +130,9 @@ end
 function PANEL:SelectItem(id)
     local item = self.Items[id]
     if not item then return end
+
     PIXEL.PlayChangeTab()
+
     if self.SelectedItem and self.SelectedItem == id then return end
     self.SelectedItem = id
 
