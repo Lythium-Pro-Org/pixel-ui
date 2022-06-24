@@ -32,6 +32,9 @@ function PANEL:Init()
     self:SetFont("UI.TextButton")
 
     self:SetSize(PIXEL.Scale(100), PIXEL.Scale(30))
+    self:SetClicky(true)
+    self:SetSounds(true)
+
 end
 
 function PANEL:SizeToText()
@@ -48,7 +51,11 @@ function PANEL:PaintExtra(w, h)
         return
     end
 
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    if self:GetClicky() then
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2 - PIXEL.Scale(2), PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    else
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    end
 end
 
 vgui.Register("PIXEL.TextButton", PANEL, "PIXEL.Button")

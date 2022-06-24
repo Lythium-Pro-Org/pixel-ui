@@ -24,7 +24,7 @@ PIXEL.RegisterFont("UI.CategoryHeader", "Open Sans Bold", 19)
 
 function PANEL:Init()
     self.ArrowRotation = 0
-
+    self:SetClicky(false)
     self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 6)
 end
 

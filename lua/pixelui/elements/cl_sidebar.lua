@@ -27,6 +27,7 @@ PIXEL.RegisterFont("SidebarItem", "Open Sans Bold", 19)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetDrawOutline(true)
+    self:SetClicky(false)
 
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
