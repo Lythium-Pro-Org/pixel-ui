@@ -25,4 +25,28 @@ do
             PIXEL.PlaySound("buttons-navigation", "Collapse")
         end
     end
+
+    function PIXEL.PlayNotify()
+        PIXEL.PlaySound("notifications-alerts", "Alert_2")
+    end
+
+    local tabSounds = {
+        [1] = "Tab_1",
+        [2] = "Tab_2",
+        [3] = "Tab_3"
+    }
+
+    function PIXEL.PlayChangeTab()
+        local randSound = math.random(1, 3)
+        PIXEL.PlaySound("buttons-navigation", tabSounds[randSound])
+    end
+
+    function PIXEL.PlayCancel()
+        PIXEL.PlaySound("errors-cancel", "Cancel_2")
+    end
+
+    function PIXEL.PlayError(num)
+        if not num then num = 1 end
+        PIXEL.PlaySound("errors-cancel", "Cancel_" .. num)
+    end
 end
