@@ -31,6 +31,11 @@ PIXEL.OverrideDermaMenus = 0
 PIXEL.DisableNotification = false
 
 --[[
+    Should we disable The UI Sounds?
+]]
+PIXEL.DisableUISounds = false
+
+--[[
     The Imgur ID of the progress image you want to appear when Imgur content is loading.
 ]]
 PIXEL.ProgressImageID = "635PPvg"

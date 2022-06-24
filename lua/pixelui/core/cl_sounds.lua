@@ -1,5 +1,7 @@
+PIXEL = PIXEL or {}
 do
     function PIXEL.PlaySound(type, sound)
+        if PIXEL.DisableUISounds then return end
         local soundPath = "pixelui-sounds/" .. type .. "/" .. sound .. ".mp3"
 
         if not file.Exists("sound/" .. soundPath, "GAME") then print(soundPath, "bad") return end
