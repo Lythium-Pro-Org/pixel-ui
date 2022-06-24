@@ -51,7 +51,9 @@ function PANEL:PaintExtra(w, h)
         return
     end
 
-    if self:GetClicky() then
+    if self.ClickyMove and self:GetClicky() then
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, (h / 2 - PIXEL.Scale(2)) + self.ClickyScale, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    elseif self:GetClicky() then
         PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2 - PIXEL.Scale(2), PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
     else
         PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
