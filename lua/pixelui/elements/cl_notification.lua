@@ -91,7 +91,7 @@ function PANEL:Paint(w, h)
 	local shouldDraw = not (LocalPlayer and IsValid(LocalPlayer()) and IsValid(LocalPlayer():GetActiveWeapon()) and LocalPlayer():GetActiveWeapon():GetClass() == "gmod_camera")
 	if not shouldDraw then return end
 
-	PIXEL.DrawRoundedBoxEx(sc(6), sc(5), 0, w, h, Color(0, 0, 0, 200), false, true, false, true)
+	PIXEL.DrawRoundedBoxEx(sc(6), sc(5), 0, w, h, PIXEL.SetColorTransparency(PIXEL.Colors.Background, 200), false, true, false, true)
 	PIXEL.DrawRoundedBoxEx(sc(6), 0, 0, sc(5), h, PIXEL.Colors.Primary, true, false, true, false)
 	PIXEL.DrawSimpleText(self.NotifyText, "PIXEL.NotifyFont", w / 2, h / 2 - sc(1), PIXEL.Colors.PrimaryText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
