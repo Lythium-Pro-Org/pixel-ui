@@ -31,7 +31,14 @@ hook.Add("InitPostEntity", "PIXELUI.LoadTheme", function()
     ip = ip:gsub(":", "-")
     ip = string.Replace(ip, ".", "_")
     if file.Exists("pixel/themes/" .. ip .. "/theme.txt", "DATA") then
-        local theme = file.Read("pixel/" .. ip .. "/theme.txt", "DATA")
+        local theme = file.Read("pixel/themes/" .. ip .. "/theme.txt", "DATA")
+
+        if not PIXEL.Themes[theme] then
+            PIXEL.Colors = PIXEL.Themes["Dark"]
+            ply.PIXELTheme = "Dark"
+            return
+        end
+
         PIXEL.Colors = PIXEL.Themes[theme]
         ply.PIXELTheme = theme
         return

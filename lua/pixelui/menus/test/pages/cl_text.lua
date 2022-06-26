@@ -15,20 +15,20 @@ function PANEL:Init()
     self.BadValidatedTextEntry:SetPlaceholderText("Bad Text!")
 
     function self.BadValidatedTextEntry:IsTextValid(text)
-		return false, "Bad Text!"
-	end
+        return false, "Bad Text!"
+    end
 
     self.GoodValidatedTextEntry = vgui.Create("PIXEL.ValidatedTextEntry", self)
     self.GoodValidatedTextEntry:Dock(TOP)
     self.GoodValidatedTextEntry:DockMargin(sc(20), sc(0), sc(20), sc(20))
     self.GoodValidatedTextEntry:SetPlaceholderText("Good Text!")
+
     function self.GoodValidatedTextEntry:IsTextValid(text)
-		return true, "Good Text!"
-	end
+        return true, "Good Text!"
+    end
 end
 
-function PANEL:PaintMore(w,h)
-
+function PANEL:PaintMore(w, h)
 end
 
 vgui.Register("PIXEL.Test.Text", PANEL)

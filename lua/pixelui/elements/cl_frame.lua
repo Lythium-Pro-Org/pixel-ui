@@ -162,6 +162,37 @@ function PANEL:CreateSidebar(defaultItem, imgurID, imgurScale, imgurYOffset, but
 	return self.SideBar
 end
 
+function PANEL:ChangeTab(panel)
+	if not self.SideBar:IsMouseInputEnabled() then return end
+
+	if not IsValid(self.ContentPanel) then
+		self.ContentPanel = vgui.Create(panel, self)
+		self.ContentPanel:Dock(FILL)
+		self.ContentPanel:InvalidateLayout(true)
+
+		function self.ContentPanel.Think(s)
+			if not self.DragThink then return end
+			if self:DragThink(self) then return end
+			if self:SizeThink(self, s) then return end
+			self:SetCursor("arrow")
+			if self.y < 0 then self:SetPos(self.x, 0) end
+		end
+
+		function self.ContentPanel.OnMousePressed() self:OnMousePressed() end
+		function self.ContentPanel.OnMouseReleased() self:OnMouseReleased() end
+		return
+	end
+
+	self.SideBar:SetMouseInputEnabled(false)
+	self.ContentPanel:AlphaTo(0, .15, 0, function(anim, pnl)
+		self.ContentPanel:Remove()
+		self.ContentPanel = vgui.Create(panel, self)
+		self.ContentPanel:Dock(FILL)
+		self.ContentPanel:InvalidateLayout(true)
+		self.ContentPanel:AlphaTo(255, .15, 0, function(anim2, pnl2) self.SideBar:SetMouseInputEnabled(true) end)
+	end)
+end
+
 function PANEL:AddHeaderButton(elem, size)
 	elem.HeaderIconSize = size or .45
 	return table.insert(self.ExtraButtons, elem)
