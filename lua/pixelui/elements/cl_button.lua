@@ -177,29 +177,3 @@ function PANEL:DoRightClick() end
 function PANEL:DoMiddleClick() end
 
 vgui.Register("PIXEL.Button", PANEL, "Panel")
-
-concommand.Add("test", function()
-	local pnl = vgui.Create("PIXEL.Frame")
-	pnl:SetTitle("Test")
-	pnl:SetSize(650, 350)
-	pnl:Center()
-	local btn1 = pnl:Add("PIXEL.Button")
-	btn1:SetClicky(true)
-	btn1:SetSize(480, 200)
-	btn1:SetPos(10, 50)
-
-	local btn2 = pnl:Add("PIXEL.Button")
-	btn2:SetClicky(true)
-	btn2:SetSize(100, 25)
-	btn2:SetPos(10, 275)
-
-	local btn3 = pnl:Add("PIXEL.Button")
-	btn3:SetClicky(true)
-	btn3:SetSize(50, 200)
-	btn3:SetPos(525, 50)
-
-	local btn4 = pnl:Add("PIXEL.Button")
-	btn4:SetClicky(true)
-	btn4:SetSize(300, 30)
-	btn4:SetPos(125, 275)
-end)

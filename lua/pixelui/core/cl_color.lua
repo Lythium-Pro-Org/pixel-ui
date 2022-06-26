@@ -150,6 +150,10 @@ function PIXEL.IsColorEqualTo(from, to)
     return from.r == to.r and from.g == to.g and from.b == to.b and from.a == to.a
 end
 
+function PIXEL.SetColorTransparency(color, transparency)
+    return Color(color.r, color.g, color.b, transparency)
+end
+
 local colorMeta = FindMetaTable("Color")
 colorMeta.Copy = PIXEL.CopyColor
 colorMeta.IsLight = PIXEL.IsColorLight
