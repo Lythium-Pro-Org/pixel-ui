@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 PIXEL = PIXEL or {}
 PIXEL.UI = PIXEL.UI or {}
-PIXEL.UI.Version = "1.2.3"
+PIXEL.UI.Version = "1.3.0"
 
 PIXEL.Colors = {
     Background = Color(22, 22, 22),
