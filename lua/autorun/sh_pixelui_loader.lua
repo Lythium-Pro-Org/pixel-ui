@@ -17,7 +17,7 @@
 
 PIXEL = PIXEL or {}
 PIXEL.UI = PIXEL.UI or {}
-PIXEL.UI.Version = "1.3.1"
+PIXEL.UI.Version = "1.3.0"
 
 PIXEL.Themes = PIXEL.Themes or {}
 
