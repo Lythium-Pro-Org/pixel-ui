@@ -79,6 +79,7 @@ AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurScale", "ImgurScale", FORCE_NUMBER)
 AccessorFunc(PANEL, "ImgurOffset", "ImgurOffset", FORCE_NUMBER)
 AccessorFunc(PANEL, "ButtonOffset", "ButtonOffset", FORCE_NUMBER)
+AccessorFunc(PANEL, "ButtonBtmOffset", "ButtonBtmOffset", FORCE_NUMBER)
 
 function PANEL:Init()
     self.Items = {}
@@ -150,7 +151,7 @@ end
 function PANEL:PerformLayout(w, h)
     local sideSpacing = PIXEL.Scale(7)
     local topSpacing = PIXEL.Scale(7)
-    self:DockPadding(sideSpacing, self:GetImgurID() and w * self:GetImgurScale() + self:GetImgurOffset() + self:GetButtonOffset() + topSpacing * 2 or topSpacing, sideSpacing, topSpacing)
+    self:DockPadding(sideSpacing, self:GetImgurID() and w * self:GetImgurScale() + self:GetImgurOffset() + self:GetButtonOffset() + topSpacing * 2 or topSpacing, sideSpacing, self:GetButtonBtmOffset() or topSpacing)
 
     self.Scroller:Dock(FILL)
     self.Scroller:GetCanvas():DockPadding(0, 0, self.Scroller.VBar.Enabled and sideSpacing or 0, 0)
