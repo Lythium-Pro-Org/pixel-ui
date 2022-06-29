@@ -3,7 +3,6 @@ if not file.Exists("pixel/themes/", "DATA") then
 end
 
 function PIXEL.SetTheme(theme, cross)
-    print(theme, cross)
     if not cross then
         local ip = game.GetIPAddress()
         ip = ip:gsub(":", "-")
@@ -25,26 +24,41 @@ function PIXEL.SetTheme(theme, cross)
     end
 end
 
-hook.Add("InitPostEntity", "PIXELUI.LoadTheme", function()
+local function setJoinTheme()
     local ply = LocalPlayer()
     local ip = game.GetIPAddress()
     ip = ip:gsub(":", "-")
     ip = string.Replace(ip, ".", "_")
     if file.Exists("pixel/themes/" .. ip .. "/theme.txt", "DATA") then
-        local theme = file.Read("pixel/" .. ip .. "/theme.txt", "DATA")
+        local theme = file.Read("pixel/themes/" .. ip .. "/theme.txt", "DATA")
+        if theme == "" then theme = "Dark" end
+        if not PIXEL.Themes[theme] then
+            ply.PIXELTheme = "Dark"
+            PIXEL.Colors = PIXEL.Themes["Dark"]
+            return
+        end
+
         PIXEL.Colors = PIXEL.Themes[theme]
         ply.PIXELTheme = theme
         return
     end
 
-    if not file.Exists("pixel/themes/theme.txt", "DATA") then
+    if not file.Exists("pixel/themes/theme.txt", "DATA") then return end
+
+    local theme = file.Read("pixel/theme.txt", "DATA")
+    if theme == "" then theme = "Dark" end
+    if not PIXEL.Themes[theme] then
+        ply.PIXELTheme = "Dark"
         PIXEL.Colors = PIXEL.Themes["Dark"]
         return
     end
 
-    local theme = file.Read("pixel/theme.txt", "DATA")
     PIXEL.Colors = PIXEL.Themes[theme]
     ply.PIXELTheme = theme
+end
+
+hook.Add("InitPostEntity", "PIXELUI.LoadTheme", function()
+    setJoinTheme()
 end)
 
 concommand.Add("pixel_reset_theme", function(ply, cmd, args)
