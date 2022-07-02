@@ -2,7 +2,7 @@
 local sc = PIXEL.Scale
 local Notices = {}
 local notifyAmount = 0
-
+--[[
 surface.CreateFont("PIXEL.NotifyFont", {
 	font = "Open Sans Bold",
 	size = 25,
@@ -118,3 +118,4 @@ function PANEL:SetProgress(frac) end
 function PANEL:KillSelf() end
 
 vgui.Register("PIXEL.Notification", PANEL, "EditablePanel")
+--]]
