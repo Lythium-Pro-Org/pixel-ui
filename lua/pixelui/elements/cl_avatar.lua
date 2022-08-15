@@ -18,6 +18,7 @@
 local PANEL = {}
 
 AccessorFunc(PANEL, "Rounding", "Rounding", FORCE_NUMBER)
+AccessorFunc(PANEL, "MaskSize", "MaskSize", FORCE_NUMBER)
 
 function PANEL:Init()
     self.Avatar = vgui.Create("AvatarImage", self)
@@ -52,7 +53,7 @@ function PANEL:Paint(w, h)
     render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_NEVER)
     render.SetStencilReferenceValue(1)
 
-    PIXEL.DrawFullRoundedBox(self:GetRounding(), 0, 0, w, h, color_white)
+    PIXEL.DrawFullRoundedBox(self:GetRounding() or self:GetMaskSize(), 0, 0, w, h, color_white)
 
     render.SetStencilFailOperation(STENCILOPERATION_ZERO)
     render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
