@@ -44,8 +44,7 @@ function PANEL:Init()
 		self:Close()
 	end
 
-	self:SetSlideOut(true)
-	self:SetSlideDirection(4)
+	self:SetSlideOut(false)
 
 	self.ExtraButtons = {}
 
