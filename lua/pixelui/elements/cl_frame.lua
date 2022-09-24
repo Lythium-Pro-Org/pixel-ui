@@ -26,6 +26,7 @@ AccessorFunc(PANEL, "ScreenLock", "ScreenLock", FORCE_BOOL)
 AccessorFunc(PANEL, "RemoveOnClose", "RemoveOnClose", FORCE_BOOL)
 AccessorFunc(PANEL, "SlideOut", "SlideOut", FORCE_BOOL)
 AccessorFunc(PANEL, "SlideDirection", "SlideDirection", FORCE_NUMBER) -- 1 = up, 2 = right, 3 = down, 4 = left
+AccessorFunc(PANEL, "SlideTime", "SlideTime", FORCE_NUMBER)
 
 
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
@@ -45,7 +46,8 @@ function PANEL:Init()
 		self:Close()
 	end
 
-	self:SetSlideOut(false)
+	self:SetSlideOut(true)
+	self:SetSlideDirection(3)
 
 	self.ExtraButtons = {}
 
@@ -227,7 +229,7 @@ function PANEL:Close()
 
 	local scrw, scrh, wide, tall, posY = ScrW(), ScrH(), self:GetWide(), self:GetTall(), self:GetY()
 	local slideDirections = {
-		[1] = {x = (scrw / 2) - (wide / 2), y = -tall,size = function() self:SizeTo(wide, 0, .3, 0, -1) end},-- up
+		[1] = {x = (scrw / 2) - (wide / 2), y = -tall,size = function() self:SizeTo(wide, 0, (self:GetSlideTime() - 0.2) or .3, 0, -1) end},-- up
 		[2] = {x = scrw,y = posY,size = function() end},-- right
 		[3] = {x = (scrw / 2) - (wide / 2), y = scrh + tall, 	size = function() end},-- down
 		[4] = {x = -wide,y = posY,size = function() end},-- left
@@ -235,7 +237,7 @@ function PANEL:Close()
 
 	local direction = self:GetSlideDirection() or 1
 	slideDirections[direction].size()
-	self:MoveTo(slideDirections[direction].x, slideDirections[direction].y, .5, 0, -1, function(anim, pnl)
+	self:MoveTo(slideDirections[direction].x, slideDirections[direction].y, self:GetSlideTime() or .5, 0, -1, function(anim, pnl)
 		if not IsValid(pnl) then return end
 		pnl:SetVisible(false)
 		pnl:OnClose()
