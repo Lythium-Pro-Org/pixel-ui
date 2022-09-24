@@ -207,44 +207,14 @@ end
 
 function PANEL:Close()
 	self:AlphaTo(0, .1, 0, function(anim, pnl)
-		if not IsValid(pnl) then return end
-		pnl:SetVisible(false)
-		pnl:OnClose()
-		if pnl:GetRemoveOnClose() then pnl:Remove() end
-	end)
+        if not IsValid(pnl) then return end
+        pnl:SetVisible(false)
+        pnl:OnClose()
+        if pnl:GetRemoveOnClose() then pnl:Remove() end
+    end)
 end
 
-function PANEL:OnClose()
-end
-
-function PANEL:PerformLayout(w, h)
-    self.HeaderH = PIXEL.Scale(30)
-    local btnPad = PIXEL.Scale(6)
-    local btnSpacing = PIXEL.Scale(6)
-
-    if IsValid(self.CloseButton) then
-        local btnSize = self.HeaderH
-        self.CloseButton:SetSize(btnSize, btnSize)
-        self.CloseButton:SetPos(w - btnSize, (self.HeaderH - btnSize) / 2)
-        btnPad = btnPad + btnSize + btnSpacing
-    end
-
-    for _, btn in ipairs(self.ExtraButtons) do
-        local btnSize = self.HeaderH * (.6 or btn.HeaderIconSize)
-        btn:SetSize(btnSize, btnSize)
-        btn:SetPos(w - btnSize - btnPad, (self.HeaderH / 2) - (btnSize / 2))
-        btnPad = btnPad + btnSize + btnSpacing
-    end
-
-    if IsValid(self.SideBar) then
-        self.SideBar:SetPos(0, self.HeaderH)
-        self.SideBar:SetSize(PIXEL.Scale(200), h - self.HeaderH)
-    end
-
-    self.ContentPadding = PIXEL.Scale(8)
-    self:DockPadding(self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding, self.ContentPadding, self.ContentPadding)
-    self:LayoutContent(w, h)
-end
+function PANEL:OnClose() end
 
 function PANEL:PaintHeader(x, y, w, h)
     PIXEL.DrawRoundedBoxEx(PIXEL.Scale(8), x, y, w, h, PIXEL.Colors.Header, true, true)
