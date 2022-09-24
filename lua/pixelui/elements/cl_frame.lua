@@ -228,10 +228,10 @@ function PANEL:Close()
 
 	local scrw, scrh, wide, tall, posY = ScrW(), ScrH(), self:GetWide(), self:GetTall(), self:GetY()
 	local slideDirections = {
-		[1] = {x = (scrw / 2) - (wide / 2), y = -tall, 			size = function() self:SizeTo(wide, 0, .3, 0, -1) end}, 	-- up
-		[2] = {x = scrw, 					y = posY, 			size = function() end}, 									-- right
-		[3] = {x = (scrw / 2) - (wide / 2), y = scrh + tall, 	size = function() end}, 									-- down
-		[4] = {x = -wide, 					y = posY, 			size = function() end}, 									-- left
+		[1] = {x = (scrw / 2) - (wide / 2), y = -tall,size = function() self:SizeTo(wide, 0, .3, 0, -1) end},-- up
+		[2] = {x = scrw,y = posY,size = function() end},-- right
+		[3] = {x = (scrw / 2) - (wide / 2), y = scrh + tall, 	size = function() end},-- down
+		[4] = {x = -wide,y = posY,size = function() end},-- left
 	}
 
 	local direction = self:GetSlideDirection() or 1
