@@ -24,6 +24,9 @@ AccessorFunc(PANEL, "MinWidth", "MinWidth", FORCE_NUMBER)
 AccessorFunc(PANEL, "MinHeight", "MinHeight", FORCE_NUMBER)
 AccessorFunc(PANEL, "ScreenLock", "ScreenLock", FORCE_BOOL)
 AccessorFunc(PANEL, "RemoveOnClose", "RemoveOnClose", FORCE_BOOL)
+AccessorFunc(PANEL, "SlideOut", "SlideOut", FORCE_BOOL)
+AccessorFunc(PANEL, "SlideDirection", "SlideDirection", FORCE_NUMBER) -- 1 = up, 2 = right, 3 = down, 4 = left
+
 
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
@@ -41,6 +44,9 @@ function PANEL:Init()
 	self.CloseButton.DoClick = function(s)
 		self:Close()
 	end
+
+	self:SetSlideOut(true)
+	self:SetSlideDirection(4)
 
 	self.ExtraButtons = {}
 
@@ -208,8 +214,29 @@ function PANEL:Open()
 	self:AlphaTo(255, .1, 0)
 end
 
+
 function PANEL:Close()
-	self:AlphaTo(0, .1, 0, function(anim, pnl)
+	if not self:GetSlideOut() then
+		self:AlphaTo(0, .1, 0, function(anim, pnl)
+			if not IsValid(pnl) then return end
+			pnl:SetVisible(false)
+			pnl:OnClose()
+			if pnl:GetRemoveOnClose() then pnl:Remove() end
+		end)
+		return
+	end
+
+	local scrw, scrh, wide, tall, posY = ScrW(), ScrH(), self:GetWide(), self:GetTall(), self:GetY()
+	local slideDirections = {
+		[1] = {x = (scrw / 2) - (wide / 2), y = -tall, 			size = function() self:SizeTo(wide, 0, .3, 0, -1) end}, 	-- up
+		[2] = {x = scrw, 					y = posY, 			size = function() end}, 									-- right
+		[3] = {x = (scrw / 2) - (wide / 2), y = scrh + tall, 	size = function() end}, 									-- down
+		[4] = {x = -wide, 					y = posY, 			size = function() end}, 									-- left
+	}
+
+	local direction = self:GetSlideDirection() or 1
+	slideDirections[direction].size()
+	self:MoveTo(slideDirections[direction].x, slideDirections[direction].y, .5, 0, -1, function(anim, pnl)
 		if not IsValid(pnl) then return end
 		pnl:SetVisible(false)
 		pnl:OnClose()
