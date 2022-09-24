@@ -22,7 +22,6 @@ AccessorFunc(PANEL, "MinWidth", "MinWidth", FORCE_NUMBER)
 AccessorFunc(PANEL, "MinHeight", "MinHeight", FORCE_NUMBER)
 AccessorFunc(PANEL, "ScreenLock", "ScreenLock", FORCE_BOOL)
 AccessorFunc(PANEL, "RemoveOnClose", "RemoveOnClose", FORCE_BOOL)
-
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
 PIXEL.RegisterFont("UI.FrameTitle", "Rubik", 20, 700)
