@@ -47,6 +47,11 @@ function AddonHandler:SetSupportURL(supportUrl)
     return self
 end
 
+function AddonHandler:SaveData(value) -- Should PulsarLib/PIXELUI Save data for you?
+    self.saveData = value
+    return self
+end
+
 function AddonHandler:SetDependancy(name, version, required)
     self.dependancys = self.dependancys or {}
     self.dependancys[name] = {

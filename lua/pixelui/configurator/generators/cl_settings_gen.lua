@@ -27,6 +27,6 @@ function PIXEL.Configurator.GenerateMainSettings(addonName, addonTbl)
 
         self.Navbar:SelectItem(1)
     end
-
+    addonName = addonName:gsub(" ", "_")
     vgui.Register("PIXEL.Configurator." .. addonName .. ".Settings", PANEL, "PIXEL.Configurator.BackPanel")
 end

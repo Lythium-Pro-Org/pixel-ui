@@ -4,6 +4,9 @@ PIXEL.Configurator = PIXEL.Configurator or {}
 local PANEL = {}
 
 function PANEL:Init()
+    local ply = LocalPlayer()
+    if !PIXEL.ConfiguratorRanks[PIXEL.GetRank(ply)] then self:Close() end
+
     self:SetSize(PIXEL.Scale(900), PIXEL.Scale(650))
     self:Center()
     self:MakePopup()
@@ -22,7 +25,7 @@ function PANEL:Init()
     self.Sidebar = self:CreateSidebar(1, "8bKjn4t")
     idNum = 1
     for k, v in pairs(PIXEL.Configurator.Addons) do
-        self.Sidebar:AddItem(idNum, v.name, v.logo, function() self.ChangeTab("PIXEL.Configurator." .. v.name .. ".Intro") end)
+        self.Sidebar:AddItem(idNum, v.name, v.logo, function() self.ChangeTab("PIXEL.Configurator." .. v.name:gsub(" ", "_") .. ".Intro") end)
         idNum = idNum + 1
     end
 end
@@ -30,10 +33,10 @@ end
 vgui.Register("PIXEL.Configurator", PANEL, "PIXEL.Frame")
 
 concommand.Add("pixel_configurator", function()
-    if IsValid(PIXEL.Configurator) then
-        PIXEL.Configurator:Remove()
+    if IsValid(PIXEL.ConfiguratorMenu) then
+        PIXEL.ConfiguratorMenu:Remove()
     end
-    PIXEL.Configurator = vgui.Create("PIXEL.Configurator")
+    PIXEL.ConfiguratorMenu = vgui.Create("PIXEL.Configurator")
 end)
 
 PANEL = {}

@@ -34,12 +34,14 @@ function PIXEL.Configurator.GenerateInfo(addonName, addonTbl)
         self.Version:SetFont("PIXEL.Font.Size25")
         self.Version:SetTextColor(PIXEL.Colors.SecondaryText)
         self.Version:SetPos(self.Name:GetX() + self.Name:GetWide() + PIXEL.Scale(5), self.Name:GetY() + self.Version:GetTall() - PIXEL.Scale(5))
-        local latestVersion, upToDate = addonTbl.versionChecker.latestVersion, addonTbl.versionChecker.upToDate
-        if !upToDate then
-            self.Version:SetTextColor(PIXEL.Colors.Negative)
-            self.Version:SetFont("PIXEL.Font.Size22")
-            self.Version:SetText("v" .. addonTbl.version .. " (latest: " .. latestVersion .. ")")
-            self.Version:InvalidateLayout(true)
+        if addonTbl.versionChcker then
+            local latestVersion, upToDate = addonTbl.versionChecker.latestVersion, addonTbl.versionChecker.upToDate
+            if !upToDate then
+                self.Version:SetTextColor(PIXEL.Colors.Negative)
+                self.Version:SetFont("PIXEL.Font.Size22")
+                self.Version:SetText("v" .. addonTbl.version .. " (latest: " .. latestVersion .. ")")
+                self.Version:InvalidateLayout(true)
+            end
         end
 
         self.Author = vgui.Create("PIXEL.Label", self)
@@ -63,6 +65,6 @@ function PIXEL.Configurator.GenerateInfo(addonName, addonTbl)
     function PANEL:PaintMore(w, h)
 
     end
-
+    addonName = addonName:gsub(" ", "_")
     vgui.Register("PIXEL.Configurator." .. addonName .. ".Info", PANEL, "PIXEL.Configurator.BackPanel")
 end

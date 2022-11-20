@@ -75,15 +75,6 @@ end
 PIXEL.LoadDirectoryRecursive("pixelui")
 hook.Run("PIXEL.UI.FullyLoaded")
 
-PIXEL.RegisterAddon("Pulsar Store")
-    :SetLogo("BpCb55H")
-    :AddTab("Test1", "BpCb55H", PIXEL.Colors.Silver)
-:Done()
-PIXEL.RegisterAddon("Pulsar Tickets")
-    :SetLogo("BpCb55H")
-    :AddTab("Test1", "zeLeEEw", PIXEL.Colors.Silver)
-:Done()
-
 PIXEL.RegisterAddon("PIXELUI")
     :SetVersion(PIXEL.UI.Version)
     :SetAuthor("TomDotBat & Lythium")

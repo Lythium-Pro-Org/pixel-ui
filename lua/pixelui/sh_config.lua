@@ -38,3 +38,10 @@ PIXEL.DisableUISounds = false
     The Imgur ID of the progress image you want to appear when Imgur content is loading.
 ]]
 PIXEL.ProgressImageID = "635PPvg"
+
+--[[
+    What ranks have access to the PIXEL Configurator?
+]]
+PIXEL.ConfiguratorRanks = {
+    ["superadmin"] = true
+}
