@@ -1,3 +1,5 @@
+PIXEL = PIXEL or {}
+PIXEL.Configurator = PIXEL.Configurator or {}
 
 function PIXEL.Configurator.GenerateIntro(addonName, addonTbl)
     local PANEL = {}

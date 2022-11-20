@@ -1,3 +1,6 @@
+PIXEL = PIXEL or {}
+PIXEL.Configurator = PIXEL.Configurator or {}
+
 local PANEL = {}
 
 function PANEL:Init()
@@ -26,6 +29,13 @@ end
 
 vgui.Register("PIXEL.Configurator", PANEL, "PIXEL.Frame")
 
+concommand.Add("pixel_configurator", function()
+    if IsValid(PIXEL.Configurator) then
+        PIXEL.Configurator:Remove()
+    end
+    PIXEL.Configurator = vgui.Create("PIXEL.Configurator")
+end)
+
 PANEL = {}
 
 function PANEL:Paint(w, h)
@@ -36,3 +46,10 @@ end
 function PANEL:PaintMore(w, h) end
 
 vgui.Register("PIXEL.Configurator.BackPanel", PANEL, "EditablePanel")
+
+function fuckery()
+if IsValid(sexpanel) then
+    sexpanel:Remove()
+end
+sexpanel = vgui.Create("PIXEL.Configurator")
+end

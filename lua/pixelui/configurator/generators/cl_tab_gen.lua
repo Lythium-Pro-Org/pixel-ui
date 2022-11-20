@@ -1,7 +1,9 @@
-PIXEL.GenerateFont(20)
-PIXEL.GenerateFont(22)
+PIXEL = PIXEL or {}
+PIXEL.Configurator = PIXEL.Configurator or {}
 
 function PIXEL.Configurator.GenerateTab(tabName, tabInfo, addonTbl)
+    PIXEL.GenerateFont(20)
+    PIXEL.GenerateFont(22)
     local addonName = addonTbl.name
     local PANEL = {}
 
@@ -227,6 +229,60 @@ function PIXEL.Configurator.GenerateTab(tabName, tabInfo, addonTbl)
         self.Option[id].Description:SetFont("PIXEL.Font.Size20")
     end
 
+    function PANEL:CreateColorPicker(id, data)
+        self.Option[id] = vgui.Create("EditablePanel", self.ScrollPanel)
+        self.Option[id]:Dock(TOP)
+        self.Option[id]:DockMargin(PIXEL.Scale(15),PIXEL.Scale(5),PIXEL.Scale(15),PIXEL.Scale(5))
+        self.Option[id]:SetTall(PIXEL.Scale(190))
+        self.Option[id].Paint = function(s, w, h)
+            PIXEL.DrawRoundedBox(0, 0, h - PIXEL.Scale(2), w, PIXEL.Scale(2), col)
+        end
+
+        self.Option[id].Name = vgui.Create("PIXEL.Label", self.Option[id])
+        self.Option[id].Name:SetText(data.name)
+        self.Option[id].Name:SetAutoWidth(true)
+        self.Option[id].Name:SetFont("PIXEL.Font.Size22")
+
+        self.Option[id].ColorPicker = vgui.Create("PIXEL.ColorPicker", self.Option[id])
+        self.Option[id].ColorPicker:SetTall(PIXEL.Scale(150))
+        self.Option[id].ColorPicker:SetWide(PIXEL.Scale(150))
+        self.Option[id].ColorPicker:SetY(self.Option[id].Name:GetY() + self.Option[id].Name:GetTall() + PIXEL.Scale(5))
+
+        self.Option[id].Color = vgui.Create("EditablePanel", self)
+        self.Option[id].Color:SetX(self.Option[id].ColorPicker:GetX() + self.Option[id].ColorPicker:GetWide() + PIXEL.Scale(25))
+        self.Option[id].Color:SetY(self.Option[id].ColorPicker:GetY() + PIXEL.Scale(25))
+        self.Option[id].Color:SetSize(PIXEL.Scale(40), PIXEL.Scale(40))
+        self.Option[id].Color.Color = Color(255,255,255)
+        self.Option[id].Color.Paint = function(s, w, h)
+            PIXEL.DrawRoundedBox(PIXEL.Scale(6), 0, 0, w, h, s.Color)
+        end
+
+        self.Option[id].ColorText = vgui.Create("PIXEL.TextEntry", self)
+        self.Option[id].ColorText:SetX(self.Option[id].Color:GetX() + self.Option[id].Color:GetWide() + PIXEL.Scale(10))
+        self.Option[id].ColorText:SetY(self.Option[id].ColorPicker:GetY() + PIXEL.Scale(25))
+        self.Option[id].ColorText:SetSize(PIXEL.Scale(130), PIXEL.Scale(40))
+        self.Option[id].ColorText:SetEditable(false)
+        local mF = math.floor
+        self.Option[id].ColorPicker.OnChange = function(s, color)
+            self.Option[id].Color.Color = Color(color.r, color.g, color.b, color.a)
+            local r, g, b = mF(color.r), mF(color.g), mF(color.b)
+            self.Option[id].ColorText.TextEntry:SetText(r..","..g..","..b)
+            if !data or !data.onChange or !isfunction(data.onChange) then return end
+            data.onChange(color)
+        end
+
+        if data.color then
+            self.Option[id].ColorPicker:SetColor(data.color)
+        end
+
+        self.Option[id].Description = vgui.Create("PIXEL.Label", self.Option[id])
+        self.Option[id].Description:SetX(self.Option[id].ColorPicker:GetX() + self.Option[id].ColorPicker:GetWide() + PIXEL.Scale(10))
+        self.Option[id].Description:SetY(self.Option[id].ColorPicker:GetY() + self.Option[id].Color:GetTall() + PIXEL.Scale(10))
+        self.Option[id].Description:SetText(data.desc)
+        self.Option[id].Description:SetAutoWidth(true)
+        self.Option[id].Description:SetFont("PIXEL.Font.Size20")
+    end
+
     function PANEL:CreateType(id, data)
         local type = data.type
         if type == "button" then
@@ -241,6 +297,8 @@ function PIXEL.Configurator.GenerateTab(tabName, tabInfo, addonTbl)
             self:CreateTextEntry(id, data)
         elseif type == "validatedTextEntry" then
             self:CreateValidatedTextEntry(id, data)
+        elseif type == "colorPicker" then
+            self:CreateColorPicker(id, data)
         end
     end
 
@@ -257,3 +315,5 @@ function PIXEL.Configurator.GenerateTab(tabName, tabInfo, addonTbl)
     tabName = tabName:gsub(" ", "_")
     vgui.Register("PIXEL.Configurator." .. addonName .. ".Tab." .. tabName, PANEL)
 end
+
+loadshit2()

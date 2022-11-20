@@ -22,6 +22,11 @@ function AddonHandler:SetVersion(version)
     return self
 end
 
+function AddonHandler:SetVersionCheckerURL(url)
+    self.checkerUrl = url
+    return self
+end
+
 function AddonHandler:SetLogo(logo)
     self.logo = logo
     return self
@@ -188,9 +193,31 @@ function AddonHandler:AddValidatedTextEntry(tabName, name, description, text, up
     return self
 end
 
+function AddonHandler:AddColorPicker(tabName, name, description, color, onChange)
+    local tabTbl = self:GetTabByName(tabName)
+    if !tabTbl then ErrorNoHalt("[PIXELUI - Error] Unable to slide add element to nil tab!") return end
+    tabTbl.settings = tabTbl.settings or {}
+
+    table.insert(tabTbl.settings, {
+        type = "colorPicker",
+        name = name,
+        desc = description,
+        onChange = onChange,
+        color = color,
+    })
+
+    return self
+end
+
 function AddonHandler:Done()
+    PIXEL.CheckVersion(self)
+
     PIXEL.Configurator.Addons[self.name] = self
-    PIXEL.Configurator.GeneratePanels(self.name, self)
+    if CLIENT then
+        PIXEL.Configurator.GeneratePanels(self.name, self)
+    end
+
+    PIXEL.Log("Registered addon: " .. self.name)
 end
 
 PIXEL.RegisterAddon = AddonHandler.New
@@ -214,63 +241,17 @@ PIXEL.RegisterAddon = AddonHandler.New
         }
     }
 --]]
-function testShit()
-PIXEL.RegisterAddon("Test Addon 1")
-    :SetVersion("1.0")
-    :SetAuthor("Lythium")
-    :SetLogo("8bKjn4t")
-    :SetURL("https://lythium.vip")
-    :SetSupportURL("https://lythium.vip")
-    :SetDependancy("PIXELUI", "any", true)
 
-    :AddTab("Test Tab 1", "8bKjn4t", Color(255,255,255))
-    :AddButton("Test Tab 1", "Test Button", "Test Description", "Button Text", function() print("Clicked!") end)
-    :AddSlider("Test Tab 1", "Test Slider", "Test Description", function(num) print("Slide! " .. num) end, 50)
-    :AddCheckbox("Test Tab 1", "Test Checkbox", "Test Description", function(check) print("Checked! " .. tostring(check)) end, true)
-    :AddComboBox("Test Tab 1", "Test ComboBox", "Test Description", {
-        [1] = {
-            value = "Test1",
-            icon = "kVbFLrX"
-        },
-        [2] = {
-            value = "Test2",
-            icon = "fd3MKOZ"
-        },
-        [3] = {
-            value = "Test3",
-            icon = "gPvSeuu"
-        },
-    }, "Test1", function(selected) print("Selected! " .. selected) end)
-    :AddTextEntry("Test Tab 1", "Test Text Entry", "Test Description", "yo", true, function(text) print("Type! " .. text) end)
-    :AddValidatedTextEntry("Test Tab 1", "Test Validated Text Entry", "Test Description", "yo", true,
-    function(text)
-        print("Type! " .. text)
-    end,
-    function(text)
-        if text == "a" then
-            return true
+function PIXEL.CheckVersion(addonTbl)
+    http.Fetch(addonTbl.checkerUrl, function(body)
+        addonTbl.versionChecker = {
+            myVersion = addonTbl.version,
+            latestVersion = string.Trim(body)
+        }
+        if addonTbl.versionChecker.latestVersion ~= addonTbl.versionChecker.myVersion then
+            addonTbl.versionChecker.upToDate = false
         else
-            return false
+            addonTbl.versionChecker.upToDate = true
         end
     end)
-    :AddTab("Test Tab 2", "8bKjn4t")
-    :AddTab("Test Tab 3", "8bKjn4t")
-:Done()
-
-PIXEL.RegisterAddon("Test Addon 2")
-    :SetVersion("1.0")
-    :SetAuthor("Lythium")
-    :SetLogo("BpCb55H")
-    :SetURL("https://lythium.vip")
-    :SetSupportURL("https://lythium.vip")
-    :SetDependancy("PIXELUI", "any", true)
-
-    :AddTab("Test", "8bKjn4t")
-    :AddTab("Test2", "8bKjn4t")
-    :AddTab("Test3", "8bKjn4t")
-:Done()
-testShit2()
-
 end
-
-testShit()

@@ -1,3 +1,6 @@
+PIXEL = PIXEL or {}
+PIXEL.Configurator = PIXEL.Configurator or {}
+
 function PIXEL.Configurator.GeneratePanels(addonName, addonTbl)
     PIXEL.Configurator.GenerateIntro(addonName, addonTbl)
     PIXEL.Configurator.GenerateMainSettings(addonName, addonTbl)

@@ -1,3 +1,5 @@
+PIXEL = PIXEL or {}
+PIXEL.Configurator = PIXEL.Configurator or {}
 
 function PIXEL.Configurator.GenerateMainSettings(addonName, addonTbl)
     local PANEL = {}
@@ -21,8 +23,12 @@ function PIXEL.Configurator.GenerateMainSettings(addonName, addonTbl)
 
             self.Navbar:AddItem(k, v.name, function() self.ChangeTab("PIXEL.Configurator." .. addonName .. ".Tab." .. data) end, k, v.color, v.icon)
         end
+        self.Navbar:AddItem(table.Count(addonTbl.tabs) + 1, "Info", function() self.ChangeTab("PIXEL.Configurator." .. addonName .. ".Info") end, table.Count(addonTbl.tabs) + 1, PIXEL.Colors.Diamond)
+
         self.Navbar:SelectItem(1)
     end
 
     vgui.Register("PIXEL.Configurator." .. addonName .. ".Settings", PANEL, "PIXEL.Configurator.BackPanel")
 end
+
+loadshit2()
