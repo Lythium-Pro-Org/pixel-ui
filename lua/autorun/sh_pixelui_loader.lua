@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
 PIXEL = PIXEL or {}
 PIXEL.UI = PIXEL.UI or {}
-PIXEL.UI.Version = "1.2.3"
+PIXEL.UI.Version = "1.3.1"
 
 PIXEL.Colors = {
     Background = Color(22, 22, 22),
@@ -64,12 +64,15 @@ function PIXEL.LoadDirectory(path)
     return files, folders
 end
 
-function PIXEL.LoadDirectoryRecursive(basePath)
-    local _, folders = PIXEL.LoadDirectory(basePath)
+function PIXEL.LoadDirectoryRecursive(basePath, onLoad)
+	local _, folders = PIXEL.LoadDirectory(basePath)
+	for _, folderName in ipairs(folders) do
+		PIXEL.LoadDirectoryRecursive(basePath .. "/" .. folderName)
+	end
 
-    for _, folderName in ipairs(folders) do
-        PIXEL.LoadDirectoryRecursive(basePath .. "/" .. folderName)
-    end
+	if onLoad and isfunction(onLoad) then
+		onLoad()
+	end
 end
 
 PIXEL.LoadDirectoryRecursive("pixelui")
@@ -104,18 +107,3 @@ PIXEL.RegisterAddon("PIXELUI")
 
 if CLIENT then return end
 resource.AddWorkshop("2825396224")
-
-hook.Add("Think", "PIXEL.UI.VersionChecker", function()
-    hook.Remove("Think", "PIXEL.UI.VersionChecker")
-
-    http.Fetch("https://raw.githubusercontent.com/Pulsar-Dev/pixel-ui/master/VERSION", function(body)
-        if PIXEL.UI.Version ~= string.Trim(body) then
-            local red = Color(192, 27, 27)
-            MsgC(red, "[PIXEL UI] There is an update available, please download it at: https://github.com/Pulsar-Dev/pixel-ui/releases/latest\n")
-            MsgC(red, "\nYour version: " .. PIXEL.UI.Version .. "\n")
-            MsgC(red, "New  version: " .. body .. "\n")
-
-            return
-        end
-    end)
-end)
