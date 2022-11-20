@@ -20,6 +20,8 @@ local PANEL = {}
 
 AccessorFunc(PANEL, "Name", "Name", FORCE_STRING)
 AccessorFunc(PANEL, "Color", "Color")
+AccessorFunc(PANEL, "ImgurID", "ImgurID")
+AccessorFunc(PANEL, "ImgurScale", "ImgurScale")
 
 PIXEL.RegisterFont("UI.NavbarItem", "Open Sans SemiBold", 22)
 
@@ -28,6 +30,7 @@ function PANEL:Init()
     self:SetColor(PIXEL.Colors.Primary)
     self:SetClicky(false)
     self:SetSounds(false)
+    self:SetImgurScale(0.2)
 
     self.NormalCol = PIXEL.Colors.PrimaryText
     self.HoverCol = PIXEL.Colors.SecondaryText
@@ -50,6 +53,14 @@ function PANEL:Paint(w, h)
     local animTime = FrameTime() * 12
     self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
 
+    local imgurID = self:GetImgurID()
+    if imgurID then
+        local imageSize = w * self:GetImgurScale()
+        PIXEL.DrawImgur(0, (self:GetTall() / 2) - (imageSize / 2), imageSize, imageSize, imgurID, color_white)
+        PIXEL.DrawSimpleText(self:GetName(), "UI.NavbarItem", imageSize + PIXEL.Scale(3), h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        return
+    end
+
     PIXEL.DrawSimpleText(self:GetName(), "UI.NavbarItem", w / 2, h / 2, self.TextCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
@@ -67,9 +78,10 @@ function PANEL:Init()
     self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 10)
 end
 
-function PANEL:AddItem(id, name, doClick, order, color)
+function PANEL:AddItem(id, name, doClick, order, color, imgurID)
     local btn = vgui.Create("PIXEL.NavbarItem", self)
 
+    btn:SetImgurID(imgurID)
     btn:SetName(name:upper())
     btn:SetZPos(order or table.Count(self.Items) + 1)
     btn:SetColor((IsColor(color) and color) or PIXEL.Colors.Primary)
@@ -112,7 +124,7 @@ end
 function PANEL:PerformLayout(w, h)
     for k,v in pairs(self.Items) do
         v:Dock(LEFT)
-        v:SetWide(v:GetItemSize() + PIXEL.Scale(30))
+        v:SetWide(v:GetItemSize() + PIXEL.Scale(50))
     end
 end
 
