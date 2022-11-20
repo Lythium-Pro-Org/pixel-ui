@@ -315,5 +315,3 @@ function PIXEL.Configurator.GenerateTab(tabName, tabInfo, addonTbl)
     tabName = tabName:gsub(" ", "_")
     vgui.Register("PIXEL.Configurator." .. addonName .. ".Tab." .. tabName, PANEL)
 end
-
-loadshit2()

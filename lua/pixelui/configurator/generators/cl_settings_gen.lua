@@ -30,5 +30,3 @@ function PIXEL.Configurator.GenerateMainSettings(addonName, addonTbl)
 
     vgui.Register("PIXEL.Configurator." .. addonName .. ".Settings", PANEL, "PIXEL.Configurator.BackPanel")
 end
-
-loadshit2()

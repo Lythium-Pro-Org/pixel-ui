@@ -46,10 +46,3 @@ end
 function PANEL:PaintMore(w, h) end
 
 vgui.Register("PIXEL.Configurator.BackPanel", PANEL, "EditablePanel")
-
-function fuckery()
-if IsValid(sexpanel) then
-    sexpanel:Remove()
-end
-sexpanel = vgui.Create("PIXEL.Configurator")
-end

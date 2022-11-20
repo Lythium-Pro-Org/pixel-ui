@@ -74,7 +74,16 @@ end
 
 PIXEL.LoadDirectoryRecursive("pixelui")
 hook.Run("PIXEL.UI.FullyLoaded")
-function loadshit2()
+
+PIXEL.RegisterAddon("Pulsar Store")
+    :SetLogo("BpCb55H")
+    :AddTab("Test1", "BpCb55H", PIXEL.Colors.Silver)
+:Done()
+PIXEL.RegisterAddon("Pulsar Tickets")
+    :SetLogo("BpCb55H")
+    :AddTab("Test1", "zeLeEEw", PIXEL.Colors.Silver)
+:Done()
+
 PIXEL.RegisterAddon("PIXELUI")
     :SetVersion(PIXEL.UI.Version)
     :SetAuthor("TomDotBat & Lythium")
@@ -84,12 +93,15 @@ PIXEL.RegisterAddon("PIXELUI")
     :SetVersionCheckerURL("https://raw.githubusercontent.com/Pulsar-Dev/pixel-ui/master/VERSION")
 
     :AddTab("Config", "vVoYqwG", PIXEL.Colors.Diamond)
+    :AddCheckbox("Config", "Override Derma Menus", "Should we override the default derma popups for the PIXEL UI reskins?", function() end, PIXEL.OverrideDermaMenus and true or false)
+    :AddCheckbox("Config", "Disable Notification", "Should we disable the PIXEL UI Reskin of the notification?", function() end, PIXEL.DisableNotification)
+    :AddCheckbox("Config", "Disable UI Sounds", "Should we disable The UI Sounds?", function() end, PIXEL.DisableUISounds)
+    :AddTextEntry("Config", "Progress Image ID", "The Imgur ID of the progress image you want to appear when Imgur content is loading.", PIXEL.ProgressImageID, false, function(text) PIXEL.ProgressImageID = text end)
+
     :AddTab("Theme", "zeLeEEw", PIXEL.Colors.Silver)
-    :AddColorPicker("Theme", "Test", "Test", PIXEL.Colors.Silver, function(color) print(color) end)
 :Done()
-fuckery()
-end
-loadshit2()
+
+
 if CLIENT then return end
 resource.AddWorkshop("2825396224")
 
