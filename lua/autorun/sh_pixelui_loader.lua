@@ -43,6 +43,11 @@ PIXEL.Colors = {
     Transparent = Color(0, 0, 0, 0)
 }
 
+
+function PIXEL.Warn(...)
+    MsgC(PIXEL.Colors.Gold, "[PIXEL UI - Warning] ", PIXEL.Colors.Negative, ..., "\n")
+end
+
 function PIXEL.LoadDirectory(path)
 	local files, folders = file.Find(path .. "/*", "LUA")
 
