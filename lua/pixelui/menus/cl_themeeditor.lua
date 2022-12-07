@@ -1,6 +1,8 @@
 local PANEL = {}
 local sc = PIXEL.Scale
 PIXEL.GenerateFont(18)
+PIXEL.GenerateFont(20)
+
 function PANEL:Init()
     self:SetSize(sc(200), sc(200))
     self:MakePopup()
@@ -58,7 +60,7 @@ function PANEL:Init()
 end
 
 function PANEL:PaintOver(w, h)
-    PIXEL.DrawSimpleText("Select new theme:", "Lyth_Pulsar.Font.Size20", w / 2, self.DropDown:GetY() - sc(15), PIXEL.Colors.PrimaryText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    PIXEL.DrawSimpleText("Select new theme:", "PIXEL.Font.Size20", w / 2, self.DropDown:GetY() - sc(15), PIXEL.Colors.PrimaryText, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
 vgui.Register("PIXELUI.ThemeChanger", PANEL, "PIXEL.Frame")
