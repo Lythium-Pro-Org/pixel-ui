@@ -15,10 +15,9 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local scrH = ScrH
-local max = math.max
+local scrH = scrH or ScrH()
 function PIXEL.Scale(value)
-    return max(value * (scrH() / 1080), 1)
+    return value * (scrH / 1080)
 end
 
 local constants = {}
@@ -36,4 +35,5 @@ hook.Add("OnScreenSizeChanged", "PIXEL.UI.UpdateScaledConstants", function()
     for varName, size in pairs(constants) do
         scaledConstants[varName] = PIXEL.Scale(size)
     end
+    scrH = ScrH()
 end)
