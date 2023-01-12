@@ -27,7 +27,7 @@ local disableClipping = DisableClipping
 local start3d2d, end3d2d = cam.Start3D2D, cam.End3D2D
 local Icon = icon
 
-local function drawOverhead(ent, pos, text, ang, scale)
+local function drawOverhead(ent, pos, text, ang, scale, col)
     if ang then
         ang = ent:LocalToWorldAngles(ang)
     else
@@ -46,12 +46,12 @@ local function drawOverhead(ent, pos, text, ang, scale)
 
     start3d2d(pos, ang, scale or 0.05)
     if not Icon then
-        PIXEL.DrawRoundedBox(12, x, y, w, h, PIXEL.Colors.Primary)
+        PIXEL.DrawRoundedBox(12, x, y, w, h, col or PIXEL.Colors.Primary)
         PIXEL.DrawText(text, "UI.Overhead", 0, y + 1, PIXEL.Colors.PrimaryText, TEXT_ALIGN_CENTER)
     else
         x = x - 40
         PIXEL.DrawRoundedBox(12, x, y, h, h, PIXEL.Colors.Primary)
-        PIXEL.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, PIXEL.Colors.Primary, false, false, false, true)
+        PIXEL.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, col or PIXEL.Colors.Primary, false, false, false, true)
         PIXEL.DrawText(text, "UI.Overhead", x + h + 15, y + 8, PIXEL.Colors.PrimaryText)
         PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
     end
@@ -61,7 +61,7 @@ local function drawOverhead(ent, pos, text, ang, scale)
 end
 
 local entOffset = 2
-function PIXEL.DrawEntOverhead(ent, text, angleOverride, posOverride, scaleOverride)
+function PIXEL.DrawEntOverhead(ent, text, angleOverride, posOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     if posOverride then
@@ -72,12 +72,12 @@ function PIXEL.DrawEntOverhead(ent, text, angleOverride, posOverride, scaleOverr
     local pos = ent:OBBMaxs()
     pos:SetUnpacked(0, 0, pos[3] + entOffset)
 
-    drawOverhead(ent, ent:LocalToWorld(pos), text, angleOverride, scaleOverride)
+    drawOverhead(ent, ent:LocalToWorld(pos), text, angleOverride, scaleOverride, colOverride)
 end
 
 local eyeOffset = Vector(0, 0, 7)
 local fallbackOffset = Vector(0, 0, 73)
-function PIXEL.DrawNPCOverhead(ent, text, angleOverride, offsetOverride, scaleOverride)
+function PIXEL.DrawNPCOverhead(ent, text, angleOverride, offsetOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     local eyeId = ent:LookupAttachment("eyes")
@@ -90,7 +90,7 @@ function PIXEL.DrawNPCOverhead(ent, text, angleOverride, offsetOverride, scaleOv
         end
     end
 
-    drawOverhead(ent, ent:GetPos() + fallbackOffset, text, angleOverride, scaleOverride)
+    drawOverhead(ent, ent:GetPos() + fallbackOffset, text, angleOverride, scaleOverride, colOverride)
 end
 
 function PIXEL.EnableIconOverheads(new)
