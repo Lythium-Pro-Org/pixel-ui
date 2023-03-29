@@ -143,7 +143,6 @@ end
 
 function PANEL:OpenMenu(pControlOpener)
     if pControlOpener and pControlOpener == self.TextEntry then return end
-    PIXEL.PlayExpand("open")
     if #self.Choices == 0 then return end
     PIXEL.PlayExpand("open")
     self:OnOpen()
@@ -220,6 +219,12 @@ end
 function PANEL:DoClick()
     if self:IsMenuOpen() then return self:CloseMenu() end
     self:OpenMenu()
+end
+
+function PANEL:OnOpen()
+end
+
+function PANEL:OnClose()
 end
 
 function PANEL:OnOpen()
