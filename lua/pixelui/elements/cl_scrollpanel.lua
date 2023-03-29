@@ -22,8 +22,11 @@ AccessorFunc(PANEL, "Padding",   "Padding")
 AccessorFunc(PANEL, "Canvas", "Canvas")
 AccessorFunc(PANEL, "ScrollbarLeft", "ScrollbarLeftSide")
 AccessorFunc(PANEL, "BarDockShouldOffset", "BarDockShouldOffset", FORCE_BOOL)
+AccessorFunc(PANEL, "CanScroll", "CanScroll", FORCE_BOOL)
 
 function PANEL:Init()
+    self:SetCanScroll(true)
+    
     self.Canvas = vgui.Create("Panel", self)
     self.Canvas.OnMousePressed = function(s, code) s:GetParent():OnMousePressed(code) end
     self.Canvas:SetMouseInputEnabled(true)
@@ -122,6 +125,8 @@ function PANEL:Think()
 end
 
 function PANEL:OnMouseWheeled(delta)
+    if not self:GetCanScroll() then return end
+
     if (delta > 0 and self.VBar.Scroll <= self.VBar.CanvasSize * 0.005) or
             (delta < 0 and self.VBar.Scroll >= self.VBar.CanvasSize * 0.995) then
         self.ScrollDelta = self.ScrollDelta + delta / 10
