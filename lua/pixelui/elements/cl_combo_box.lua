@@ -48,6 +48,7 @@ function PANEL:Clear()
 
     if not self.Menu then return end
     self.Menu:Remove()
+    self:OnClose()
     self.Menu = nil
 end
 
@@ -131,8 +132,9 @@ end
 
 function PANEL:OpenMenu(pControlOpener)
     if pControlOpener and pControlOpener == self.TextEntry then return end
-    PIXEL.PlayExpand("open")
     if #self.Choices == 0 then return end
+    PIXEL.PlayExpand("open")
+    self:OnOpen()
 
     if IsValid(self.Menu) then
         self.Menu:Remove()
@@ -174,6 +176,7 @@ function PANEL:OpenMenu(pControlOpener)
     self.Menu.OnRemove = function(s)
         if not IsValid(self) then return end
         PIXEL.PlayExpand("close")
+        self:OnClose()
         self:SetToggle(false)
     end
 end
@@ -181,6 +184,7 @@ end
 function PANEL:CloseMenu()
     if not IsValid(self.Menu) then return end
     self.Menu:Remove()
+    self:OnClose()
 end
 
 function PANEL:CheckConVarChanges()
@@ -203,6 +207,12 @@ end
 
 function PANEL:DoClick()
     if not self:IsMenuOpen() then self:OpenMenu() end
+end
+
+function PANEL:OnOpen()
+end
+
+function PANEL:OnClose()
 end
 
 function PANEL:PaintOver(w, h)
