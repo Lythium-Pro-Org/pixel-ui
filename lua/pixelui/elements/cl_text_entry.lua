@@ -53,6 +53,7 @@ function PANEL:Paint(w, h)
 
     if not self:IsEnabled() and self:GetValue() == "" then
         PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
         return
     end
 

@@ -26,7 +26,6 @@ function PANEL:Init()
     self:SetDrawOutline(true)
 
     self:SetSounds(false)
-
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
     self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
@@ -62,6 +61,7 @@ function PANEL:Paint(w, h)
         local iconSize = h * .65
         PIXEL.DrawImgur(PIXEL.Scale(10), (h - iconSize) / 2, iconSize, iconSize, imgurID, color_white)
         PIXEL.DrawSimpleText(self:GetName(), "SidebarItem", PIXEL.Scale(20) + iconSize, h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
         return
     end
 
@@ -131,9 +131,7 @@ end
 function PANEL:SelectItem(id)
     local item = self.Items[id]
     if not item then return end
-
     PIXEL.PlayChangeTab()
-
     if self.SelectedItem and self.SelectedItem == id then return end
     self.SelectedItem = id
 
@@ -149,7 +147,6 @@ function PANEL:PerformLayout(w, h)
     local sideSpacing = PIXEL.Scale(7)
     local topSpacing = PIXEL.Scale(7)
     self:DockPadding(sideSpacing, self:GetImgurID() and w * self:GetImgurScale() + self:GetImgurOffset() + self:GetButtonOffset() + topSpacing * 2 or topSpacing, sideSpacing, self:GetButtonBtmOffset() or topSpacing)
-
     self.Scroller:Dock(FILL)
     self.Scroller:GetCanvas():DockPadding(0, 0, self.Scroller.VBar.Enabled and sideSpacing or 0, 0)
 end

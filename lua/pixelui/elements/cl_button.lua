@@ -58,9 +58,9 @@ function PANEL:OnMousePressed(mouseCode)
         PIXEL.PlayButtonSound()
     end
 
-	if not localPly then
-		localPly = LocalPlayer()
-	end
+    if not localPly then
+        localPly = LocalPlayer()
+    end
 
     if self:IsSelectable() and mouseCode == MOUSE_LEFT and (input.IsShiftDown() or input.IsControlDown()) and not (localPly:KeyDown(IN_FORWARD) or localPly:KeyDown(IN_BACK) or localPly:KeyDown(IN_MOVELEFT) or localPly:KeyDown(IN_MOVERIGHT)) then return self:StartBoxSelection() end
     self:MouseCapture(true)
@@ -92,15 +92,15 @@ function PANEL:OnMouseReleased(mouseCode)
     if not self.Hovered then return end
     self.Depressed = true
 
-	if mouseCode == MOUSE_RIGHT then
-		self:DoRightClick()
-	elseif mouseCode == MOUSE_LEFT then
-		self:DoClick()
-	elseif mouseCode == MOUSE_MIDDLE then
-		self:DoMiddleClick()
-	end
+    if mouseCode == MOUSE_RIGHT then
+        self:DoRightClick()
+    elseif mouseCode == MOUSE_LEFT then
+        self:DoClick()
+    elseif mouseCode == MOUSE_MIDDLE then
+        self:DoMiddleClick()
+    end
 
-	self.Depressed = nil
+    self.Depressed = nil
 end
 
 function PANEL:PaintExtra(w, h)
@@ -114,21 +114,21 @@ function PANEL:Paint(w, h)
         return
     end
 
-	local bgCol = self.NormalCol
+    local bgCol = self.NormalCol
 
-	if self:IsDown() or self:GetToggle() then
-		bgCol = self.ClickedCol
-	elseif self:IsHovered() and not self.Clicky then
-		bgCol = self.HoverCol
-	end
+    if self:IsDown() or self:GetToggle() then
+        bgCol = self.ClickedCol
+    elseif self:IsHovered() and not self.Clicky then
+        bgCol = self.HoverCol
+    end
 
-	if not self.Clicky then
-		self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
-	end
+    if not self.Clicky then
+        self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
+    end
 
     PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
-	self:PaintExtra(w, h)
+    self:PaintExtra(w, h)
 end
 
 function PANEL:IsDown()

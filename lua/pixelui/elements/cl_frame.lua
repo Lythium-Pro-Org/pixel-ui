@@ -36,9 +36,9 @@ function PANEL:Init()
     self.CloseButton:SetFrameEnabled(true)
     self.CloseButton:SetRounded(8)
 
-	self.CloseButton.DoClick = function(s)
-		self:Close()
-	end
+    self.CloseButton.DoClick = function(s)
+        self:Close()
+    end
 
 
 	self.ExtraButtons = {}
@@ -196,6 +196,32 @@ function PANEL:AddHeaderButton(elem, size)
 end
 
 function PANEL:LayoutContent(w, h)
+    local headerH = PIXEL.Scale(30)
+    local btnPad = PIXEL.Scale(6)
+    local btnSpacing = PIXEL.Scale(6)
+
+    if IsValid(self.CloseButton) then
+        local btnSize = headerH * .45
+        self.CloseButton:SetSize(btnSize, btnSize)
+        self.CloseButton:SetPos(w - btnSize - btnPad, (headerH - btnSize) / 2)
+        btnPad = btnPad + btnSize + btnSpacing
+    end
+
+    for _, btn in ipairs(self.ExtraButtons) do
+        local btnSize = headerH * btn.HeaderIconSize
+        btn:SetSize(btnSize, btnSize)
+        btn:SetPos(w - btnSize - btnPad, (headerH - btnSize) / 2)
+        btnPad = btnPad + btnSize + btnSpacing
+    end
+
+    if IsValid(self.SideBar) then
+        self.SideBar:SetPos(0, headerH)
+        self.SideBar:SetSize(PIXEL.Scale(200), h - headerH)
+    end
+
+    local padding = PIXEL.Scale(6)
+    self:DockPadding(self.SideBar and PIXEL.Scale(200) + padding or padding, headerH + padding, padding, padding)
+    self:LayoutContent(w, h)
 end
 
 function PANEL:Open()
@@ -206,7 +232,6 @@ function PANEL:Open()
     self:AlphaTo(255, .1, 0)
 end
 
-
 function PANEL:Close()
 	self:AlphaTo(0, .1, 0, function(anim, pnl)
         if not IsValid(pnl) then return end
@@ -216,7 +241,8 @@ function PANEL:Close()
     end)
 end
 
-function PANEL:OnClose() end
+function PANEL:OnClose()
+end
 
 function PANEL:PaintHeader(x, y, w, h)
     PIXEL.DrawRoundedBoxEx(PIXEL.Scale(8), x, y, w, h, PIXEL.Colors.Header, true, true)
@@ -236,7 +262,8 @@ end
 function PANEL:PaintMore(w, h)
 end
 
-function PANEL:PaintMore(w,h) end
+function PANEL:PaintMore(w, h)
+end
 
 function PANEL:Paint(w, h)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
