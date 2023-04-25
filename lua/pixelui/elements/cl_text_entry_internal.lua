@@ -1,4 +1,3 @@
-
 --[[
 PIXEL UI
 Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
@@ -15,37 +14,28 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
-
 local PANEL = {}
-
 AccessorFunc(PANEL, "m_bAllowEnter", "EnterAllowed", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bUpdateOnType", "UpdateOnType", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bNumeric", "Numeric", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bHistory", "HistoryEnabled", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bDisableTabbing", "TabbingDisabled", FORCE_BOOL)
 AccessorFunc(PANEL, "m_txtPlaceholder", "PlaceholderText", FORCE_STRING)
-
 Derma_Install_Convar_Functions(PANEL)
-
-PIXEL.RegisterFont("UI.TextEntry", "Open Sans SemiBold", 18)
+PIXEL.RegisterFont("UI.TextEntry", "Rubik", 18)
 
 function PANEL:Init()
     self:SetHistoryEnabled(false)
     self.History = {}
     self.HistoryPos = 0
-
     self:SetPaintBorderEnabled(false)
     self:SetPaintBackgroundEnabled(false)
-
     self:SetEnterAllowed(true)
     self:SetUpdateOnType(false)
     self:SetNumeric(false)
     self:SetAllowNonAsciiCharacters(true)
-
     self:SetTall(PIXEL.Scale(34))
-
     self.m_bLoseFocusOnClickAway = true
-
     self:SetCursor("beam")
     self:SetFontInternal(PIXEL.GetRealFont("UI.TextEntry"))
 end
@@ -58,7 +48,9 @@ function PANEL:OnKeyCodeTyped(code)
     self:OnKeyCode(code)
 
     if code == KEY_ENTER and not self:IsMultiline() and self:GetEnterAllowed() then
-        if IsValid(self.Menu) then self.Menu:Remove() end
+        if IsValid(self.Menu) then
+            self.Menu:Remove()
+        end
 
         self:FocusNext()
         self:OnEnter()
@@ -82,7 +74,9 @@ function PANEL:OnKeyCode(code)
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnKeyCode then parent:OnKeyCode() end
+    if parent.OnKeyCode then
+        parent:OnKeyCode()
+    end
 end
 
 function PANEL:UpdateFromHistory()
@@ -98,6 +92,7 @@ function PANEL:UpdateFromHistory()
     end
 
     local text = self.History[pos]
+
     if not text then
         text = ""
     end
@@ -122,14 +117,15 @@ function PANEL:UpdateFromMenu()
     end
 
     local item = self.Menu:GetChild(pos)
+
     if not item then
         self:SetText("")
         self.HistoryPos = pos
+
         return
     end
 
     self.Menu:HighlightItem(item)
-
     local txt = item:GetText()
     self:SetText(txt)
     self:SetCaretPos(txt:len())
@@ -163,7 +159,9 @@ function PANEL:OnChange()
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnChange then parent:OnChange() end
+    if parent.OnChange then
+        parent:OnChange()
+    end
 end
 
 function PANEL:OpenAutoComplete(tab)
@@ -193,11 +191,12 @@ end
 function PANEL:OnEnter()
     self:UpdateConvarValue()
     self:OnValueChange(self:GetText())
-
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnEnter then parent:OnEnter() end
+    if parent.OnEnter then
+        parent:OnEnter()
+    end
 end
 
 function PANEL:UpdateConvarValue()
@@ -210,7 +209,6 @@ end
 
 function PANEL:SetValue(value)
     if self:IsEditing() then return end
-
     self:SetText(value)
     self:OnValueChange(value)
     self:SetCaretPos(self:GetCaretPos())
@@ -220,10 +218,13 @@ function PANEL:OnValueChange(value)
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnValueChange then parent:OnValueChange(value) end
+    if parent.OnValueChange then
+        parent:OnValueChange(value)
+    end
 end
 
 local numericChars = "1234567890.-"
+
 function PANEL:CheckNumeric(value)
     if not self:GetNumeric() then return false end
     if not string.find(numericChars, value, 1, true) then return true end
@@ -233,11 +234,12 @@ end
 
 function PANEL:AllowInput(value)
     if self:CheckNumeric(value) then return true end
-
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.AllowInput then parent:AllowInput() end
+    if parent.AllowInput then
+        parent:AllowInput()
+    end
 end
 
 function PANEL:SetEditable(enabled)
@@ -247,21 +249,23 @@ end
 
 function PANEL:OnGetFocus()
     hook.Run("OnTextEntryGetFocus", self)
-
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnGetFocus then parent:OnGetFocus() end
+    if parent.OnGetFocus then
+        parent:OnGetFocus()
+    end
 end
 
 function PANEL:OnLoseFocus()
     self:UpdateConvarValue()
     hook.Call("OnTextEntryLoseFocus", nil, self)
-
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnLoseFocus then parent:OnLoseFocus() end
+    if parent.OnLoseFocus then
+        parent:OnLoseFocus()
+    end
 end
 
 function PANEL:OnMousePressed(mcode)
@@ -270,7 +274,6 @@ end
 
 function PANEL:AddHistory(txt)
     if not txt or txt == "" then return end
-
     table.RemoveByValue(self.History, txt)
     table.insert(self.History, txt)
 end
@@ -279,7 +282,9 @@ function PANEL:GetAutoComplete(txt)
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.GetAutoComplete then parent:GetAutoComplete() end
+    if parent.GetAutoComplete then
+        parent:GetAutoComplete()
+    end
 end
 
 function PANEL:GetInt()

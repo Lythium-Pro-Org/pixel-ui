@@ -33,7 +33,7 @@ end
 
 function PANEL:Paint(w, h)
     if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.DisabledCol)
+        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.DisabledCol)
     end
 
     if not self:IsEnabled() and self:GetValue() == "" then
@@ -47,7 +47,7 @@ function PANEL:Paint(w, h)
     end
 
     local outlineThickness = PIXEL.Scale(1)
-    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(2), 0, 0, w, h, self.OutlineCol, outlineThickness)
+    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.OutlineCol, outlineThickness)
     local col = PIXEL.Colors.Transparent
 
     if self:IsEditing() then
@@ -59,7 +59,7 @@ function PANEL:Paint(w, h)
     end
 
     self.InnerOutlineCol = PIXEL.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
-    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(2), outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, PIXEL.Scale(1))
+    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(4), outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, PIXEL.Scale(1))
 end
 
 function PANEL:OnChange()
