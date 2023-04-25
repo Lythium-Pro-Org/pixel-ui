@@ -24,82 +24,79 @@ PIXEL.Colors = {
     Header = Color(28, 28, 28),
     SecondaryHeader = Color(15, 15, 15),
     Scroller = Color(61, 61, 61),
-
+    --
     PrimaryText = Color(255, 255, 255),
     SecondaryText = Color(220, 220, 220),
     DisabledText = Color(40, 40, 40),
-
-    Primary = Color(77, 79, 199),
+    --
+    Primary = Color(2, 153, 204),
     Disabled = Color(180, 180, 180),
     Positive = Color(68, 235, 124),
     Negative = Color(235, 68, 68),
-
+    --
     Diamond = Color(185, 242, 255),
     Gold = Color(255, 215, 0),
     Silver = Color(192, 192, 192),
     Bronze = Color(145, 94, 49),
-
+    --
     Transparent = Color(0, 0, 0, 0)
 }
-
 
 function PIXEL.Warn(...)
     MsgC(PIXEL.Colors.Gold, "[PIXEL UI - Warning] ", PIXEL.Colors.Negative, ..., "\n")
 end
 
 function PIXEL.LoadDirectory(path)
-	local files, folders = file.Find(path .. "/*", "LUA")
+    local files, folders = file.Find(path .. "/*", "LUA")
 
-	for _, fileName in ipairs(files) do
-		local filePath = path .. "/" .. fileName
+    for _, fileName in ipairs(files) do
+        local filePath = path .. "/" .. fileName
 
-		if CLIENT then
-			include(filePath)
-		else
-			if fileName:StartWith("cl_") then
-				AddCSLuaFile(filePath)
-			elseif fileName:StartWith("sh_") then
-				AddCSLuaFile(filePath)
-				include(filePath)
-			else
-				include(filePath)
-			end
-		end
-	end
+        if CLIENT then
+            include(filePath)
+        else
+            if fileName:StartWith("cl_") then
+                AddCSLuaFile(filePath)
+            elseif fileName:StartWith("sh_") then
+                AddCSLuaFile(filePath)
+                include(filePath)
+            else
+                include(filePath)
+            end
+        end
+    end
 
-	return files, folders
+    return files, folders
 end
 
 function PIXEL.LoadDirectoryRecursive(basePath, onLoad)
-	local _, folders = PIXEL.LoadDirectory(basePath)
-	for _, folderName in ipairs(folders) do
-		PIXEL.LoadDirectoryRecursive(basePath .. "/" .. folderName)
-	end
+    local _, folders = PIXEL.LoadDirectory(basePath)
 
-	if onLoad and isfunction(onLoad) then
-		onLoad()
-	end
+    for _, folderName in ipairs(folders) do
+        PIXEL.LoadDirectoryRecursive(basePath .. "/" .. folderName)
+    end
+
+    if onLoad and isfunction(onLoad) then
+        onLoad()
+    end
 end
 
 PIXEL.LoadDirectoryRecursive("pixelui")
-
 hook.Run("PIXEL.UI.FullyLoaded")
-
 if CLIENT then return end
-
 resource.AddWorkshop("2825396224")
 
 hook.Add("Think", "PIXEL.UI.VersionChecker", function()
-	hook.Remove("Think", "PIXEL.UI.VersionChecker")
+    hook.Remove("Think", "PIXEL.UI.VersionChecker")
 
-	http.Fetch("https://raw.githubusercontent.com/Pulsar-Dev/pixel-ui/master/VERSION", function(body)
-		if PIXEL.UI.Version ~= string.Trim(body) then
-			local red = Color(192, 27, 27)
+    http.Fetch("https://raw.githubusercontent.com/Pulsar-Dev/pixel-ui/master/VERSION", function(body)
+        if PIXEL.UI.Version ~= string.Trim(body) then
+            local red = Color(192, 27, 27)
+            MsgC(red, "[PIXEL UI] There is an update available, please download it at: https://github.com/Pulsar-Dev/pixel-ui/releases/latest\n")
+            MsgC(red, "\nYour version: " .. PIXEL.UI.Version .. "\n")
+            MsgC(red, "New  version: " .. body .. "\n")
 
-			MsgC(red, "[PIXEL UI] There is an update available, please download it at: https://github.com/Pulsar-Dev/pixel-ui/releases/latest\n")
-			MsgC(red, "\nYour version: " .. PIXEL.UI.Version .. "\n")
-			MsgC(red, "New  version: " .. body .. "\n")
-			return
-		end
-	end)
+            return
+        end
+    end)
 end)
