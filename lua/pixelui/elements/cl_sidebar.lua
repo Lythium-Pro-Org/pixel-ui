@@ -19,7 +19,7 @@ local PANEL = {}
 AccessorFunc(PANEL, "Name", "Name", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
 AccessorFunc(PANEL, "DrawOutline", "DrawOutline", FORCE_BOOL)
-PIXEL.RegisterFont("SidebarItem", "Open Sans Bold", 19)
+PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
 
 function PANEL:Init()
     self:SetName("N/A")
@@ -28,24 +28,22 @@ function PANEL:Init()
     self:SetSounds(false)
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
-    self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Scroller, 80)
+    self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
+    self.BackgroundSelectCol = ColorAlpha(PIXEL.Colors.Primary, 80)
 end
 
 function PANEL:Paint(w, h)
     local textCol = PIXEL.Colors.SecondaryText
     local backgroundCol = PIXEL.Colors.Transparent
-    local hoverLineCol = PIXEL.Colors.Transparent
 
     if self:IsHovered() then
         textCol = PIXEL.Colors.PrimaryText
         backgroundCol = self.BackgroundHoverCol
-        hoverLineCol = PIXEL.Colors.Primary
     end
 
     if self:IsDown() or self:GetToggle() then
         textCol = PIXEL.Colors.PrimaryText
-        backgroundCol = self.BackgroundHoverCol
-        hoverLineCol = PIXEL.Colors.Primary
+        backgroundCol = self.BackgroundSelectCol
     end
 
     local animTime = FrameTime() * 12
@@ -53,8 +51,7 @@ function PANEL:Paint(w, h)
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
     if self:GetDrawOutline() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
-        PIXEL.DrawRoundedBox(0, 0, 0, PIXEL.Scale(3), h, hoverLineCol, PIXEL.Scale(1))
+        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, backgroundCol, PIXEL.Scale(1))
     end
 
     local imgurID = self:GetImgurID()
@@ -62,7 +59,7 @@ function PANEL:Paint(w, h)
     if imgurID then
         local iconSize = h * .65
         PIXEL.DrawImgur(PIXEL.Scale(10), (h - iconSize) / 2, iconSize, iconSize, imgurID, Color(255, 255, 255))
-        PIXEL.DrawSimpleText(self:GetName(), "SidebarItem", PIXEL.Scale(20) + iconSize, h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        PIXEL.DrawSimpleText(self:GetName(), "SidebarItem", PIXEL.Scale(15) + iconSize, h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
         return
     end
@@ -154,11 +151,10 @@ end
 
 function PANEL:Paint(w, h)
     PIXEL.DrawRoundedBoxEx(PIXEL.Scale(6), 0, 0, w, h, self.BackgroundCol, false, false, true)
-    PIXEL.DrawRoundedBox(0, 0, 0, w, PIXEL.Scale(1), PIXEL.Colors.Outline)
     local imgurID = self:GetImgurID()
 
     if imgurID then
-        local imageSize = w * self:GetImgurScale()
+        local imageSize = w * self:GetImgurScale() * .9
         PIXEL.DrawImgur((w - imageSize) / 2, self:GetImgurOffset() + PIXEL.Scale(15), imageSize, imageSize, imgurID, color_white)
     end
 end
