@@ -16,12 +16,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
 local PANEL = {}
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
-PIXEL.RegisterFont("UI.CategoryHeader", "Open Sans Bold", 19)
+PIXEL.RegisterFont("UI.CategoryHeader", "Rubik", 19, 600)
 
 function PANEL:Init()
     self.ArrowRotation = 0
     self:SetClicky(false)
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 6)
+    self.BackgroundCol = PIXEL.Colors.Header
 end
 
 function PANEL:DoClick()
@@ -130,7 +130,7 @@ end
 
 function PANEL:PerformLayout(w, h)
     self.Header:Dock(TOP)
-    self.Header:SetTall(PIXEL.Scale(26))
+    self.Header:SetTall(PIXEL.Scale(30))
 
     if IsValid(self.Contents) then
         if self:GetExpanded() then
