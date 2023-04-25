@@ -16,12 +16,10 @@
 --]]
 
 local PANEL = {}
-
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "TextSpacing", "TextSpacing", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
-
 PIXEL.RegisterFont("UI.TextButton", "Open Sans SemiBold", 20)
 
 function PANEL:Init()
@@ -29,11 +27,9 @@ function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_CENTER)
     self:SetTextSpacing(PIXEL.Scale(6))
     self:SetFont("UI.TextButton")
-
     self:SetSize(PIXEL.Scale(100), PIXEL.Scale(30))
     self:SetClicky(true)
     self:SetSounds(true)
-
 end
 
 function PANEL:SizeToText()
@@ -47,13 +43,14 @@ function PANEL:PaintExtra(w, h)
 
     if not self:IsEnabled() then
         PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
+
         return
     end
 
     if self.ClickyMove and self:GetClicky() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, (h / 2 - PIXEL.Scale(4)) + self.ClickyScale, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, (h / 2) + self.ClickyScale, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
     elseif self:GetClicky() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2 - PIXEL.Scale(4), PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
     else
         PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
     end
