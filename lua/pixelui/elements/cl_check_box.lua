@@ -1,4 +1,3 @@
-
 --[[
 PIXEL UI
 Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
@@ -15,24 +14,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
-
 local PANEL = {}
 
 function PANEL:Init()
     self:SetIsToggle(true)
-
     local boxSize = PIXEL.Scale(20)
     self:SetSize(boxSize, boxSize)
-
     self:SetImgurID("YvG7VI6")
-
     self:SetNormalColor(PIXEL.Colors.Transparent)
     self:SetHoverColor(PIXEL.Colors.PrimaryText)
     self:SetClickColor(PIXEL.Colors.PrimaryText)
     self:SetDisabledColor(PIXEL.Colors.Transparent)
-
     self:SetImageSize(.8)
-
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Primary)
 end
 
@@ -40,6 +33,7 @@ function PANEL:PaintBackground(w, h)
     if not self:IsEnabled() then
         PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, PIXEL.Colors.Disabled)
         self:PaintExtra(w, h)
+
         return
     end
 
@@ -51,7 +45,6 @@ function PANEL:PaintBackground(w, h)
 
     local animTime = FrameTime() * 12
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, bgCol)
-
     PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.BackgroundCol)
 end
 
