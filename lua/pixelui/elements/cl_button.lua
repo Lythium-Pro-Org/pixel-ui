@@ -141,13 +141,13 @@ function PANEL:Paint(w, h)
     end
 
     if not self:GetClicky() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(6), 0, 0, w, h, self.BackgroundCol)
+        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.BackgroundCol)
     else
         if self.ClickyMove then
-            PIXEL.DrawRoundedBox(PIXEL.Scale(6), 0, self.ClickyScale, w, h - self.ClickyScale, self.BackgroundCol)
+            PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, self.ClickyScale, w, h - self.ClickyScale, self.BackgroundCol)
         else
-            PIXEL.DrawRoundedBox(PIXEL.Scale(6), 0, 0, w, h, self.ClickyCol)
-            PIXEL.DrawRoundedBox(PIXEL.Scale(6), 0, 0, w, h - self.ClickyScale, self.BackgroundCol)
+            PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.ClickyCol)
+            PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h - self.ClickyScale, self.BackgroundCol)
         end
     end
 
