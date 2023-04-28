@@ -38,11 +38,13 @@ function PANEL:Init()
         if valid then
             self.Message:SetText(message or "")
             self.Message:SetTextColor(PIXEL.Colors.Positive)
+            self.TextValid = true
 
             s.OverrideCol = PIXEL.Colors.Positive
         else
             self.Message:SetText(message or "")
             self.Message:SetTextColor(PIXEL.Colors.Negative)
+            self.TextValid = false
 
             s.OverrideCol = PIXEL.Colors.Negative
         end
@@ -55,6 +57,10 @@ function PANEL:IsTextValid(text)
     end
 
     return false, "This is invalid text lol"
+end
+
+function PANEL:GetTextValid()
+    return self.TextValid or true
 end
 
 function PANEL:OnValidate(valid, message) end
