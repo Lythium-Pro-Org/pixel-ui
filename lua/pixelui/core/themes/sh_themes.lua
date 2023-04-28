@@ -1,7 +1,7 @@
 PIXEL.Colors = {
     Background = Color(31, 31, 31),
     Header = Color(40, 41, 42),
-    SecondaryHeader = Color(45, 47, 49),
+    SecondaryHeader = Color(35, 37, 39),
     Scroller = Color(61, 61, 61),
     Outline = Color(55, 56, 57),
     --
