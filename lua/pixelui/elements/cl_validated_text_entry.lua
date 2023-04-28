@@ -56,7 +56,11 @@ function PANEL:IsTextValid(text)
 end
 
 function PANEL:GetTextValid()
-    return self.TextValid
+    return self.TextValid or true
+end
+
+function PANEL:GetTextValid()
+    return self.TextValid or true
 end
 
 function PANEL:OnValidate(valid, message)
