@@ -271,8 +271,8 @@ end
 
 function PANEL:PerformLayout(w, h)
     self.HeaderH = PIXEL.Scale(30)
-    local btnPad = PIXEL.Scale(12)
-    local btnSpacing = PIXEL.Scale(12)
+    local btnPad = PIXEL.Scale(6)
+    local btnSpacing = PIXEL.Scale(6)
 
     if IsValid(self.CloseButton) then
         local btnSize = self.HeaderH
@@ -282,9 +282,9 @@ function PANEL:PerformLayout(w, h)
     end
 
     for _, btn in ipairs(self.ExtraButtons) do
-        local btnSize = self.HeaderH * btn.HeaderIconSize
+        local btnSize = self.HeaderH * (.6 or btn.HeaderIconSize)
         btn:SetSize(btnSize, btnSize)
-        btn:SetPos(w - btnSize - btnPad, (self.HeaderH - btnSize) / 2)
+        btn:SetPos(w - btnSize - btnPad, (self.HeaderH / 2) - (btnSize / 2))
         btnPad = btnPad + btnSize + btnSpacing
     end
 
