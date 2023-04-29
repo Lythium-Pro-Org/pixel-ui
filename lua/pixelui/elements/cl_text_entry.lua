@@ -26,9 +26,13 @@ function PANEL:Init()
 end
 
 function PANEL:PerformLayout(w, h)
+    self:LayoutContent(w, h)
     self.TextEntry:Dock(FILL)
     local xPad, yPad = PIXEL.Scale(4), PIXEL.Scale(8)
     self:DockPadding(xPad, yPad, xPad, yPad)
+end
+
+function PANEL:LayoutContent(w, h)
 end
 
 function PANEL:Paint(w, h)

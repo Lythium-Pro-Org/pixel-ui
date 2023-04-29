@@ -238,7 +238,7 @@ function PANEL:AllowInput(value)
     if not parent then return end
 
     if parent.AllowInput then
-        parent:AllowInput()
+        parent:AllowInput(value)
     end
 end
 
