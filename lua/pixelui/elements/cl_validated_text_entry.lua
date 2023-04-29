@@ -24,54 +24,66 @@ function PANEL:Init()
 
     self.TextEntry.OnChange = function(s)
         local text = s:GetValue()
+
         if text == "" then
             self.Message:SetText("")
             s.OverrideCol = nil
+
             return
         end
 
         local valid, message = self:IsTextValid(text)
-
         self:OnValidate(valid, message)
 
         if valid then
             self.Message:SetText(message or "")
             self.Message:SetTextColor(PIXEL.Colors.Positive)
-
+            self.TextValid = true
             s.OverrideCol = PIXEL.Colors.Positive
         else
             self.Message:SetText(message or "")
             self.Message:SetTextColor(PIXEL.Colors.Negative)
-
+            self.TextValid = false
             s.OverrideCol = PIXEL.Colors.Negative
         end
     end
 end
 
 function PANEL:IsTextValid(text)
-    if text == "test" then
-        return true
-    end
+    if text == "test" then return true end
 
     return false, "This is invalid text lol"
 end
 
-function PANEL:OnValidate(valid, message) end
+function PANEL:GetTextValid()
+    return self.TextValid
+end
+
+function PANEL:OnValidate(valid, message)
+end
 
 function PANEL:PerformLayout(w, h)
     self.TextEntry:SetTall(PIXEL.Scale(34))
     self.TextEntry:Dock(TOP)
-
     self.Message:Dock(TOP)
     self.Message:DockMargin(PIXEL.Scale(4), PIXEL.Scale(5), 0, 0)
-
     self:SizeToChildren(false, true)
 end
 
-function PANEL:SetValue(text) self.TextEntry:SetValue(text) end
-function PANEL:GetValue() return self.TextEntry:GetValue() end
+function PANEL:SetValue(text)
+    self.TextEntry:SetValue(text)
+end
 
-function PANEL:SetPlaceholderText(text) self.TextEntry:SetPlaceholderText(text) end
-function PANEL:GetPlaceholderText() return self.TextEntry:GetPlaceholderText() end
+function PANEL:GetValue()
+    return self.TextEntry:GetValue()
+end
+
+function PANEL:SetPlaceholderText(text)
+    self.TextEntry:SetPlaceholderText(text)
+end
+
+function PANEL:GetPlaceholderText()
+    return self.TextEntry:GetPlaceholderText()
+end
 
 vgui.Register("PIXEL.ValidatedTextEntry", PANEL, "Panel")
