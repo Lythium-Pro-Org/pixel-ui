@@ -28,7 +28,7 @@ function PANEL:Init()
     local currentCol = self.NormalCol
 
     self.Grip.Paint = function(s, w, h)
-        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, currentCol)
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, currentCol)
     end
 
     self.Grip.Think = function(s)

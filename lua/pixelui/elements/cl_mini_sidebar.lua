@@ -53,7 +53,7 @@ function PANEL:Paint(w, h)
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
     if self:GetDrawOutline() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
         PIXEL.DrawRoundedBox(0, 0, 0, PIXEL.Scale(3), h, hoverLineCol, PIXEL.Scale(1))
     end
 

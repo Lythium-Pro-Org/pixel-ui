@@ -37,7 +37,7 @@ function PANEL:Init()
     self.CloseButton:SetClickColor(PIXEL.Colors.Negative)
     self.CloseButton:SetDisabledColor(PIXEL.Colors.DisabledText)
     self.CloseButton:SetFrameEnabled(true)
-    self.CloseButton:SetRounded(PIXEL.Scale(8))
+    self.CloseButton:SetRounded(8)
 
     self.CloseButton.DoClick = function(s)
         self:Close()
@@ -317,9 +317,9 @@ function PANEL:PaintMore(w, h)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, PIXEL.Colors.Header)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
     local contentX, contentY = self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding
-    PIXEL.DrawRoundedBoxEx(PIXEL.Scale(8), contentX, contentY, w - contentX - self.ContentPadding, h - contentY - self.ContentPadding, PIXEL.Colors.Background, true, true, true, true)
+    PIXEL.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY - self.ContentPadding, PIXEL.Colors.Background, true, true, true, true)
     self:PaintHeader(0, 0, w, self.HeaderH)
     self:PaintMore(w, h)
 end

@@ -32,7 +32,7 @@ end
 
 function PANEL:PaintBackground(w, h)
     if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, PIXEL.Colors.Disabled)
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Disabled)
         self:PaintExtra(w, h)
 
         return
@@ -46,7 +46,7 @@ function PANEL:PaintBackground(w, h)
 
     local animTime = FrameTime() * 12
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, bgCol)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.BackgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 end
 
 vgui.Register("PIXEL.Checkbox", PANEL, "PIXEL.ImgurButton")

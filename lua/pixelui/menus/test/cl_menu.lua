@@ -85,8 +85,3 @@ vgui.Register("PIXEL.Test.Main", PANEL, "PIXEL.Frame")
 concommand.Add("pixel_test", function()
     PIXEL.TestFrame = vgui.Create("PIXEL.Test.Main")
 end)
-
-if IsValid(PIXEL.TestFrame) then
-    PIXEL.TestFrame:Remove()
-    PIXEL.TestFrame = vgui.Create("PIXEL.Test.Main")
-end

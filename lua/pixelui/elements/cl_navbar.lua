@@ -74,7 +74,7 @@ function PANEL:Paint(w, h)
     end
 
     local boxW, boxH = w - PIXEL.Scale(16), h - PIXEL.Scale(16)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8), boxW, boxH, backgroundCol)
+    PIXEL.DrawRoundedBox(8, PIXEL.Scale(8), PIXEL.Scale(8), boxW, boxH, backgroundCol)
     PIXEL.DrawSimpleText(self:GetName(), "UI.NavbarItem", w / 2, h / 2, self.TextCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
@@ -140,7 +140,7 @@ function PANEL:PerformLayout(w, h)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.BackgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
     if not self.SelectedItem then
         self.SelectionX = Lerp(FrameTime() * 10, self.SelectionX, 0)

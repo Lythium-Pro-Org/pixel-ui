@@ -224,7 +224,7 @@ function PANEL:Open(x, y, skipanimation, ownerpanel)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, self.DrawTall, self.BackgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, self.DrawTall, self.BackgroundCol)
 end
 
 function PANEL:OptionSelectedInternal(option)

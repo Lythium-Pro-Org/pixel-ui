@@ -1,7 +1,6 @@
 PIXEL = PIXEL or {}
 local sc = PIXEL.Scale
 local PANEL = {}
-
 PIXEL.GenerateFont(25)
 
 function PANEL:Init()
@@ -9,17 +8,14 @@ function PANEL:Init()
     self.Category:Dock(TOP)
     self.Category:DockMargin(sc(10), sc(10), sc(10), sc(10))
     self.Category:SetTitle("Categorys!")
-
     self.Slider = vgui.Create("PIXEL.Slider", self)
     self.Slider:Dock(TOP)
     self.Slider:DockMargin(sc(50), sc(10), sc(50), sc(10))
-
     self.LabelledCheckbox = vgui.Create("PIXEL.LabelledCheckbox", self)
     self.LabelledCheckbox:Dock(TOP)
     self.LabelledCheckbox:DockMargin(sc(50), sc(10), sc(50), sc(10))
     self.LabelledCheckbox:SetText("Labelled Checkbox!")
     self.LabelledCheckbox:SetFont("PIXEL.Font.Size25")
-
     self.ComboBox = vgui.Create("PIXEL.ComboBox", self)
     self.ComboBox:Dock(TOP)
     self.ComboBox:DockMargin(sc(50), sc(10), sc(50), sc(10))
@@ -29,14 +25,16 @@ function PANEL:Init()
     self.ComboBox:AddChoice("Choice 3", "Choice 3", "Choice 3")
     self.ComboBox:AddChoice("Choice 4", "Choice 4", "Choice 4")
     self.ComboBox:AddChoice("Choice 5", "Choice 5", "Choice 5")
-
-    self.ColorPicker = vgui.Create("PIXEL.ColorPicker", self)
-    self.ColorPicker:Dock(FILL)
-    self.ColorPicker:DockMargin(sc(50), sc(10), sc(50), sc(10))
+    -- self.ColorPicker = vgui.Create("PIXEL.NumberWang", self)
+    -- self.ColorPicker:Dock(TOP)
+    -- self.ColorPicker:SetTall(PIXEL.Scale(40))
+    self.StepCounter = vgui.Create("PIXEL.StepCounter", self)
+    self.StepCounter:Dock(FILL)
+    self.StepCounter:DockMargin(sc(50), sc(10), sc(50), sc(10))
+    self.StepCounter:SetStepCount(8)
 end
 
-function PANEL:PaintMore(w,h)
-
+function PANEL:PaintMore(w, h)
 end
 
 vgui.Register("PIXEL.Test.Other", PANEL)
