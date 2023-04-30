@@ -34,7 +34,7 @@ function PANEL:Paint(w, h)
     self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
     if self:GetDrawOutline() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, backgroundCol, PIXEL.Scale(1))
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, backgroundCol, PIXEL.Scale(1))
     end
 
     local imgurID = self:GetImgurID()

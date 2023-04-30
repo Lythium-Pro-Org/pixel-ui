@@ -75,7 +75,7 @@ end
 function PANEL:Paint(w, h)
     if self.Hidden then return end
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.BackgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
     PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14), h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     if not self.SubMenu then return end
     local dropBtnSize = PIXEL.Scale(8)

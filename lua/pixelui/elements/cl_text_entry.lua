@@ -37,7 +37,7 @@ end
 
 function PANEL:Paint(w, h)
     if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.DisabledCol)
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.DisabledCol)
     end
 
     if not self:IsEnabled() and self:GetValue() == "" then

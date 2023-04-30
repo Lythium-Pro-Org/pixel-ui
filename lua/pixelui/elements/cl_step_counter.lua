@@ -16,7 +16,7 @@ function PANEL:Paint(w, h)
     if self:GetEnabled() then
         backgroundCol = self.EnabledCol
     end
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, backgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, backgroundCol)
     PIXEL.DrawSimpleText(self:GetStep(), "StepCounterStep", w / 2, h / 2, self.TextCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
@@ -55,7 +55,8 @@ function PANEL:Paint(w, h)
     for k, v in ipairs(self.Steps) do
         local nextStep = self.Steps[k + 1]
         if not nextStep then continue end
-        local startX = v:GetX() + v:GetWide()|
+        local startX = v:GetX() + v:GetWide()
+        local endX = nextStep:GetX()
         local width = endX - startX
         local tall = PIXEL.Scale(4)
         local yPos = v:GetY() + (v:GetTall() / 2) - (tall / 2)
@@ -86,9 +87,3 @@ function PANEL:PerformLayout(w, h)
 end
 
 vgui.Register("PIXEL.StepCounter", PANEL, "EditablePanel")
-
-if IsValid(PIXEL.TestFrame) then
-    PIXEL.TestFrame:Remove()
-end
-
-PIXEL.TestFrame = vgui.Create("PIXEL.Test.Main")
