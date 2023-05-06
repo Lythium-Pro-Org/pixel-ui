@@ -60,13 +60,18 @@ function PANEL:Init()
 
     function self:OnValueChange()
         local value = self:GetValue()
-        if not value then value = self:GetMin() or 0 end
         value = tonumber(value)
+        if not value then value = self:GetMin() or 0 end
+
         if (value > self:GetMax()) then
             self.TextEntry:SetText(self:GetMax())
         elseif (value < self:GetMin()) then
             self.TextEntry:SetText(self:GetMin())
         end
+        self:OnValueChanged(value)
+    end
+
+    function self:OnValueChanged()
     end
 end
 
@@ -77,10 +82,10 @@ function PANEL:LayoutContent(w, h)
     end
     local height = (h / 4)
     self.UpButton:SetSize(height, height)
-    self.UpButton:SetPos(w - height - PIXEL.Scale(10), (h / 2) - height)
+    self.UpButton:SetPos(w - height - (h / 4), (h / 2) - height)
 
     self.DownButton:SetSize(height, height)
-    self.DownButton:SetPos(w - height - PIXEL.Scale(10), h - self.UpButton:GetY() - height)
+    self.DownButton:SetPos(w - height - (h / 4), h - self.UpButton:GetY() - height)
 
     local zPos = self:GetZPos()
     self.UpButton:SetZPos(zPos + 1)
@@ -88,4 +93,4 @@ function PANEL:LayoutContent(w, h)
 end
 
 
-vgui.Register("PIXEL.NumberWang", PANEL, "PIXEL.TextEntry")
+vgui.Register("PIXEL.NumberEntry", PANEL, "PIXEL.TextEntry")
