@@ -6,6 +6,8 @@ AccessorFunc(PANEL, "Step", "Step", FORCE_NUMBER)
 AccessorFunc(PANEL, "Enabled", "Enabled", FORCE_BOOL)
 
 function PANEL:Init()
+    self:SetTall(PIXEL.Scale(90))
+
     self.BackgroundCol = PIXEL.Colors.Header
     self.EnabledCol = PIXEL.Colors.Primary
     self.TextCol = PIXEL.Colors.SecondaryText
