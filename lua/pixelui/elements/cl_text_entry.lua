@@ -74,7 +74,7 @@ function PANEL:Paint(w, h)
     end
 
     self.InnerOutlineCol = PIXEL.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
-    PIXEL.DrawFullOutlinedRoundedBox(8, outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, outlineThickness)
+    PIXEL.DrawFullOutlinedRoundedBox(8, 0, 0, w, h, self.InnerOutlineCol, outlineThickness)
 end
 
 function PANEL:OnChange()
