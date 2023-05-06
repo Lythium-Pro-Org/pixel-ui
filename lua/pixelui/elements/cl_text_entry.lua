@@ -14,7 +14,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
+
 local PANEL = {}
+
+AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
+
+function PANEL:SetFont(font, isPixel)
+    if isPixel then
+       self.TextEntry:SetFont(font, isPixel)
+    else
+        self.TextEntry:SetFont(font, isPixel)
+    end
+end
 
 function PANEL:Init()
     self.TextEntry = vgui.Create("PIXEL.TextEntryInternal", self)
@@ -37,7 +48,7 @@ end
 
 function PANEL:Paint(w, h)
     if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.DisabledCol)
+        PIXEL.DrawRoundedBox(4, 0, 0, w, h, self.DisabledCol)
     end
 
     if not self:IsEnabled() and self:GetValue() == "" then
@@ -51,7 +62,7 @@ function PANEL:Paint(w, h)
     end
 
     local outlineThickness = PIXEL.Scale(1)
-    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.OutlineCol, outlineThickness)
+    PIXEL.DrawFullOutlinedRoundedBox(8, 0, 0, w, h, self.OutlineCol, outlineThickness)
     local col = PIXEL.Colors.Transparent
 
     if self:IsEditing() then
@@ -63,7 +74,7 @@ function PANEL:Paint(w, h)
     end
 
     self.InnerOutlineCol = PIXEL.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
-    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(4), outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, PIXEL.Scale(1))
+    PIXEL.DrawFullOutlinedRoundedBox(8, outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, outlineThickness)
 end
 
 function PANEL:OnChange()

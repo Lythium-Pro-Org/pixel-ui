@@ -21,8 +21,18 @@ AccessorFunc(PANEL, "m_bNumeric", "Numeric", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bHistory", "HistoryEnabled", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bDisableTabbing", "TabbingDisabled", FORCE_BOOL)
 AccessorFunc(PANEL, "m_txtPlaceholder", "PlaceholderText", FORCE_STRING)
+AccessorFunc(PANEL, "m_txtFont", "Font", FORCE_STRING)
 Derma_Install_Convar_Functions(PANEL)
 PIXEL.RegisterFont("UI.TextEntry", "Rubik", 18)
+
+function PANEL:SetFont(font, isPixel)
+    if isPixel then
+        self:SetFontInternal(PIXEL.GetRealFont(font))
+    else
+        self:SetFontInternal(font)
+    end
+end
+
 
 function PANEL:Init()
     self:SetHistoryEnabled(false)
