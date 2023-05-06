@@ -23,6 +23,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 -- radius is the total radius of the outside edge to the center.
 -- cx, cy are the x,y coordinates of the center of the arc.
 -- roughness determines how many triangles are drawn. Number between 1-360; 2 or 3 is a good number.
+
+PIXEL = PIXEL or {}
+
+
 function PIXEL.DrawUncachedArc(cx, cy, radius, thickness, startang, endang, roughness, color)
     surface.SetDrawColor(color)
     PIXEL.DrawArc(PIXEL.PrecacheArc(cx, cy, radius, thickness, startang, endang, roughness))
@@ -100,4 +104,21 @@ function PIXEL.DrawArc(arc)
     for k, v in ipairs(arc) do
         surface.DrawPoly(v)
     end
+end
+
+-- https://github.com/Threebow/tdlib/blob/master/tdlib.lua#L39
+function PIXEL.DrawFilledArc(x, y, ang, p, rad, color, seg)
+    seg = seg or 80
+	ang = (-ang) + 180
+	local circle = {}
+
+	table.insert(circle, {x = x, y = y})
+	for i = 0, seg do
+		local a = math.rad((i / seg) * -p + ang)
+		table.insert(circle, {x = x + math.sin(a) * rad, y = y + math.cos(a) * rad})
+	end
+
+	surface.SetDrawColor(color)
+	draw.NoTexture()
+	surface.DrawPoly(circle)
 end
