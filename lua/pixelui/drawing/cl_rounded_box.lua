@@ -20,126 +20,232 @@ local cornerTex16 = surface.GetTextureID("gui/corner16")
 local cornerTex32 = surface.GetTextureID("gui/corner32")
 local cornerTex64 = surface.GetTextureID("gui/corner64")
 local cornerTex512 = surface.GetTextureID("gui/corner512")
-
 local round = math.Round
 local min = math.min
 local floor = math.floor
-
 local setDrawColor = surface.SetDrawColor
 local drawRect = surface.DrawRect
 local drawTexturedRectUV = surface.DrawTexturedRectUV
 local setTexture = surface.SetTexture
 
 function PIXEL.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
-	setDrawColor(col.r, col.g, col.b, col.a)
+    setDrawColor(col.r, col.g, col.b, col.a)
 
-	if borderSize <= 0 then
-		drawRect(x, y, w, h)
-		return
-	end
+    if borderSize <= 0 then
+        drawRect(x, y, w, h)
 
-	x = round(x)
-	y = round(y)
-	w = round(w)
-	h = round(h)
-	borderSize = min(round(borderSize), floor(w / 2))
+        return
+    end
 
-	drawRect(x + borderSize, y, w - borderSize * 2, h)
-	drawRect(x, y + borderSize, borderSize, h - borderSize * 2)
-	drawRect(x + w - borderSize, y + borderSize, borderSize, h - borderSize * 2)
+    x = round(x)
+    y = round(y)
+    w = round(w)
+    h = round(h)
+    borderSize = min(round(borderSize), floor(w / 2))
+    drawRect(x + borderSize, y, w - borderSize * 2, h)
+    drawRect(x, y + borderSize, borderSize, h - borderSize * 2)
+    drawRect(x + w - borderSize, y + borderSize, borderSize, h - borderSize * 2)
+    local tex = cornerTex8
 
-	local tex = cornerTex8
-	if borderSize > 8 then tex = cornerTex16 end
-	if borderSize > 16 then tex = cornerTex32 end
-	if borderSize > 32 then tex = cornerTex64 end
-	if borderSize > 64 then tex = cornerTex512 end
+    if borderSize > 8 then
+        tex = cornerTex16
+    end
 
-	setTexture(tex)
+    if borderSize > 16 then
+        tex = cornerTex32
+    end
 
-	if topLeft then
-		drawTexturedRectUV(x, y, borderSize, borderSize, 0, 0, 1, 1)
-	else
-		drawRect(x, y, borderSize, borderSize)
-	end
+    if borderSize > 32 then
+        tex = cornerTex64
+    end
 
-	if topRight then
-		drawTexturedRectUV(x + w - borderSize, y, borderSize, borderSize, 1, 0, 0, 1)
-	else
-		drawRect(x + w - borderSize, y, borderSize, borderSize)
-	end
+    if borderSize > 64 then
+        tex = cornerTex512
+    end
 
-	if bottomLeft then
-		drawTexturedRectUV(x, y + h -borderSize, borderSize, borderSize, 0, 1, 1, 0)
-	else
-		drawRect(x, y + h - borderSize, borderSize, borderSize)
-	end
+    setTexture(tex)
 
-	if bottomRight then
-		drawTexturedRectUV(x + w - borderSize, y + h - borderSize, borderSize, borderSize, 1, 1, 0, 0)
-	else
-		drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize)
-	end
+    if topLeft then
+        drawTexturedRectUV(x, y, borderSize, borderSize, 0, 0, 1, 1)
+    else
+        drawRect(x, y, borderSize, borderSize)
+    end
+
+    if topRight then
+        drawTexturedRectUV(x + w - borderSize, y, borderSize, borderSize, 1, 0, 0, 1)
+    else
+        drawRect(x + w - borderSize, y, borderSize, borderSize)
+    end
+
+    if bottomLeft then
+        drawTexturedRectUV(x, y + h - borderSize, borderSize, borderSize, 0, 1, 1, 0)
+    else
+        drawRect(x, y + h - borderSize, borderSize, borderSize)
+    end
+
+    if bottomRight then
+        drawTexturedRectUV(x + w - borderSize, y + h - borderSize, borderSize, borderSize, 1, 1, 0, 0)
+    else
+        drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize)
+    end
 end
 
 local drawRoundedBoxEx = PIXEL.DrawRoundedBoxEx
+
 function PIXEL.DrawRoundedBox(borderSize, x, y, w, h, col)
-	return drawRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
+    return drawRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
 end
 
 local roundedBoxCache = {}
 local whiteTexture = surface.GetTextureID("vgui/white")
-
 local drawPoly = surface.DrawPoly
 
-function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, tl, tr, bl, br)
-	setDrawColor(col.r, col.g, col.b, col.a)
+function PIXEL.DrawFullRoundedBoxExLegacy(borderSize, x, y, w, h, col, tl, tr, bl, br)
+    setDrawColor(col.r, col.g, col.b, col.a)
 
-	if borderSize <= 0 then
-		drawRect(x, y, w, h)
-		return
-	end
+    if borderSize <= 0 then
+        drawRect(x, y, w, h)
 
-	local fullRight = x + w
-	local fullBottom = y + h
+        return
+    end
 
-	local left, right = x + borderSize, fullRight - borderSize
-	local top, bottom = y + borderSize, fullBottom - borderSize
+    local fullRight = x + w
+    local fullBottom = y + h
+    local left, right = x + borderSize, fullRight - borderSize
+    local top, bottom = y + borderSize, fullBottom - borderSize
+    local halfBorder = borderSize * .7
+    local cacheName = borderSize .. x .. y .. w .. h
+    local cache = roundedBoxCache[cacheName]
 
-	local halfBorder = borderSize * .7
+    if not cache then
+        cache = {
+            {
+                x = right,
+                y = y
+            }, --Top Right
+            {
+                x = right + halfBorder,
+                y = top - halfBorder
+            },
+            {
+                x = fullRight,
+                y = top
+            },
+            {
+                x = fullRight,
+                y = bottom
+            }, --Bottom Right
+            {
+                x = right + halfBorder,
+                y = bottom + halfBorder
+            },
+            {
+                x = right,
+                y = fullBottom
+            },
+            {
+                x = left,
+                y = fullBottom
+            }, --Bottom Left
+            {
+                x = left - halfBorder,
+                y = bottom + halfBorder
+            },
+            {
+                x = x,
+                y = bottom
+            },
+            {
+                x = x,
+                y = top
+            }, --Top Left
+            {
+                x = left - halfBorder,
+                y = top - halfBorder
+            },
+            {
+                x = left,
+                y = y
+            }
+        }
 
-	local cacheName = borderSize .. x .. y .. w .. h
-	local cache = roundedBoxCache[cacheName]
-	if not cache then
-		cache = {
-			{x = right, y = y}, --Top Right
-			{x = right + halfBorder, y = top - halfBorder},
-			{x = fullRight, y = top},
+        roundedBoxCache[cacheName] = cache
+    end
 
-			{x = fullRight, y = bottom}, --Bottom Right
-			{x = right + halfBorder, y = bottom + halfBorder},
-			{x = right, y = fullBottom},
+    setTexture(whiteTexture)
+    drawPoly(cache)
 
-			{x = left, y = fullBottom}, --Bottom Left
-			{x = left - halfBorder, y = bottom + halfBorder},
-			{x = x, y = bottom},
+    if not tl then
+        drawRect(x, y, borderSize, borderSize)
+    end
 
-			{x = x, y = top}, --Top Left
-			{x = left - halfBorder, y = top - halfBorder},
-			{x = left, y = y}
-		}
+    if not tr then
+        drawRect(x + w - borderSize, y, borderSize, borderSize)
+    end
 
-		roundedBoxCache[cacheName] = cache
-	end
+    if not bl then
+        drawRect(x, y + h - borderSize, borderSize, borderSize)
+    end
 
-	setTexture(whiteTexture)
-	drawPoly(cache)
-
-	if not tl then drawRect(x, y, borderSize, borderSize) end
-	if not tr then drawRect(x + w - borderSize, y, borderSize, borderSize) end
-	if not bl then drawRect(x, y + h - borderSize, borderSize, borderSize) end
-	if not br then drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize) end
+    if not br then
+        drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize)
+    end
 end
 
+function PIXEL.DrawFullRoundedBoxLegacy(borderSize, x, y, w, h, col)
+    return PIXEL.DrawFullRoundedBoxExLegacy(borderSize, x, y, w, h, col, true, true, true, true)
+end
+
+-- new shit, thx xeninui for making me realise i can do this
+function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
+    setDrawColor(col.r, col.g, col.b, col.a)
+
+    if borderSize <= 0 then
+        drawRect(x, y, w, h)
+
+        return
+    end
+
+    x = round(x)
+    y = round(y)
+    w = round(w)
+    h = round(h)
+    borderSize = min(round(borderSize), floor(w / 2))
+    drawRect(x + borderSize, y, w - borderSize * 2, h)
+    drawRect(x, y + borderSize, borderSize, h - borderSize * 2)
+    drawRect(x + w - borderSize, y + borderSize, borderSize, h - borderSize * 2)
+
+    if topLeft then
+        PIXEL.DrawFilledArc(x + borderSize, y + borderSize, 270, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x, y, borderSize, borderSize)
+    end
+
+    if topRight then
+        PIXEL.DrawFilledArc(x + w - borderSize, y + borderSize, 0, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x + w - borderSize, y, borderSize, borderSize)
+    end
+
+    if bottomLeft then
+        PIXEL.DrawFilledArc(x + borderSize, y + h - borderSize, 180, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x, y + h - borderSize, borderSize, borderSize)
+    end
+
+    if bottomRight then
+        PIXEL.DrawFilledArc(x + w - borderSize, y + h - borderSize, 90, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize)
+    end
+end
+
+local drawFullRoundedBoxEx = PIXEL.DrawFullRoundedBoxEx
+
 function PIXEL.DrawFullRoundedBox(borderSize, x, y, w, h, col)
-	return PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
+    return drawFullRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
 end
