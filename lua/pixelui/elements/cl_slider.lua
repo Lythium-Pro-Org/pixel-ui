@@ -59,7 +59,6 @@ function PANEL:OnMousePressed()
     self:OnValueChanged(self.Fraction)
     self:InvalidateLayout()
     self.Grip:RequestFocus()
-    print(self.Grip:HasFocus())
 end
 
 function PANEL:OnValueChanged(fraction)
@@ -76,6 +75,9 @@ function PANEL:PerformLayout(w, h)
     local offset = PIXEL.Scale(3)
     self.Grip:SetSize(gripSize, gripSize)
     self.Grip:SetPos((self.Fraction * w) - (gripSize * .5), -offset)
+end
+
+function PANEL:LayoutContent()
 end
 
 vgui.Register("PIXEL.Slider", PANEL, "PIXEL.Button")
