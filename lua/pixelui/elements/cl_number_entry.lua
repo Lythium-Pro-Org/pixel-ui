@@ -1,13 +1,15 @@
 local PANEL = {}
 
-AccessorFunc(PANEL, "HideWang", "HideWang", FORCE_BOOL)
+AccessorFunc(PANEL, "HideButtons", "HideButtons", FORCE_BOOL)
 AccessorFunc(PANEL, "Interval", "Interval", FORCE_NUMBER)
+AccessorFunc(PANEL, "UseChips", "UseChips", FORCE_BOOL)
 AccessorFunc(PANEL, "Min", "Min", FORCE_NUMBER)
 AccessorFunc(PANEL, "Max", "Max", FORCE_NUMBER)
 
 function PANEL:Init()
-    self:SetHideWang(false)
+    self:SetHideButtons(false)
     self:SetNumeric(true)
+    self:SetUseChips(true)
     self:SetInterval(1)
     self:SetValue(1)
     self:SetMin(1)
@@ -76,7 +78,7 @@ function PANEL:Init()
 end
 
 function PANEL:LayoutContent(w, h)
-    if self:GetHideWang() then
+    if self:GetHideButtons() then
         self.UpButton:SetVisible(false)
         self.DownButton:SetVisible(false)
     end
