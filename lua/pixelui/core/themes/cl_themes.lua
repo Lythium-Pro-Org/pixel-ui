@@ -3,26 +3,6 @@ PIXEL.Themes = PIXEL.Themes or {}
 
 PIXEL.DefaultThemes = PIXEL.DefaultThemes or {"Dark", "Light", "GitHubDark", "NightOwl", "DiscordDark", "DiscordLight"}
 
-PIXEL.Themes["Dark"] = {
-    included = true,
-    Background = Color(22, 22, 22),
-    Header = Color(28, 28, 28),
-    SecondaryHeader = Color(43, 43, 43),
-    Scroller = Color(61, 61, 61),
-    PrimaryText = Color(255, 255, 255),
-    SecondaryText = Color(220, 220, 220),
-    DisabledText = Color(40, 40, 40),
-    Primary = Color(43, 157, 203),
-    Disabled = Color(180, 180, 180),
-    Positive = Color(68, 235, 124),
-    Negative = Color(235, 68, 68),
-    Diamond = Color(185, 242, 255),
-    Gold = Color(255, 215, 0),
-    Silver = Color(192, 192, 192),
-    Bronze = Color(145, 94, 49),
-    Transparent = Color(0, 0, 0, 0)
-}
-
 PIXEL.Themes["Light"] = {
     included = true,
     Background = PIXEL.HexToColor("#F7F8FA"),

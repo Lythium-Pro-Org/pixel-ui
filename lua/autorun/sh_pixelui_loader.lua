@@ -18,28 +18,29 @@ PIXEL = PIXEL or {}
 PIXEL.UI = PIXEL.UI or {}
 PIXEL.UI.Version = "1.3.1"
 
-PIXEL.Colors = {
-    Background = Color(22, 22, 22),
-    Header = Color(28, 28, 28),
-    SecondaryHeader = Color(15, 15, 15),
-    Scroller = Color(61, 61, 61),
-    --
+PIXEL.Themes = PIXEL.Themes or {}
+
+PIXEL.Themes["Dark"] = {
+    included = true,
+    Background = Color(29, 29, 29),
+    Header = Color(34, 34, 34),
+    SecondaryHeader = Color(47, 47, 47),
+    Scroller = Color(63, 63, 63),
     PrimaryText = Color(255, 255, 255),
-    SecondaryText = Color(220, 220, 220),
-    DisabledText = Color(40, 40, 40),
-    --
-    Primary = Color(43, 157, 203),
-    Disabled = Color(180, 180, 180),
-    Positive = Color(68, 235, 124),
-    Negative = Color(235, 68, 68),
-    --
-    Diamond = Color(185, 242, 255),
-    Gold = Color(255, 215, 0),
-    Silver = Color(192, 192, 192),
-    Bronze = Color(145, 94, 49),
-    --
+    SecondaryText = Color(219, 219, 219),
+    DisabledText = Color(44, 44, 44),
+    Primary = Color(86, 86, 255),
+    Disabled = Color(178, 178, 178),
+    Positive = Color(0, 168, 107),
+    Negative = Color(234, 70, 70),
+    Diamond = Color(184, 242, 255),
+    Gold = Color(255, 214, 0),
+    Silver = Color(191, 191, 191),
+    Bronze = Color(144, 94, 52),
     Transparent = Color(0, 0, 0, 0)
 }
+
+PIXEL.Colors = PIXEL.Themes["Dark"]
 
 function PIXEL.Warn(...)
     MsgC(PIXEL.Colors.Gold, "[PIXEL UI - Warning] ", PIXEL.Colors.Negative, ..., "\n")
