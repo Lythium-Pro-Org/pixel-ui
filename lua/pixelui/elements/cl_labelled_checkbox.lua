@@ -25,16 +25,9 @@ function PANEL:Init()
         self:OnToggled(enabled)
     end
 
-    self.LabelHolder = vgui.Create("Panel", self)
-    self.Label = vgui.Create("PIXEL.Label", self.LabelHolder)
+    self.Label = vgui.Create("PIXEL.Label", self)
     self.Label:SetAutoWidth(true)
     self.Label:SetAutoHeight(true)
-
-    self.LabelHolder.PerformLayout = function(s, w, h)
-        self.Label:CenterVertical()
-        s:SizeToChildren(true, true)
-        self:SizeToChildren(true, true)
-    end
 end
 
 function PANEL:PerformLayout(w, h)
@@ -42,7 +35,7 @@ function PANEL:PerformLayout(w, h)
     self.Checkbox:SetWide(h)
     self.Checkbox:DockMargin(0, 0, PIXEL.Scale(6), 0)
 
-    self.LabelHolder:Dock(LEFT)
+    self.Label:SetPos(self.Checkbox:GetWide() + PIXEL.Scale(6), (h / 2) - (self.Label:GetTall() / 2) + 1)
 end
 
 function PANEL:OnToggled(enabled) end
