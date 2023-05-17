@@ -48,11 +48,11 @@ function PANEL:Paint(w, h)
     end
 
     local imageSize = h * self:GetImageSize()
-    local imageOffset = (h - imageSize) / 2
+    local imageOffset = (h / 2) - (imageSize / 2)
 
     if self:GetFrameEnabled() then
         imageSize = imageSize * .45
-        imageOffset = (h - imageSize) / 2 + PIXEL.Scale(1)
+        imageOffset = (h / 2) - (imageSize / 2) + PIXEL.Scale(1)
     end
 
     if not self:IsEnabled() then
