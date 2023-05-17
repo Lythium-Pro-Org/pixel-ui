@@ -2,14 +2,12 @@ local PANEL = {}
 
 AccessorFunc(PANEL, "HideButtons", "HideButtons", FORCE_BOOL)
 AccessorFunc(PANEL, "Interval", "Interval", FORCE_NUMBER)
-AccessorFunc(PANEL, "UseChips", "UseChips", FORCE_BOOL)
 AccessorFunc(PANEL, "Min", "Min", FORCE_NUMBER)
 AccessorFunc(PANEL, "Max", "Max", FORCE_NUMBER)
 
 function PANEL:Init()
     self:SetHideButtons(false)
     self:SetNumeric(true)
-    self:SetUseChips(true)
     self:SetInterval(1)
     self:SetValue(1)
     self:SetMin(1)
