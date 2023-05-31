@@ -21,7 +21,6 @@ AccessorFunc(PANEL, "m_pPanel", "Panel")
 PIXEL.RegisterFont("UI.Tab", "Rubik", 16)
 
 function PANEL:Init()
-    self:SetClicky(false)
     self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, -4)
     self.SelectedCol = PIXEL.Colors.Primary
     self.UnselectedTextCol = PIXEL.Colors.SecondaryText

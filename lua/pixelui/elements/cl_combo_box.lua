@@ -25,7 +25,6 @@ AccessorFunc(PANEL, "m_bDoSort", "SortItems", FORCE_BOOL)
 
 function PANEL:Init()
     self:SetSizeToText(true)
-    self:SetClicky(false)
     self:Clear()
 
     self:SetTextAlign(TEXT_ALIGN_LEFT)
@@ -85,6 +84,13 @@ function PANEL:ChooseOption(value, index)
     self:SetText(value)
 
     self.selected = index
+    local choicesKey = table.KeyFromValue(self.Choices, value)
+
+    if self.ChoiceIcons[choicesKey] then
+        self:SetIcon(self.ChoiceIcons[choicesKey])
+    else
+        self:SetIcon(nil)
+    end
     self:OnSelect(index, value, self.Data[index])
 
     if not self:GetSizeToText() then return end
@@ -206,7 +212,8 @@ function PANEL:SetValue(strValue)
 end
 
 function PANEL:DoClick()
-    if not self:IsMenuOpen() then self:OpenMenu() end
+    if self:IsMenuOpen() then return self:CloseMenu() end
+    self:OpenMenu()
 end
 
 function PANEL:OnOpen()

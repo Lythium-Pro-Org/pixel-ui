@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetClicky(false)
     self.Fraction = 0
     self.Grip = vgui.Create("PIXEL.Button", self)
     self.Grip:NoClipping(true)

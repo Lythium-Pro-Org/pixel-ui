@@ -31,7 +31,6 @@ function PANEL:Init()
     self:SetHoverColor(color_white)
     self:SetClickColor(color_white)
     self:SetDisabledColor(color_white)
-    self:SetClicky(false)
     self:SetImageSize(1)
     self:SetFrameEnabled(false)
 end

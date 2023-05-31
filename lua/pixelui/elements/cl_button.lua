@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 local PANEL = {}
 AccessorFunc(PANEL, "IsToggle", "IsToggle", FORCE_BOOL)
 AccessorFunc(PANEL, "Toggle", "Toggle", FORCE_BOOL)
-AccessorFunc(PANEL, "Clicky", "Clicky", FORCE_BOOL)
 AccessorFunc(PANEL, "Sounds", "Sounds", FORCE_BOOL)
 
 function PANEL:Init()
@@ -25,7 +24,7 @@ function PANEL:Init()
     self:SetToggle(false)
     self:SetMouseInputEnabled(true)
     self:SetCursor("hand")
-    self:SetClicky(false)
+
     self:SetSounds(true)
     local btnSize = PIXEL.Scale(30)
     self:SetSize(btnSize, btnSize)
@@ -33,26 +32,8 @@ function PANEL:Init()
     self.HoverCol = PIXEL.OffsetColor(self.NormalCol, -15)
     self.ClickedCol = PIXEL.OffsetColor(self.NormalCol, 15)
     self.DisabledCol = PIXEL.CopyColor(PIXEL.Colors.Disabled)
-    self.ClickyCol = PIXEL.OffsetColor(self.NormalCol, -35)
     self.BackgroundCol = self.NormalCol
-    self.BackgroundClickyCol = self.ClickyCol
-    self.ClickyScale = PIXEL.Scale(3)
-    self.Clicky = self:GetClicky()
-    self.ClickyMove = false
-end
 
-function PANEL:PerformLayout()
-    local tall = self:GetTall()
-
-    if tall > 75 then
-        self.ClickyScale = self:GetTall() / 25
-    elseif tall > 50 then
-        self.ClickyScale = self:GetTall() / 17
-    elseif tall > 25 then
-        self.ClickyScale = self:GetTall() / 10
-    elseif tall > 15 then
-        self.ClickyScale = self:GetTall() / 5
-    end
 end
 
 function PANEL:DoToggle(...)
@@ -65,7 +46,6 @@ local localPly
 
 function PANEL:OnMousePressed(mouseCode)
     if not self:IsEnabled() then return end
-    self.ClickyMove = true
 
     if self:GetSounds() then
         PIXEL.PlayButtonSound()
@@ -86,7 +66,6 @@ function PANEL:OnMouseReleased(mouseCode)
     self:MouseCapture(false)
     if not self:IsEnabled() then return end
     if not self.Depressed and dragndrop.m_DraggingMain ~= self then return end
-    self.ClickyMove = false
 
     if self.Depressed then
         self.Depressed = nil
@@ -132,24 +111,13 @@ function PANEL:Paint(w, h)
 
     if self:IsDown() or self:GetToggle() then
         bgCol = self.ClickedCol
-    elseif self:IsHovered() and not self.Clicky then
+    elseif self:IsHovered() then
         bgCol = self.HoverCol
     end
 
-    if not self.Clicky then
-        self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
-    end
+    self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
 
-    if not self:GetClicky() then
-        PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
-    else
-        if self.ClickyMove then
-            PIXEL.DrawRoundedBox(8, 0, self.ClickyScale, w, h - self.ClickyScale, self.BackgroundCol)
-        else
-            PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.ClickyCol)
-            PIXEL.DrawRoundedBox(8, 0, 0, w, h - self.ClickyScale, self.BackgroundCol)
-        end
-    end
+    PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
     self:PaintExtra(w, h)
 end

@@ -14,7 +14,6 @@ end
 function PANEL:Init()
     self:SetName("N/A")
     self:SetColor(PIXEL.Colors.Primary)
-    self:SetClicky(false)
     self:SetSounds(false)
     self:SetImgurScale(0.2)
     self.NormalCol = PIXEL.Colors.PrimaryText

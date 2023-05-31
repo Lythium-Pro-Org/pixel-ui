@@ -19,6 +19,7 @@ AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "TextSpacing", "TextSpacing", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
+AccessorFunc(PANEL, "Icon", "Icon")
 
 PIXEL.RegisterFont("UI.TextButton", "Rubik", 20, 600)
 
@@ -28,32 +29,41 @@ function PANEL:Init()
     self:SetTextSpacing(PIXEL.Scale(6))
     self:SetFont("UI.TextButton")
     self:SetSize(PIXEL.Scale(100), PIXEL.Scale(30))
-    self:SetClicky(true)
     self:SetSounds(true)
+    self:SetIcon(false)
 end
 
 function PANEL:SizeToText()
     PIXEL.SetFont(self:GetFont())
-    self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(14), PIXEL.Scale(30))
+
+    if self:GetIcon() then
+        local iconSize = self:GetTall() * .6
+        self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(20) + iconSize, PIXEL.Scale(30))
+        return
+    end
+
+    self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(14) , PIXEL.Scale(30))
 end
 
 function PANEL:PaintExtra(w, h)
     local textAlign = self:GetTextAlign()
     local textX = (textAlign == TEXT_ALIGN_CENTER and w / 2) or (textAlign == TEXT_ALIGN_RIGHT and w - self:GetTextSpacing()) or self:GetTextSpacing()
 
+    local iconSize = 0
+
+    if self:GetIcon() then
+        print("icon", self:GetIcon())
+        iconSize = self:GetTall() * .6
+        PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PIXEL.Colors.PrimaryText)
+    end
+
     if not self:IsEnabled() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize + PIXEL.Scale(8), h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
 
         return
     end
 
-    if self.ClickyMove and self:GetClicky() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, (h / 2) + self.ClickyScale, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
-    elseif self:GetClicky() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
-    else
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
-    end
+    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize + PIXEL.Scale(6), h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
 end
 
 vgui.Register("PIXEL.TextButton", PANEL, "PIXEL.Button")
