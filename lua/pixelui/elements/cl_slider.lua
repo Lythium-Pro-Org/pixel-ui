@@ -18,7 +18,6 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetClicky(false)
     self.Fraction = 0
     self.Grip = vgui.Create("PIXEL.Button", self)
     self.Grip:NoClipping(true)

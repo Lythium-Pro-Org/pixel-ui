@@ -21,7 +21,6 @@ PIXEL.RegisterFont("UI.CategoryHeader", "Rubik", 19, 600)
 
 function PANEL:Init()
     self.ArrowRotation = 0
-    self:SetClicky(false)
     self.BackgroundCol = PIXEL.Colors.Header
 end
 

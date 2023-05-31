@@ -21,27 +21,16 @@ AccessorFunc(PANEL, "m_bCheckable", "IsCheckable")
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
+AccessorFunc(PANEL, "Icon", "Icon", FORCE_STRING)
 PIXEL.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
-
-function PANEL:Hide()
-    self.Hidden = true
-end
-
-function PANEL:Show()
-    self.Hidden = false
-end
 
 function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetFont("UI.MenuOption")
     self:SetChecked(false)
-    self:SetClicky(false)
     self.NormalCol = PIXEL.Colors.Transparent
     self.HoverCol = PIXEL.Colors.Scroller
     self.BackgroundCol = PIXEL.CopyColor(self.NormalCol)
-end
-
-function PANEL:SetIcon()
 end
 
 function PANEL:SetSubMenu(menu)
@@ -73,10 +62,17 @@ function PANEL:OnCursorExited()
 end
 
 function PANEL:Paint(w, h)
-    if self.Hidden then return end
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14), h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+    local iconSize = 0
+    if self:GetIcon() then
+        iconSize = self:GetTall() * .6
+        PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PIXEL.Colors.PrimaryText)
+    end
+    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14) + iconSize, h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+
     if not self.SubMenu then return end
     local dropBtnSize = PIXEL.Scale(8)
     PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "gXg3U6X", PIXEL.Colors.PrimaryText)
