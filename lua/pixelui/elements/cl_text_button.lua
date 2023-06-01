@@ -52,18 +52,18 @@ function PANEL:PaintExtra(w, h)
     local iconSize = 0
 
     if self:GetIcon() then
-        print("icon", self:GetIcon())
         iconSize = self:GetTall() * .6
         PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PIXEL.Colors.PrimaryText)
+        iconSize = iconSize + PIXEL.Scale(6)
     end
 
     if not self:IsEnabled() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize + PIXEL.Scale(8), h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
+        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
 
         return
     end
 
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize + PIXEL.Scale(6), h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
 end
 
 vgui.Register("PIXEL.TextButton", PANEL, "PIXEL.Button")
