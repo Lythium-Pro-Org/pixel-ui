@@ -272,7 +272,6 @@ function PANEL:Close()
             y = posY,
             size = function() end
         }, -- left
-        
     }
 
     local direction = self:GetSlideDirection() or 1
