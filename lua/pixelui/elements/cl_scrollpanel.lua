@@ -25,7 +25,7 @@ AccessorFunc(PANEL, "CanScroll", "CanScroll", FORCE_BOOL)
 
 function PANEL:Init()
     self:SetCanScroll(true)
-    
+
     self.Canvas = vgui.Create("Panel", self)
     self.Canvas.OnMousePressed = function(s, code) s:GetParent():OnMousePressed(code) end
     self.Canvas:SetMouseInputEnabled(true)
