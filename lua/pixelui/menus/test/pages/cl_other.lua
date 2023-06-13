@@ -46,9 +46,10 @@ function PANEL:Init()
     self.StepCounter:DockMargin(sc(50), sc(10), sc(50), sc(10))
 
     self.ColorPicker = vgui.Create("PIXEL.ColorPickerV2", self.ScrollPanel)
+    self.ColorPicker:SetAlphaBar(true)
 
     self.ScrollPanel.LayoutContent = function(s, w, h)
-        self.ColorPicker:SetSize(w / 2 - PIXEL.Scale(50), w / 2)
+       // self.ColorPicker:SetSize(w / 2 - PIXEL.Scale(50), PIXEL.Scale(120))
         self.ColorPicker:SetPos(PIXEL.Scale(50), self.StepCounter:GetY() + self.StepCounter:GetTall() + PIXEL.Scale(10))
     end
 end
