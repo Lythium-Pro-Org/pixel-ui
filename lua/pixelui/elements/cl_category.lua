@@ -12,9 +12,9 @@
 	GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
+	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 local PANEL = {}
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
 PIXEL.RegisterFont("UI.CategoryHeader", "Open Sans Bold", 19)

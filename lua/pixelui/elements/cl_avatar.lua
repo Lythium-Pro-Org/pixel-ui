@@ -1,4 +1,3 @@
-
 --[[
 PIXEL UI
 Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
@@ -13,7 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 ]]
 
 local PANEL = {}
@@ -22,6 +21,65 @@ AccessorFunc(PANEL, "Rounding", "Rounding", FORCE_NUMBER)
 AccessorFunc(PANEL, "MaskSize", "MaskSize", FORCE_NUMBER)
 
 function PANEL:Init()
+    self.Avatar = vgui.Create("AvatarImage", self)
+    self.Avatar:SetPaintedManually(true)
+
+    self.CirclePoly = {}
+    self:SetRounding(10)
+end
+
+end
+    self.Avatar:SetSize(w, h)
+function PANEL:PerformLayout(w, h)
+
+
+PANEL = {}
+
+-- old avatar
+
+
+
+vgui.Register("PIXEL.Avatar", PANEL, "Panel")
+end
+    render.ClearStencil()
+    render.SetStencilEnable(false)
+
+    self.Avatar:SetPaintedManually(true)
+    self.Avatar:PaintManual()
+    self.Avatar:SetPaintedManually(false)
+
+    render.SetStencilReferenceValue(1)
+    render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
+    render.SetStencilZFailOperation(STENCILOPERATION_ZERO)
+    render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
+    render.SetStencilFailOperation(STENCILOPERATION_ZERO)
+
+    PIXEL.DrawFullRoundedBox(self:GetRounding() or self:GetMaskSize(), 0, 0, w, h, color_white)
+
+    render.SetStencilReferenceValue(1)
+    render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_NEVER)
+    render.SetStencilZFailOperation(STENCILOPERATION_ZERO)
+    render.SetStencilPassOperation(STENCILOPERATION_ZERO)
+    render.SetStencilFailOperation(STENCILOPERATION_REPLACE)
+
+    render.SetStencilTestMask(1)
+    render.SetStencilWriteMask(1)
+
+    render.SetStencilEnable(true)
+    render.ClearStencil()
+function PANEL:Paint(w, h)
+
+end
+function PANEL:SetSteamID(id, size)
+    self.Avatar:SetSteamID(id, size)
+
+end
+    self.Avatar:SetPlayer(ply, size)
+function PANEL:SetPlayer(ply, size)
+AccessorFunc(PANEL, "MaskSize", "MaskSize", FORCE_NUMBER)
+
+function PANEL:Init()
+    PIXEL.Warn("Please update to using PIXEL.Avatar instead of using PIXEL.OldAvatar! This panel is deprecated and may be removed in a future release.")
     self.Avatar = vgui.Create("AvatarImage", self)
     self.Avatar:SetPaintedManually(true)
 

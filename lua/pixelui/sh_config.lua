@@ -1,4 +1,3 @@
-
 --[[
 	PIXEL UI - Copyright Notice
 	© 2023 Thomas O'Sullivan - All rights reserved
