@@ -83,6 +83,10 @@ function PANEL:ChooseOption(value, index)
 
     self:SetText(value)
 
+    if not index then
+        index = table.KeyFromValue(self.Data, value)
+    end
+
     self.selected = index
     local choicesKey = table.KeyFromValue(self.Choices, value)
 
@@ -91,6 +95,7 @@ function PANEL:ChooseOption(value, index)
     else
         self:SetIcon(nil)
     end
+
     self:OnSelect(index, value, self.Data[index])
 
     if not self:GetSizeToText() then return end

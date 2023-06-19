@@ -18,6 +18,17 @@ local PANEL = {}
 AccessorFunc(PANEL, "IsToggle", "IsToggle", FORCE_BOOL)
 AccessorFunc(PANEL, "Toggle", "Toggle", FORCE_BOOL)
 AccessorFunc(PANEL, "Sounds", "Sounds", FORCE_BOOL)
+AccessorFunc(PANEL, "Color", "Color")
+
+function PANEL:SetColor(color)
+    self.Color = color
+
+    self.NormalCol = PIXEL.CopyColor(PIXEL.Colors.Primary)
+    self.HoverCol = PIXEL.OffsetColor(self.NormalCol, -15)
+    self.ClickedCol = PIXEL.OffsetColor(self.NormalCol, 15)
+    self.DisabledCol = PIXEL.CopyColor(PIXEL.Colors.Disabled)
+    self.BackgroundCol = self.NormalCol
+end
 
 function PANEL:Init()
     self:SetIsToggle(false)
@@ -28,12 +39,7 @@ function PANEL:Init()
     self:SetSounds(true)
     local btnSize = PIXEL.Scale(30)
     self:SetSize(btnSize, btnSize)
-    self.NormalCol = PIXEL.CopyColor(PIXEL.Colors.Primary)
-    self.HoverCol = PIXEL.OffsetColor(self.NormalCol, -15)
-    self.ClickedCol = PIXEL.OffsetColor(self.NormalCol, 15)
-    self.DisabledCol = PIXEL.CopyColor(PIXEL.Colors.Disabled)
-    self.BackgroundCol = self.NormalCol
-
+    self:SetColor(PIXEL.Colors.Primary)
 end
 
 function PANEL:DoToggle(...)
