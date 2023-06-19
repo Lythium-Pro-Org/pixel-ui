@@ -23,8 +23,14 @@ AccessorFunc(PANEL, "TextColor", "TextColor")
 AccessorFunc(PANEL, "Ellipses", "Ellipses", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoHeight", "AutoHeight", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoWidth", "AutoWidth", FORCE_BOOL)
+AccessorFunc(PANEL, "AutoSize", "AutoSize", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoWrap", "AutoWrap", FORCE_BOOL)
 PIXEL.RegisterFont("UI.Label", "Rubik", 14)
+
+function PANEL:SetAutoSize(autoSize)
+    self:SetAutoWidth(autoSize)
+    self:SetAutoHeight(autoSize)
+end
 
 function PANEL:Init()
     self:SetText("Label")
