@@ -23,7 +23,7 @@ AccessorFunc(PANEL, "Color", "Color")
 function PANEL:SetColor(color)
     self.Color = color
 
-    self.NormalCol = PIXEL.CopyColor(PIXEL.Colors.Primary)
+    self.NormalCol = PIXEL.CopyColor(self.Color)
     self.HoverCol = PIXEL.OffsetColor(self.NormalCol, -15)
     self.ClickedCol = PIXEL.OffsetColor(self.NormalCol, 15)
     self.DisabledCol = PIXEL.CopyColor(PIXEL.Colors.Disabled)

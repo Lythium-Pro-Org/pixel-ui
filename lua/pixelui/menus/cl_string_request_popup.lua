@@ -57,14 +57,20 @@ function PANEL:LayoutContent(w, h)
     self.Message:Dock(TOP)
     self.Message:DockMargin(0, 0, 0, PIXEL.Scale(8))
 
+    if self:GetWide() - PIXEL.Scale(40) < self.Message:GetWide() then
+        self.Message:SetWide(self:GetWide() + self.Message:GetWide() - (self:GetWide() - PIXEL.Scale(40)))
+    end
+
+
     self.TextEntry:SetTall(PIXEL.Scale(32))
     self.TextEntry:Dock(TOP)
-    self.TextEntry:DockMargin(0, 0, 0, PIXEL.Scale(10))
+    self.TextEntry:DockMargin(0, 0, 0, PIXEL.Scale(8))
 
-    for k,v in ipairs(self.Buttons) do
+    for k, v in ipairs(self.Buttons) do
         v:SizeToText()
+        v:SetTall(PIXEL.Scale(32))
         v:Dock(LEFT)
-        v:DockMargin(PIXEL.Scale(4), 0, PIXEL.Scale(4), 0)
+        v:DockMargin(PIXEL.Scale(8), 0, PIXEL.Scale(8), PIXEL.Scale(8))
     end
 
     self.ButtonHolder:SizeToChildren(true)

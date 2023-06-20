@@ -34,6 +34,8 @@ function PANEL:Init()
     self:SetPadding(0)
     self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 10)
     RegisterDermaMenuForClose(self)
+
+    self.OptionTexts = {}
 end
 
 function PANEL:AddPanel(pnl)
@@ -52,6 +54,8 @@ function PANEL:AddOption(strText, funcFunction)
 
     self:AddPanel(pnl)
 
+    self.OptionTexts[strText] = pnl
+
     return pnl
 end
 
@@ -69,6 +73,8 @@ function PANEL:AddCVar(strText, convar, on, off, funcFunction)
     pnl:SetValueOff(off)
     self:AddPanel(pnl)
 
+    self.OptionTexts[strText] = pnl
+
     return pnl
 end
 
@@ -83,6 +89,8 @@ function PANEL:AddSpacer(text, func)
     pnl:SetTall(PIXEL.Scale(3))
     self:AddPanel(pnl)
 
+    self.OptionTexts[text] = pnl
+
     return pnl
 end
 
@@ -96,6 +104,8 @@ function PANEL:AddSubMenu(strText, funcFunction)
     end
 
     self:AddPanel(pnl)
+
+    self.OptionTexts[strText] = pnl
 
     return subMenu, pnl
 end
@@ -120,7 +130,7 @@ function PANEL:OpenSubMenu(item, menu)
     end
 
     if not IsValid(menu) then return end
-    local x, y = item:LocalToScreen(self:GetWide(), 0)
+    local x, y = item:LocalToScreen(self:GetWide() + PIXEL.Scale(2), 0)
     menu:Open(x, y, false, item)
     self:SetOpenSubMenu(menu)
 end
