@@ -44,11 +44,13 @@ end
 function PANEL:LayoutContent(w, h)
     self.Message:SetSize(self.Message:CalculateSize())
     self.Message:Dock(TOP)
-    self.Message:DockMargin(0, 0, 0, PIXEL.Scale(8))
+    self.Message:DockMargin(PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8))
 
     self.Button:SizeToText()
     self.ButtonHolder:Dock(TOP)
+    self.ButtonHolder:DockMargin(0, 0, 0, PIXEL.Scale(8))
     self.ButtonHolder:SetTall(self.Button:GetTall())
+
     self.Button:CenterHorizontal()
 
     if self.ButtonHolder:GetWide() < self.Button:GetWide() then
@@ -59,6 +61,11 @@ function PANEL:LayoutContent(w, h)
         self:SetWide(PIXEL.Scale(240))
         self:Center()
     end
+
+    if self:GetWide() - PIXEL.Scale(40) < self.Message:GetWide() then
+        self.Message:SetWide(self:GetWide() + self.Message:GetWide() - (self:GetWide() - PIXEL.Scale(40)))
+    end
+
 
     if self.HasSized and self.HasSized > 1 then return end
     self.HasSized = (self.HasSized or 0) + 1

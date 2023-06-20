@@ -26,7 +26,7 @@ function PANEL:Init()
     self:SetDraggable(true)
     self:SetSizable(true)
 
-    self:SetMinWidth(PIXEL.Scale(240))
+    self:SetMinWidth(PIXEL.Scale(260))
     self:SetMinHeight(PIXEL.Scale(80))
 
     self.Message = vgui.Create("PIXEL.Label", self)
@@ -54,12 +54,13 @@ end
 function PANEL:LayoutContent(w, h)
     self.Message:SetSize(self.Message:CalculateSize())
     self.Message:Dock(TOP)
-    self.Message:DockMargin(0, 0, 0, PIXEL.Scale(8))
+    self.Message:DockMargin(PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8))
 
-    for k,v in ipairs(self.Buttons) do
+    for k, v in ipairs(self.Buttons) do
         v:SizeToText()
+        v:SetTall(PIXEL.Scale(32))
         v:Dock(LEFT)
-        v:DockMargin(PIXEL.Scale(4), 0, PIXEL.Scale(4), 0)
+        v:DockMargin(PIXEL.Scale(8), 0, PIXEL.Scale(8), PIXEL.Scale(8))
     end
 
     self.ButtonHolder:SizeToChildren(true)
@@ -83,6 +84,10 @@ function PANEL:LayoutContent(w, h)
     if self:GetWide() < PIXEL.Scale(240) then
         self:SetWide(240)
         self:Center()
+    end
+
+    if self:GetWide() - PIXEL.Scale(40) < self.Message:GetWide() then
+        self.Message:SetWide(self:GetWide() + self.Message:GetWide() - (self:GetWide() - PIXEL.Scale(40)))
     end
 
     if self.HasSized and self.HasSized > 1 then return end
