@@ -54,11 +54,33 @@ local function drawOverhead(ent, pos, text, ang, scale, col)
         PIXEL.DrawRoundedBox(12, x, y, h, h, PIXEL.Colors.Primary)
         PIXEL.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, col or PIXEL.Colors.Primary, false, false, false, true)
         PIXEL.DrawText(text, "UI.Overhead", x + h + 15, y + 8, PIXEL.Colors.PrimaryText)
-        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
+        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, "j161cDa", color_white)
     end
     end3d2d()
 
     disableClipping(oldClipping)
+end
+
+local function drawImgurOverhead(ent, pos, imgurId, size, ang, scale, col)
+    if ang then
+        ang = ent:LocalToWorldAngles(ang)
+    else
+        ang = (pos - localPly:GetPos()):Angle()
+        ang:SetUnpacked(0, ang[2] - 90, 90)
+    end
+
+
+    PIXEL.SetFont("UI.Overhead")
+    local w, h = PIXEL.GetTextSize("FUCKFUCKFUCKFUCK")
+    w = w + 40
+    h = h + 6
+
+    local x, y = -(w * .5), -h
+
+
+    start3d2d(pos, ang, scale or 0.05)
+        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, imgurId, color_white)
+    end3d2d()
 end
 
 local entOffset = 2
@@ -98,4 +120,35 @@ function PIXEL.EnableIconOverheads(new)
     local oldIcon = Icon
     Icon = new
     return oldIcon
+end
+
+-- Imgur
+function PIXEL.DrawEntImgurOverhead(ent, imgurId, size, angleOverride, posOverride, scaleOverride, colOverride)
+    if checkDistance(ent) then return end
+
+    if posOverride then
+        drawOverhead(ent, ent:LocalToWorld(posOverride), text, angleOverride, scaleOverride)
+        return
+    end
+
+    local pos = ent:OBBMaxs()
+    pos:SetUnpacked(0, 0, pos[3] + entOffset)
+
+    drawImgurOverhead(ent, ent:LocalToWorld(pos), imgurId, size, angleOverride, scaleOverride, colOverride)
+end
+
+function PIXEL.DrawNPCImgurOverhead(ent, imgurId, size, angleOverride, offsetOverride, scaleOverride, colOverride)
+    if checkDistance(ent) then return end
+
+    local eyeId = ent:LookupAttachment("eyes")
+    if eyeId then
+        local eyes = ent:GetAttachment(eyeId)
+        if eyes then
+            eyes.Pos:Add(offsetOverride or eyeOffset)
+            drawImgurOverhead(ent, eyes.Pos, imgurId, size, angleOverride, scaleOverride)
+            return
+        end
+    end
+
+    drawImgurOverhead(ent, ent:GetPos() + fallbackOffset, imgurId, size, angleOverride, scaleOverride, colOverride)
 end
