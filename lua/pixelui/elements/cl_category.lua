@@ -35,7 +35,7 @@ function PANEL:Paint(w, h)
     PIXEL.DrawSimpleText(self.Title, "UI.CategoryHeader", PIXEL.Scale(10), h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     self.ArrowRotation = lerp(FrameTime() * 10, self.ArrowRotation, self:GetParent():GetExpanded() and 0 or 90)
     local arrowSize = h * .45
-    PIXEL.DrawImgurRotated(w - h * .3 - PIXEL.Scale(4), h / 2, arrowSize, arrowSize, self.ArrowRotation, "30Bvuwi", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImgurRotated(w - h * .3 - PIXEL.Scale(4), h / 2, arrowSize, arrowSize, self.ArrowRotation, "IP0UlBl", PIXEL.Colors.PrimaryText)
 end
 
 vgui.Register("PIXEL.CategoryHeader", PANEL, "PIXEL.Button")

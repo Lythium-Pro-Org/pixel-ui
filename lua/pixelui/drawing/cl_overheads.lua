@@ -53,7 +53,7 @@ local function drawOverhead(ent, pos, text, ang, scale, col)
         PIXEL.DrawRoundedBox(12, x, y, h, h, PIXEL.Colors.Primary)
         PIXEL.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, col or PIXEL.Colors.Primary, false, false, false, true)
         PIXEL.DrawText(text, "UI.Overhead", x + h + 15, y + 8, PIXEL.Colors.PrimaryText)
-        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, "j161cDa", color_white)
+        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
     end
     end3d2d()
 

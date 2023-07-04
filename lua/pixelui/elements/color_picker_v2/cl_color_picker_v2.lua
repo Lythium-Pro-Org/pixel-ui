@@ -46,7 +46,7 @@ function PANEL:Init()
 		PIXEL.Mask(function()
 			PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
 		end, function()
-			PIXEL.DrawImgur(0, 0, w, h, "RPwfEvZ", color_white)
+			PIXEL.DrawImgur(0, 0, w, h, "ewL9tYn", color_white)
 
 			local color = PIXEL.SetColorTransparency(self:GetColor(), self:GetAlpha())
 			PIXEL.DrawRoundedBox(0, 0, 0, w, h, color)

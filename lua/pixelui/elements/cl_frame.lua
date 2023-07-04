@@ -31,7 +31,7 @@ PIXEL.RegisterFont("UI.FrameTitle", "Rubik", 20, 700)
 
 function PANEL:Init()
     self.CloseButton = vgui.Create("PIXEL.ImgurButton", self)
-    self.CloseButton:SetImgurID("z1uAU0b")
+    self.CloseButton:SetImgurID("ElTlvcf")
     self.CloseButton:SetNormalColor(PIXEL.Colors.PrimaryText)
     self.CloseButton:SetHoverColor(PIXEL.Colors.Negative)
     self.CloseButton:SetClickColor(PIXEL.Colors.Negative)

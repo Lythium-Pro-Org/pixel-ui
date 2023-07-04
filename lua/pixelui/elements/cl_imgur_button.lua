@@ -27,7 +27,7 @@ AccessorFunc(PANEL, "Rounded", "Rounded", FORCE_NUMBER)
 
 function PANEL:Init()
     self.ImageCol = PIXEL.CopyColor(color_white)
-    self:SetImgurID("635PPvg")
+    self:SetImgurID("w72Iz3n")
     self:SetNormalColor(color_white)
     self:SetHoverColor(color_white)
     self:SetClickColor(color_white)

@@ -15,7 +15,7 @@ function PANEL:Init()
     self:SetHistoryEnabled(false)
     self:SetUpdateOnType(true)
     self.UpButton = self:Add("PIXEL.ImgurButton")
-    self.UpButton:SetImgurID("RD7dJ7x")
+    self.UpButton:SetImgurID("YW5cZRk")
     self.UpButton.DoClick = function(s)
         local current = tonumber(self:GetValue())
         if not current then current = self:GetMin() or 0 end
@@ -28,7 +28,7 @@ function PANEL:Init()
     end
 
     self.DownButton = self:Add("PIXEL.ImgurButton")
-    self.DownButton:SetImgurID("Y9Dqinn")
+    self.DownButton:SetImgurID("IP0UlBl")
     self.DownButton.DoClick = function(s)
         local current = tonumber(self:GetValue())
         if not current then current = self:GetMin() or 0 end
