@@ -49,7 +49,7 @@ function PANEL:Init()
     self.ColorPicker:SetAlphaBar(true)
 
     self.ScrollPanel.LayoutContent = function(s, w, h)
-       // self.ColorPicker:SetSize(w / 2 - PIXEL.Scale(50), PIXEL.Scale(120))
+        self.ColorPicker:SetSize(w - PIXEL.Scale(250), PIXEL.Scale(120))
         self.ColorPicker:SetPos(PIXEL.Scale(50), self.StepCounter:GetY() + self.StepCounter:GetTall() + PIXEL.Scale(10))
     end
 end

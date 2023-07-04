@@ -46,8 +46,7 @@ function PANEL:Init()
     end
 end
 
-function PANEL:PaintMore(w,h)
-
+function PANEL:PaintOver(w,h)
 end
 
 vgui.Register("PIXEL.Test.Buttons", PANEL)

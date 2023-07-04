@@ -47,7 +47,7 @@ function PANEL:Paint(w, h)
 		for i = 0, w / 2 do
 			local x2 = i * h
 			if x2 > w then break end
-			PIXEL.DrawImgur(x2, 0, h, h, "RPwfEvZ", color_white)
+			PIXEL.DrawImgur(x2, 0, h, h, "ewL9tYn", color_white)
 		end
 
 		PIXEL.DrawSimpleLinearGradient(x, y, w, h, self:GetBaseColor(), Color(200, 200, 200, 0), true)

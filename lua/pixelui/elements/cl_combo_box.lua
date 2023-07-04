@@ -229,7 +229,7 @@ end
 
 function PANEL:PaintOver(w, h)
     local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "30Bvuwi", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "IP0UlBl", PIXEL.Colors.PrimaryText)
 end
 
 vgui.Register("PIXEL.ComboBox", PANEL, "PIXEL.TextButton")
