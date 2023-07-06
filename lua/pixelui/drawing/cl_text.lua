@@ -16,7 +16,6 @@
 --]]
 
 local ceil = math.ceil
-local setFont = PIXEL.SetFont
 local getTextSize = PIXEL.GetTextSize
 local setTextPos = surface.SetTextPos
 local setTextColor = surface.SetTextColor

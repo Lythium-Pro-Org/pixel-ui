@@ -1,5 +1,4 @@
 local PANEL = {}
-local floor = math.floor
 local clamp = math.Clamp
 local scale = PIXEL.Scale
 
