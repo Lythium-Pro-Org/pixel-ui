@@ -1,15 +1,15 @@
 --[[
-PIXEL UI
-Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
+	PIXEL UI - Copyright Notice
+	© 2023 Thomas O'Sullivan - All rights reserved
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
@@ -21,9 +21,6 @@ AccessorFunc(PANEL, "MinWidth", "MinWidth", FORCE_NUMBER)
 AccessorFunc(PANEL, "MinHeight", "MinHeight", FORCE_NUMBER)
 AccessorFunc(PANEL, "ScreenLock", "ScreenLock", FORCE_BOOL)
 AccessorFunc(PANEL, "RemoveOnClose", "RemoveOnClose", FORCE_BOOL)
-AccessorFunc(PANEL, "SlideOut", "SlideOut", FORCE_BOOL)
-AccessorFunc(PANEL, "SlideDirection", "SlideDirection", FORCE_NUMBER) -- 1 = up, 2 = right, 3 = down, 4 = left
-AccessorFunc(PANEL, "SlideTime", "SlideTime", FORCE_NUMBER)
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
 PIXEL.RegisterFont("UI.FrameTitle", "Rubik", 20, 700)
@@ -42,7 +39,6 @@ function PANEL:Init()
         self:Close()
     end
 
-    self:SetSlideOut(false)
     self.ExtraButtons = {}
     self:SetTitle("PIXEL Frame")
     self:SetDraggable(true)
@@ -206,55 +202,7 @@ function PANEL:Open()
 end
 
 function PANEL:Close()
-    if not self:GetSlideOut() then
-        self:AlphaTo(0, .1, 0, function(anim, pnl)
-            if not IsValid(pnl) then return end
-            pnl:SetVisible(false)
-            pnl:OnClose()
-
-            if pnl:GetRemoveOnClose() then
-                pnl:Remove()
-            end
-        end)
-
-        return
-    end
-
-    local scrw, scrh, wide, tall, posY = ScrW(), ScrH(), self:GetWide(), self:GetTall(), self:GetY()
-
-    local slideDirections = {
-        [1] = {
-            x = (scrw / 2) - (wide / 2),
-            y = -tall,
-            size = function()
-                self:SizeTo(wide, 0, (self:GetSlideTime() - 0.2) or .3, 0, -1)
-            end
-        },
-        -- up
-        [2] = {
-            x = scrw,
-            y = posY,
-            size = function() end
-        },
-        -- right
-        [3] = {
-            x = (scrw / 2) - (wide / 2),
-            y = scrh + tall,
-            size = function() end
-        },
-        -- down
-        [4] = {
-            x = -wide,
-            y = posY,
-            size = function() end
-        },
-    }
-
-    -- left
-    local direction = self:GetSlideDirection() or 1
-    slideDirections[direction].size()
-
-    self:MoveTo(slideDirections[direction].x, slideDirections[direction].y, self:GetSlideTime() or .5, 0, -1, function(anim, pnl)
+    self:AlphaTo(0, .1, 0, function(anim, pnl)
         if not IsValid(pnl) then return end
         pnl:SetVisible(false)
         pnl:OnClose()

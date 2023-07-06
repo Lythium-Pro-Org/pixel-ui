@@ -21,29 +21,29 @@ function PANEL:Init()
         notification.AddLegacy("Non Clicky Text button!", NOTIFY_GENERIC, 5)
     end
 
-    self.NoSoundButton = vgui.Create("PIXEL.TextButton", self)
-    self.NoSoundButton:Dock(TOP)
-    self.NoSoundButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
-    self.NoSoundButton:SetTall(sc(50))
-    self.NoSoundButton:SetText("No Sound Clicky Button!")
-    self.NoSoundButton:SetSounds(false)
-    self.NoSoundButton.DoClick = function()
-        notification.AddLegacy("No Sound Button!", NOTIFY_GENERIC, 5)
-    end
+	self.NoSoundButton = vgui.Create("PIXEL.TextButton", self)
+	self.NoSoundButton:Dock(TOP)
+	self.NoSoundButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
+	self.NoSoundButton:SetTall(sc(50))
+	self.NoSoundButton:SetText("No Sound Clicky Button!")
+	self.NoSoundButton:SetSounds(false)
+	self.NoSoundButton.DoClick = function()
+		notification.AddLegacy("No Sound Button!", NOTIFY_GENERIC, 5)
+	end
 
 
-    self.ImgurButton = vgui.Create("PIXEL.ImgurButton", self)
-    self.ImgurButton:Dock(TOP)
-    self.ImgurButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
-    self.ImgurButton:SetSize(sc(50), sc(50))
-    self.ImgurButton:SetImgurID("8bKjn4t")
-    self.ImgurButton:SetNormalColor(PIXEL.Colors.PrimaryText)
+	self.ImgurButton = vgui.Create("PIXEL.ImgurButton", self)
+	self.ImgurButton:Dock(TOP)
+	self.ImgurButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
+	self.ImgurButton:SetSize(sc(50), sc(50))
+	self.ImgurButton:SetImgurID("8bKjn4t")
+	self.ImgurButton:SetNormalColor(PIXEL.Colors.PrimaryText)
 	self.ImgurButton:SetHoverColor(PIXEL.Colors.Negative)
 	self.ImgurButton:SetClickColor(PIXEL.Colors.Positive)
 	self.ImgurButton:SetDisabledColor(PIXEL.Colors.DisabledText)
-    self.ImgurButton.DoClick = function()
-        notification.AddLegacy("Imgur Button!", NOTIFY_GENERIC, 5)
-    end
+	self.ImgurButton.DoClick = function()
+		notification.AddLegacy("Imgur Button!", NOTIFY_GENERIC, 5)
+	end
 end
 
 function PANEL:PaintOver(w,h)
