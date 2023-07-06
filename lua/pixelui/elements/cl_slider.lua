@@ -18,45 +18,54 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetClicky(false)
     self.Fraction = 0
-
-    self.Grip = vgui.Create("PIXEL.ImgurButton", self)
+    self.Grip = vgui.Create("PIXEL.Button", self)
     self.Grip:NoClipping(true)
+    self.Grip:SetMouseInputEnabled(true)
+    self.NormalCol = PIXEL.CopyColor(PIXEL.Colors.Primary)
+    self.HoverCol = PIXEL.OffsetColor(PIXEL.Colors.Primary, -15)
+    local currentCol = self.NormalCol
 
-    self.Grip:SetImgurID("E8QbV5i")
-    self.Grip:SetNormalColor(PIXEL.CopyColor(PIXEL.Colors.Primary))
-    self.Grip:SetHoverColor(PIXEL.OffsetColor(PIXEL.Colors.Primary, -15))
-    self.Grip:SetClickColor(PIXEL.OffsetColor(PIXEL.Colors.Primary, 15))
+    self.Grip.Paint = function(s, w, h)
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, currentCol)
+    end
+
+    self.Grip.Think = function(s)
+        if s:IsHovered() then
+            currentCol = self.HoverCol
+            s:SetCursor("sizewe")
+        else
+            currentCol = self.NormalCol
+            s:SetCursor("arrow")
+        end
+    end
 
     self.Grip.OnCursorMoved = function(pnl, x, y)
         if not pnl.Depressed then return end
-
         x, y = pnl:LocalToScreen(x, y)
         x = self:ScreenToLocal(x, y)
-
         self.Fraction = math.Clamp(x / self:GetWide(), 0, 1)
-
         self:OnValueChanged(self.Fraction)
         self:InvalidateLayout()
     end
 
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 20)
-    self.FillCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 10)
+    self.BackgroundCol = PIXEL.Colors.Header
+    self.FillCol = PIXEL.OffsetColor(PIXEL.Colors.Header, 5)
 end
 
 function PANEL:OnMousePressed()
     local w = self:GetWide()
-
     self.Fraction = math.Clamp(self:CursorPos() / w, 0, 1)
     self:OnValueChanged(self.Fraction)
     self:InvalidateLayout()
+    self.Grip:RequestFocus()
 end
 
-function PANEL:OnValueChanged(fraction) end
+function PANEL:OnValueChanged(fraction)
+end
 
 function PANEL:Paint(w, h)
-    local rounding = h * .5
+    local rounding = PIXEL.Scale(8)
     PIXEL.DrawRoundedBox(rounding, 0, 0, w, h, self.BackgroundCol)
     PIXEL.DrawRoundedBox(rounding, 0, 0, self.Fraction * w, h, self.FillCol)
 end
@@ -66,6 +75,9 @@ function PANEL:PerformLayout(w, h)
     local offset = PIXEL.Scale(3)
     self.Grip:SetSize(gripSize, gripSize)
     self.Grip:SetPos((self.Fraction * w) - (gripSize * .5), -offset)
+end
+
+function PANEL:LayoutContent()
 end
 
 vgui.Register("PIXEL.Slider", PANEL, "PIXEL.Button")

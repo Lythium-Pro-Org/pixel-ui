@@ -21,26 +21,24 @@ AccessorFunc(PANEL, "MinWidth", "MinWidth", FORCE_NUMBER)
 AccessorFunc(PANEL, "MinHeight", "MinHeight", FORCE_NUMBER)
 AccessorFunc(PANEL, "ScreenLock", "ScreenLock", FORCE_BOOL)
 AccessorFunc(PANEL, "RemoveOnClose", "RemoveOnClose", FORCE_BOOL)
-AccessorFunc(PANEL, "SlideOut", "SlideOut", FORCE_BOOL)
-AccessorFunc(PANEL, "SlideDirection", "SlideDirection", FORCE_NUMBER) -- 1 = up, 2 = right, 3 = down, 4 = left
-AccessorFunc(PANEL, "SlideTime", "SlideTime", FORCE_NUMBER)
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
-PIXEL.RegisterFont("UI.FrameTitle", "Open Sans Bold", 22)
+PIXEL.RegisterFont("UI.FrameTitle", "Rubik", 20, 700)
 
 function PANEL:Init()
     self.CloseButton = vgui.Create("PIXEL.ImgurButton", self)
-    self.CloseButton:SetImgurID("z1uAU0b")
+    self.CloseButton:SetImgurID("ElTlvcf")
     self.CloseButton:SetNormalColor(PIXEL.Colors.PrimaryText)
     self.CloseButton:SetHoverColor(PIXEL.Colors.Negative)
     self.CloseButton:SetClickColor(PIXEL.Colors.Negative)
     self.CloseButton:SetDisabledColor(PIXEL.Colors.DisabledText)
+    self.CloseButton:SetFrameEnabled(true)
+    self.CloseButton:SetRounded(8)
 
     self.CloseButton.DoClick = function(s)
         self:Close()
     end
 
-    self:SetSlideOut(false)
     self.ExtraButtons = {}
     self:SetTitle("PIXEL Frame")
     self:SetDraggable(true)
@@ -195,35 +193,6 @@ end
 function PANEL:LayoutContent(w, h)
 end
 
-function PANEL:PerformLayout(w, h)
-    local headerH = PIXEL.Scale(30)
-    local btnPad = PIXEL.Scale(6)
-    local btnSpacing = PIXEL.Scale(6)
-
-    if IsValid(self.CloseButton) then
-        local btnSize = headerH * .45
-        self.CloseButton:SetSize(btnSize, btnSize)
-        self.CloseButton:SetPos(w - btnSize - btnPad, (headerH - btnSize) / 2)
-        btnPad = btnPad + btnSize + btnSpacing
-    end
-
-    for _, btn in ipairs(self.ExtraButtons) do
-        local btnSize = headerH * btn.HeaderIconSize
-        btn:SetSize(btnSize, btnSize)
-        btn:SetPos(w - btnSize - btnPad, (headerH - btnSize) / 2)
-        btnPad = btnPad + btnSize + btnSpacing
-    end
-
-    if IsValid(self.SideBar) then
-        self.SideBar:SetPos(0, headerH)
-        self.SideBar:SetSize(PIXEL.Scale(200), h - headerH)
-    end
-
-    local padding = PIXEL.Scale(6)
-    self:DockPadding(self.SideBar and PIXEL.Scale(200) + padding or padding, headerH + padding, padding, padding)
-    self:LayoutContent(w, h)
-end
-
 function PANEL:Open()
     PIXEL.PlayButtonSound()
     self:SetVisible(false)
@@ -233,51 +202,7 @@ function PANEL:Open()
 end
 
 function PANEL:Close()
-    if not self:GetSlideOut() then
-        self:AlphaTo(0, .1, 0, function(anim, pnl)
-            if not IsValid(pnl) then return end
-            pnl:SetVisible(false)
-            pnl:OnClose()
-
-            if pnl:GetRemoveOnClose() then
-                pnl:Remove()
-            end
-        end)
-
-        return
-    end
-
-    local scrw, scrh, wide, tall, posY = ScrW(), ScrH(), self:GetWide(), self:GetTall(), self:GetY()
-
-    local slideDirections = {
-        [1] = {
-            x = (scrw / 2) - (wide / 2),
-            y = -tall,
-            size = function()
-                self:SizeTo(wide, 0, (self:GetSlideTime() - 0.2) or .3, 0, -1)
-            end
-        }, -- up
-        [2] = {
-            x = scrw,
-            y = posY,
-            size = function() end
-        }, -- right
-        [3] = {
-            x = (scrw / 2) - (wide / 2),
-            y = scrh + tall,
-            size = function() end
-        }, -- down
-        [4] = {
-            x = -wide,
-            y = posY,
-            size = function() end
-        }, -- left
-    }
-
-    local direction = self:GetSlideDirection() or 1
-    slideDirections[direction].size()
-
-    self:MoveTo(slideDirections[direction].x, slideDirections[direction].y, self:GetSlideTime() or .5, 0, -1, function(anim, pnl)
+    self:AlphaTo(0, .1, 0, function(anim, pnl)
         if not IsValid(pnl) then return end
         pnl:SetVisible(false)
         pnl:OnClose()
@@ -291,8 +216,37 @@ end
 function PANEL:OnClose()
 end
 
+function PANEL:PerformLayout(w, h)
+    self.HeaderH = PIXEL.Scale(30)
+    local btnPad = PIXEL.Scale(6)
+    local btnSpacing = PIXEL.Scale(6)
+
+    if IsValid(self.CloseButton) then
+        local btnSize = self.HeaderH
+        self.CloseButton:SetSize(btnSize, btnSize)
+        self.CloseButton:SetPos(w - btnSize, (self.HeaderH - btnSize) / 2)
+        btnPad = btnPad + btnSize + btnSpacing
+    end
+
+    for _, btn in ipairs(self.ExtraButtons) do
+        local btnSize = self.HeaderH * (.6 or btn.HeaderIconSize)
+        btn:SetSize(btnSize, btnSize)
+        btn:SetPos(w - btnSize - btnPad, (self.HeaderH / 2) - (btnSize / 2))
+        btnPad = btnPad + btnSize + btnSpacing
+    end
+
+    if IsValid(self.SideBar) then
+        self.SideBar:SetPos(0, self.HeaderH)
+        self.SideBar:SetSize(PIXEL.Scale(200), h - self.HeaderH)
+    end
+
+    self.ContentPadding = PIXEL.Scale(8)
+    self:DockPadding(self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding, self.ContentPadding, self.ContentPadding)
+    self:LayoutContent(w, h)
+end
+
 function PANEL:PaintHeader(x, y, w, h)
-    PIXEL.DrawRoundedBoxEx(PIXEL.Scale(6), x, y, w, h, PIXEL.Colors.Header, true, true)
+    PIXEL.DrawRoundedBoxEx(PIXEL.Scale(8), x, y, w, h, PIXEL.Colors.Header, true, true)
     local imgurID = self:GetImgurID()
 
     if imgurID then
@@ -303,15 +257,17 @@ function PANEL:PaintHeader(x, y, w, h)
         return
     end
 
-    PIXEL.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PIXEL.Scale(8), y + h / 2, PIXEL.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER)
+    PIXEL.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PIXEL.Scale(12), y + h / 2, PIXEL.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
 function PANEL:PaintMore(w, h)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, PIXEL.Colors.Background)
-    self:PaintHeader(0, 0, w, PIXEL.Scale(30))
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
+    local contentX, contentY = self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding
+    PIXEL.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY - self.ContentPadding, PIXEL.Colors.Background, true, true, true, true)
+    self:PaintHeader(0, 0, w, self.HeaderH)
     self:PaintMore(w, h)
 end
 

@@ -16,7 +16,6 @@
 --]]
 
 local PANEL = {}
-
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
@@ -24,9 +23,14 @@ AccessorFunc(PANEL, "TextColor", "TextColor")
 AccessorFunc(PANEL, "Ellipses", "Ellipses", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoHeight", "AutoHeight", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoWidth", "AutoWidth", FORCE_BOOL)
+AccessorFunc(PANEL, "AutoSize", "AutoSize", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoWrap", "AutoWrap", FORCE_BOOL)
+PIXEL.RegisterFont("UI.Label", "Rubik", 14)
 
-PIXEL.RegisterFont("UI.Label", "Open Sans SemiBold", 14)
+function PANEL:SetAutoSize(autoSize)
+    self:SetAutoWidth(autoSize)
+    self:SetAutoHeight(autoSize)
+end
 
 function PANEL:Init()
     self:SetText("Label")
@@ -42,6 +46,7 @@ end
 
 function PANEL:CalculateSize()
     PIXEL.SetFont(self:GetFont())
+
     return PIXEL.GetTextSize(self:GetText())
 end
 
@@ -67,9 +72,11 @@ function PANEL:Paint(w, h)
 
     if align == TEXT_ALIGN_CENTER then
         PIXEL.DrawText(text, self:GetFont(), w / 2, 0, self:GetTextColor(), TEXT_ALIGN_CENTER)
+
         return
     elseif align == TEXT_ALIGN_RIGHT then
         PIXEL.DrawText(text, self:GetFont(), w, 0, self:GetTextColor(), TEXT_ALIGN_RIGHT)
+
         return
     end
 

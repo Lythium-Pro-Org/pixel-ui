@@ -16,15 +16,13 @@
 --]]
 
 local ceil = math.ceil
-local setFont = PIXEL.SetFont
 local getTextSize = PIXEL.GetTextSize
 local setTextPos = surface.SetTextPos
 local setTextColor = surface.SetTextColor
 local drawText = surface.DrawText
 
 function PIXEL.DrawSimpleText(text, font, x, y, col, xAlign, yAlign)
-    setFont(font)
-    local w, h = getTextSize(text)
+    local w, h = getTextSize(text, font)
 
     if xAlign == 1 then
         x = x - w / 2
@@ -55,8 +53,7 @@ function PIXEL.DrawText(text, font, x, y, col, xAlign, yAlign)
     local curX = x
     local curY = y
 
-    setFont(font)
-    local lineHeight = select(2, getTextSize("\n"))
+    local lineHeight = select(2, getTextSize("\n", font))
     local tabWidth = 50
 
     for str in gmatch(text, "[^\n]*") do
@@ -67,7 +64,7 @@ function PIXEL.DrawText(text, font, x, y, col, xAlign, yAlign)
 
                     if #str2 > 0 then
                         drawSimpleText(str2, font, curX, curY, col, xAlign)
-                        curX = curX + getTextSize(str2)
+                        curX = curX + getTextSize(str2, font)
                     end
                 end
             else
@@ -96,11 +93,8 @@ function PIXEL.DrawDualText(title, subtitle, x, y, h)
     x = x or 0
     y = y or 0
 
-    setFont(title[2])
-    local tH = select(2, getTextSize(title[1]))
-
-    setFont(subtitle[2])
-    local sH = select(2, getTextSize(subtitle[1]))
+    local tH = select(2, getTextSize(title[1], title[2]))
+    local sH = select(2, getTextSize(subtitle[1], subtitle[2]))
 
     drawShadowText(title[1], title[2], x, y - sH / 2, title[3], title[4], 1, title[5], title[6])
     drawShadowText(subtitle[1], subtitle[2], x, y + tH / 2, subtitle[3], subtitle[4], 1, subtitle[5], subtitle[6])
@@ -108,14 +102,14 @@ end
 
 local textWrapCache = {}
 
-local function charWrap(text, remainingWidth, maxWidth)
+local function charWrap(text, font, remainingWidth, maxWidth)
     local totalWidth = 0
 
     text = text:gsub(".", function(char)
-        totalWidth = totalWidth + getTextSize(char)
+        totalWidth = totalWidth + getTextSize(char, font)
 
         if totalWidth >= remainingWidth then
-            totalWidth = getTextSize(char)
+            totalWidth = getTextSize(char, font)
             remainingWidth = maxWidth
             return "\n" .. char
         end
@@ -132,8 +126,7 @@ function PIXEL.WrapText(text, width, font) --Edit of https://github.com/FPtje/Da
     local chachedName = text .. width .. font
     if textWrapCache[chachedName] then return textWrapCache[chachedName] end
 
-    setFont(font)
-    local textWidth = getTextSize(text)
+    local textWidth = getTextSize(text, font)
 
     if textWidth <= width then
         textWrapCache[chachedName] = text
@@ -141,18 +134,18 @@ function PIXEL.WrapText(text, width, font) --Edit of https://github.com/FPtje/Da
     end
 
     local totalWidth = 0
-    local spaceWidth = getTextSize(' ')
+    local spaceWidth = getTextSize(' ', font)
     text = text:gsub("(%s?[%S]+)", function(word)
         local char = subString(word, 1, 1)
         if char == "\n" or char == "\t" then
             totalWidth = 0
         end
 
-        local wordlen = getTextSize(word)
+        local wordlen = getTextSize(word, font)
         totalWidth = totalWidth + wordlen
 
         if wordlen >= width then
-            local splitWord, splitPoint = charWrap(word, width - (totalWidth - wordlen), width)
+            local splitWord, splitPoint = charWrap(word, font,  width - (totalWidth - wordlen), width)
             totalWidth = splitPoint
             return splitWord
         elseif totalWidth < width then
@@ -180,8 +173,7 @@ function PIXEL.EllipsesText(text, width, font)
     local chachedName = text .. width .. font
     if ellipsesTextCache[chachedName] then return ellipsesTextCache[chachedName] end
 
-    setFont(font)
-    local textWidth = getTextSize(text)
+    local textWidth = getTextSize(text, font)
 
     if textWidth <= width then
         ellipsesTextCache[chachedName] = text
@@ -192,7 +184,7 @@ function PIXEL.EllipsesText(text, width, font)
 
     repeat
         text = left(text, #text - 1)
-        textWidth = getTextSize(text .. "...")
+        textWidth = getTextSize(text .. "...", font)
 
         infiniteLoopPrevention = infiniteLoopPrevention + 1
     until textWidth <= width or infiniteLoopPrevention > 10000

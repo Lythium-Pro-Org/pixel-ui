@@ -16,12 +16,11 @@
 ]]
 local PANEL = {}
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
-PIXEL.RegisterFont("UI.CategoryHeader", "Open Sans Bold", 19)
+PIXEL.RegisterFont("UI.CategoryHeader", "Rubik", 19, 600)
 
 function PANEL:Init()
     self.ArrowRotation = 0
-    self:SetClicky(false)
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 6)
+    self.BackgroundCol = PIXEL.Colors.Header
 end
 
 function PANEL:DoClick()
@@ -31,11 +30,11 @@ end
 local lerp = Lerp
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(8), 0, 0, w, h, self.BackgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
     PIXEL.DrawSimpleText(self.Title, "UI.CategoryHeader", PIXEL.Scale(10), h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     self.ArrowRotation = lerp(FrameTime() * 10, self.ArrowRotation, self:GetParent():GetExpanded() and 0 or 90)
     local arrowSize = h * .45
-    PIXEL.DrawImgurRotated(w - h * .3 - PIXEL.Scale(4), h / 2, arrowSize, arrowSize, self.ArrowRotation, "30Bvuwi", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImgurRotated(w - h * .3 - PIXEL.Scale(4), h / 2, arrowSize, arrowSize, self.ArrowRotation, "IP0UlBl", PIXEL.Colors.PrimaryText)
 end
 
 vgui.Register("PIXEL.CategoryHeader", PANEL, "PIXEL.Button")
@@ -130,7 +129,7 @@ end
 
 function PANEL:PerformLayout(w, h)
     self.Header:Dock(TOP)
-    self.Header:SetTall(PIXEL.Scale(26))
+    self.Header:SetTall(PIXEL.Scale(30))
 
     if IsValid(self.Contents) then
         if self:GetExpanded() then

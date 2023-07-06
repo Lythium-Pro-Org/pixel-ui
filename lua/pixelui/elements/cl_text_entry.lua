@@ -14,7 +14,18 @@
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
+
 local PANEL = {}
+
+AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
+
+function PANEL:SetFont(font, isPixel)
+    if isPixel then
+       self.TextEntry:SetFont(font, isPixel)
+    else
+        self.TextEntry:SetFont(font, isPixel)
+    end
+end
 
 function PANEL:Init()
     self.TextEntry = vgui.Create("PIXEL.TextEntryInternal", self)
@@ -26,28 +37,18 @@ function PANEL:Init()
 end
 
 function PANEL:PerformLayout(w, h)
+    self:LayoutContent(w, h)
     self.TextEntry:Dock(FILL)
     local xPad, yPad = PIXEL.Scale(4), PIXEL.Scale(8)
     self:DockPadding(xPad, yPad, xPad, yPad)
 end
 
+function PANEL:LayoutContent(w, h)
+end
+
 function PANEL:Paint(w, h)
-    if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.DisabledCol)
-    end
-
-    if not self:IsEnabled() and self:GetValue() == "" then
-        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-
-        return
-    end
-
-    if self:GetValue() == "" then
-        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-    end
-
     local outlineThickness = PIXEL.Scale(1)
-    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(2), 0, 0, w, h, self.OutlineCol, outlineThickness)
+    PIXEL.DrawFullOutlinedRoundedBox(8, 0, 0, w, h, self.OutlineCol, outlineThickness)
     local col = PIXEL.Colors.Transparent
 
     if self:IsEditing() then
@@ -59,7 +60,22 @@ function PANEL:Paint(w, h)
     end
 
     self.InnerOutlineCol = PIXEL.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
-    PIXEL.DrawOutlinedRoundedBox(PIXEL.Scale(2), outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, PIXEL.Scale(1))
+    PIXEL.DrawFullOutlinedRoundedBox(8, 0, 0, w, h, self.InnerOutlineCol, outlineThickness)
+
+    if not self:IsEnabled() then
+        PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.DisabledCol)
+        return
+    end
+
+    if not self:IsEnabled() and self:GetValue() == "" then
+        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+        return
+    end
+
+    if self:GetValue() == "" then
+        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    end
 end
 
 function PANEL:OnChange()

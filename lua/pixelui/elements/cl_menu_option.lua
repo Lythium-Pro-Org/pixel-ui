@@ -15,37 +15,26 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 local PANEL = {}
-
 AccessorFunc(PANEL, "m_pMenu", "Menu")
 AccessorFunc(PANEL, "m_bChecked", "Checked")
 AccessorFunc(PANEL, "m_bCheckable", "IsCheckable")
-
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
+AccessorFunc(PANEL, "Icon", "Icon", FORCE_STRING)
+AccessorFunc(PANEL, "IconColor", "IconColor", FORCE_COLOR)
 
-PIXEL.RegisterFont("UI.MenuOption", "Open Sans SemiBold", 18)
-
-function PANEL:Hide()
-    self.Hidden = true
-end
-function PANEL:Show()
-    self.Hidden = false
-end
+PIXEL.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
 
 function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetFont("UI.MenuOption")
     self:SetChecked(false)
-    self:SetClicky(false)
-
+    self:SetIconColor(PIXEL.Colors.PrimaryText)
     self.NormalCol = PIXEL.Colors.Transparent
     self.HoverCol = PIXEL.Colors.Scroller
-
     self.BackgroundCol = PIXEL.CopyColor(self.NormalCol)
 end
-
-function PANEL:SetIcon() end
 
 function PANEL:SetSubMenu(menu)
     self.SubMenu = menu
@@ -55,7 +44,6 @@ function PANEL:AddSubMenu()
     local subMenu = vgui.Create("PIXEL.Menu", self)
     subMenu:SetVisible(false)
     subMenu:SetParent(self)
-
     self:SetSubMenu(subMenu)
 
     return subMenu
@@ -63,27 +51,34 @@ end
 
 function PANEL:OnCursorEntered()
     local parent = self.ParentMenu
-    if not IsValid(parent) then parent = self:GetParent() end
-    if not IsValid(parent) then return end
 
+    if not IsValid(parent) then
+        parent = self:GetParent()
+    end
+
+    if not IsValid(parent) then return end
     if not parent.OpenSubMenu then return end
     parent:OpenSubMenu(self, self.SubMenu)
 end
 
-function PANEL:OnCursorExited() end
+function PANEL:OnCursorExited()
+end
 
 function PANEL:Paint(w, h)
-    if self.Hidden then return end
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
-    surface.SetDrawColor(self.BackgroundCol)
-    surface.DrawRect(0, 0, w, h)
+    local iconSize = 0
+    if self:GetIcon() then
+        iconSize = self:GetTall() * .6
+        PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self:GetIconColor())
+    end
+    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14) + iconSize, h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14), h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
     if not self.SubMenu then return end
     local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "gXg3U6X", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "YTOZJoK", PIXEL.Colors.PrimaryText)
 end
 
 function PANEL:OnPressed(mousecode)
@@ -116,11 +111,18 @@ function PANEL:ToggleCheck()
     self:OnChecked(self:GetChecked())
 end
 
-function PANEL:OnChecked(enabled) end
+function PANEL:OnChecked(enabled)
+end
 
 function PANEL:CalculateWidth()
     PIXEL.SetFont(self:GetFont())
-    return PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(34)
+    local textWide = PIXEL.GetTextSize(self:GetText())
+
+    if self:GetIcon() then
+        textWide = textWide + self:GetTall() * .6 + PIXEL.Scale(8)
+    end
+
+    return textWide + PIXEL.Scale(38)
 end
 
 function PANEL:PerformLayout(w, h)
@@ -128,9 +130,7 @@ function PANEL:PerformLayout(w, h)
 end
 
 vgui.Register("PIXEL.MenuOption", PANEL, "PIXEL.Button")
-
 PANEL = {}
-
 AccessorFunc(PANEL, "ConVar", "ConVar")
 AccessorFunc(PANEL, "ValueOn", "ValueOn")
 AccessorFunc(PANEL, "ValueOff", "ValueOff")

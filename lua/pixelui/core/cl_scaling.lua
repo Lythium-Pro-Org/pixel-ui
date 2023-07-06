@@ -15,7 +15,7 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local scrH = scrH or ScrH()
+local scrH = ScrH()
 function PIXEL.Scale(value)
     return value * (scrH / 1080)
 end

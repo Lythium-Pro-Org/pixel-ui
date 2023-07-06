@@ -24,7 +24,6 @@ AccessorFunc(PANEL, "m_bDoSort", "SortItems", FORCE_BOOL)
 
 function PANEL:Init()
     self:SetSizeToText(true)
-    self:SetClicky(false)
     self:Clear()
 
     self:SetTextAlign(TEXT_ALIGN_LEFT)
@@ -83,7 +82,19 @@ function PANEL:ChooseOption(value, index)
 
     self:SetText(value)
 
+    if not index then
+        index = table.KeyFromValue(self.Data, value)
+    end
+
     self.selected = index
+    local choicesKey = table.KeyFromValue(self.Choices, value)
+
+    if self.ChoiceIcons[choicesKey] then
+        self:SetIcon(self.ChoiceIcons[choicesKey])
+    else
+        self:SetIcon(nil)
+    end
+
     self:OnSelect(index, value, self.Data[index])
 
     if not self:GetSizeToText() then return end
@@ -205,7 +216,8 @@ function PANEL:SetValue(strValue)
 end
 
 function PANEL:DoClick()
-    if not self:IsMenuOpen() then self:OpenMenu() end
+    if self:IsMenuOpen() then return self:CloseMenu() end
+    self:OpenMenu()
 end
 
 function PANEL:OnOpen()
@@ -216,7 +228,7 @@ end
 
 function PANEL:PaintOver(w, h)
     local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "30Bvuwi", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "IP0UlBl", PIXEL.Colors.PrimaryText)
 end
 
 vgui.Register("PIXEL.ComboBox", PANEL, "PIXEL.TextButton")
