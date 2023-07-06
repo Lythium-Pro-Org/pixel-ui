@@ -4,22 +4,22 @@ local PANEL = {}
 
 
 function PANEL:Init()
-    self.Button = vgui.Create("PIXEL.Button", self)
-    self.Button:Dock(TOP)
-    self.Button:DockMargin(sc(10), sc(10), sc(10), sc(10))
-    self.Button:SetTall(sc(50))
-    self.Button.DoClick = function()
-        notification.AddLegacy("Normal Button!", NOTIFY_GENERIC, 5)
-    end
+	self.Button = vgui.Create("PIXEL.Button", self)
+	self.Button:Dock(TOP)
+	self.Button:DockMargin(sc(10), sc(10), sc(10), sc(10))
+	self.Button:SetTall(sc(50))
+	self.Button.DoClick = function()
+		notification.AddLegacy("Normal Button!", NOTIFY_GENERIC, 5)
+	end
 
-    self.TextButton = vgui.Create("PIXEL.TextButton", self)
-    self.TextButton:Dock(TOP)
-    self.TextButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
-    self.TextButton:SetTall(sc(50))
-    self.TextButton:SetText("Non Clicky Button!")
-    self.TextButton.DoClick = function()
-        notification.AddLegacy("Non Clicky Text button!", NOTIFY_GENERIC, 5)
-    end
+	self.TextButton = vgui.Create("PIXEL.TextButton", self)
+	self.TextButton:Dock(TOP)
+	self.TextButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
+	self.TextButton:SetTall(sc(50))
+	self.TextButton:SetText("Non Clicky Button!")
+	self.TextButton.DoClick = function()
+		notification.AddLegacy("Non Clicky Text button!", NOTIFY_GENERIC, 5)
+	end
 
 	self.NoSoundButton = vgui.Create("PIXEL.TextButton", self)
 	self.NoSoundButton:Dock(TOP)
