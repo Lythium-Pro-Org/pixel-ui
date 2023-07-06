@@ -248,8 +248,8 @@ function PANEL:AllowInput(value)
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.AllowInput then
-        if parent:AllowInput(value) then return true end
+    if parent.AllowInput and parent:AllowInput(value) then
+        return true
     end
 end
 

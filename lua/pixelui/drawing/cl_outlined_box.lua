@@ -162,7 +162,6 @@ function PIXEL.DrawOutlinedRoundedBox(borderSize, x, y, w, h, col, thickness)
                     y = top
                 }
             } --Top Left
-            
         }
 
         roundedBoxCache[cacheName] = cache
