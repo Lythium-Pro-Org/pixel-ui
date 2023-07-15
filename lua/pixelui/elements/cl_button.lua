@@ -124,7 +124,7 @@ function PANEL:Paint(w, h)
 
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
 
-    PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
     self:PaintExtra(w, h)
 end
