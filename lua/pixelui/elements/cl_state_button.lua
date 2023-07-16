@@ -42,7 +42,7 @@ function PANEL:Init()
             Icon = "Qf8Owl7"
         },
         ["failed"] = {
-            Color = PIXEL.Colors.Warning,
+            Color = PIXEL.Colors.Negative,
             Icon = "qHORTll"
         }
     }
@@ -57,6 +57,7 @@ function PANEL:SetState(state)
     end
 
     self.State = state
+    self.StateColor = self.States[state].Color
     self:SetIcon(self.States[state].Icon)
 
     if state == ("success" or "failed") then
