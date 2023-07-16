@@ -62,7 +62,7 @@ function PANEL:Paint(w, h)
     end
 
     local outlineThickness = PIXEL.Scale(1)
-    PIXEL.DrawFullOutlinedRoundedBox(8, 0, 0, w, h, self.OutlineCol, outlineThickness)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.OutlineCol)
     local col = PIXEL.Colors.Transparent
 
     if self:IsEditing() then
