@@ -38,7 +38,7 @@ function PANEL:Init()
             Icon = "3myjhEM"
         },
         ["success"] = {
-            Color = PIXEL.Colors.Success,
+            Color = PIXEL.Colors.Positive,
             Icon = "Qf8Owl7"
         },
         ["failed"] = {
