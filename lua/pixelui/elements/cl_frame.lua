@@ -241,7 +241,7 @@ function PANEL:PerformLayout(w, h)
     end
 
     self.ContentPadding = PIXEL.Scale(8)
-    self:DockPadding(self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding, self.ContentPadding, self.ContentPadding)
+    self:DockPadding(self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH, self.ContentPadding, self.ContentPadding)
     self:LayoutContent(w, h)
 end
 
@@ -265,8 +265,8 @@ end
 
 function PANEL:Paint(w, h)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
-    local contentX, contentY = self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH + self.ContentPadding
-    PIXEL.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY - self.ContentPadding, PIXEL.Colors.Background, true, true, true, true)
+    local contentX, contentY = self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH
+    PIXEL.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY, PIXEL.Colors.Background, true, true, true, true)
     self:PaintHeader(0, 0, w, self.HeaderH)
     self:PaintMore(w, h)
 end
