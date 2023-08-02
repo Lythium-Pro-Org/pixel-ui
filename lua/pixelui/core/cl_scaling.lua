@@ -15,9 +15,13 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-local scrH = ScrH()
+local scrH = ScrH
+local max = math.max
 function PIXEL.Scale(value)
-    return value * (scrH / 1080)
+    return max(value * (scrH() / 1080), 1)
+end
+function PIXEL.Scale1440(value)
+    return max(value * (scrH() / 1440), 1)
 end
 
 local constants = {}
