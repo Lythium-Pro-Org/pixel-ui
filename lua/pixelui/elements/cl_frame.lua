@@ -224,7 +224,6 @@ function PANEL:LayoutContent(w, h)
 end
 
 function PANEL:Open()
-    PIXEL.PlayButtonSound()
     self:SetVisible(false)
     self:SetAlpha(0)
     self:SetVisible(true)

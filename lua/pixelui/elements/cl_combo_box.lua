@@ -156,7 +156,6 @@ end
 function PANEL:OpenMenu(pControlOpener)
     if pControlOpener and pControlOpener == self.TextEntry then return end
     if #self.Choices == 0 then return end
-    PIXEL.PlayExpand("open")
     self:OnOpen()
 
     if IsValid(self.Menu) then
@@ -198,9 +197,7 @@ function PANEL:OpenMenu(pControlOpener)
 
     self.Menu.OnRemove = function(s)
         if not IsValid(self) then return end
-        PIXEL.PlayExpand("close")
-        self:OnClose()
-        PIXEL.PlayExpand("close")
+
         self:OnClose()
         self:SetToggle(false)
     end

@@ -54,10 +54,6 @@ local localPly
 function PANEL:OnMousePressed(mouseCode)
     if not self:IsEnabled() then return end
 
-    if self:GetSounds() then
-        PIXEL.PlayButtonSound()
-    end
-
     if not localPly then
         localPly = LocalPlayer()
     end

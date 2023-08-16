@@ -61,7 +61,7 @@ do
         weight = weight or 700
         PIXEL.Fonts = PIXEL.Fonts or {}
         fontName = name or "PIXEL.Font.Size" .. size
-        font = font or "Open Sans Bold"
+        font = font or "Rubik"
 
         if !PIXEL.Fonts[fontName] or PIXEL.Fonts[fontName].size != size or PIXEL.Fonts[fontName].weight != weight then
             PIXEL.Fonts[fontName] = {

@@ -20,6 +20,7 @@ local max = math.max
 function PIXEL.Scale(value)
     return max(value * (scrH() / 1080), 1)
 end
+
 function PIXEL.Scale1440(value)
     return max(value * (scrH() / 1440), 1)
 end
