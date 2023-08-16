@@ -14,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
 AccessorFunc(PANEL, "ImageSize", "ImageSize", FORCE_NUMBER)

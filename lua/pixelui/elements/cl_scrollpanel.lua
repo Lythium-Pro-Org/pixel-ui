@@ -14,10 +14,8 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
-
-AccessorFunc(PANEL, "Padding",   "Padding")
+AccessorFunc(PANEL, "Padding", "Padding")
 AccessorFunc(PANEL, "Canvas", "Canvas")
 AccessorFunc(PANEL, "ScrollbarLeft", "ScrollbarLeftSide")
 AccessorFunc(PANEL, "BarDockShouldOffset", "BarDockShouldOffset", FORCE_BOOL)
@@ -25,10 +23,14 @@ AccessorFunc(PANEL, "CanScroll", "CanScroll", FORCE_BOOL)
 
 function PANEL:Init()
     self:SetCanScroll(true)
-
     self.Canvas = vgui.Create("Panel", self)
-    self.Canvas.OnMousePressed = function(s, code) s:GetParent():OnMousePressed(code) end
+
+    self.Canvas.OnMousePressed = function(s, code)
+        s:GetParent():OnMousePressed(code)
+    end
+
     self.Canvas:SetMouseInputEnabled(true)
+
     self.Canvas.PerformLayout = function(pnl)
         self:PerformLayout()
         self:InvalidateParent()
@@ -36,16 +38,12 @@ function PANEL:Init()
 
     self.VBar = vgui.Create("PIXEL.Scrollbar", self)
     self.VBar:Dock(RIGHT)
-
     self:SetPadding(0)
     self:SetMouseInputEnabled(true)
-
     self:SetPaintBackgroundEnabled(false)
     self:SetPaintBorderEnabled(false)
-
     self.ScrollDelta = 0
     self.ScrollReturnWait = 0
-
     self:SetBarDockShouldOffset(true)
     self.VBar:SetWide(PIXEL.Scale(8))
 
@@ -87,7 +85,10 @@ function PANEL:Rebuild()
 end
 
 function PANEL:Think()
-    if not self.lastThink then self.lastThink = CurTime() end
+    if not self.lastThink then
+        self.lastThink = CurTime()
+    end
+
     local elapsed = CurTime() - self.lastThink
     self.lastThink = CurTime()
 
@@ -97,24 +98,33 @@ function PANEL:Think()
         if self.VBar.Scroll >= 0 then
             self.ScrollDelta = self.ScrollDelta - 10 * elapsed
         end
-        if self.ScrollDelta < 0 then self.ScrollDelta = 0 end
+
+        if self.ScrollDelta < 0 then
+            self.ScrollDelta = 0
+        end
     elseif self.ScrollDelta < 0 then
         self.VBar:OnMouseWheeled(self.ScrollDelta / 1)
 
         if self.VBar.Scroll <= self.VBar.CanvasSize then
             self.ScrollDelta = self.ScrollDelta + 10 * elapsed
         end
-        if self.ScrollDelta > 0 then self.ScrollDelta = 0 end
+
+        if self.ScrollDelta > 0 then
+            self.ScrollDelta = 0
+        end
     end
 
     if self.ScrollReturnWait >= 1 then
         if self.VBar.Scroll < 0 then
-            if self.VBar.Scroll <= -75 and self.ScrollDelta > 0 then self.ScrollDelta = self.ScrollDelta / 2 end
+            if self.VBar.Scroll <= -75 and self.ScrollDelta > 0 then
+                self.ScrollDelta = self.ScrollDelta / 2
+            end
 
             self.ScrollDelta = self.ScrollDelta + (self.VBar.Scroll / 1500 - 0.01) * 100 * elapsed
-
         elseif self.VBar.Scroll > self.VBar.CanvasSize then
-            if self.VBar.Scroll >= self.VBar.CanvasSize + 75 and self.ScrollDelta < 0 then self.ScrollDelta = self.ScrollDelta / 2 end
+            if self.VBar.Scroll >= self.VBar.CanvasSize + 75 and self.ScrollDelta < 0 then
+                self.ScrollDelta = self.ScrollDelta / 2
+            end
 
             self.ScrollDelta = self.ScrollDelta + ((self.VBar.Scroll - self.VBar.CanvasSize) / 1500 + 0.01) * 100 * elapsed
         end
@@ -126,9 +136,9 @@ end
 function PANEL:OnMouseWheeled(delta)
     if not self:GetCanScroll() then return end
 
-    if (delta > 0 and self.VBar.Scroll <= self.VBar.CanvasSize * 0.005) or
-            (delta < 0 and self.VBar.Scroll >= self.VBar.CanvasSize * 0.995) then
+    if (delta > 0 and self.VBar.Scroll <= self.VBar.CanvasSize * 0.005) or (delta < 0 and self.VBar.Scroll >= self.VBar.CanvasSize * 0.995) then
         self.ScrollDelta = self.ScrollDelta + delta / 10
+
         return
     end
 
@@ -142,14 +152,13 @@ end
 
 function PANEL:ScrollToChild(panel)
     self:PerformLayout()
-
-    local y = select(2, self.Canvas:GetChildPosition(panel)) + select(2, panel:GetSize()) * 0.5;
-    y = y - self:GetTall() * 0.5;
-
-    self.VBar:AnimateTo(y, 0.5, 0, 0.5);
+    local y = select(2, self.Canvas:GetChildPosition(panel)) + select(2, panel:GetSize()) * 0.5
+    y = y - self:GetTall() * 0.5
+    self.VBar:AnimateTo(y, 0.5, 0, 0.5)
 end
 
-function PANEL:LayoutContent(w, h) end
+function PANEL:LayoutContent(w, h)
+end
 
 function PANEL:PerformLayout(w, h)
     if self:GetScrollbarLeftSide() then
@@ -161,9 +170,7 @@ function PANEL:PerformLayout(w, h)
     local wide = self:GetWide()
     local xPos = 0
     local yPos = 0
-
     self:Rebuild()
-
     self.VBar:SetUp(self:GetTall(), self.Canvas:GetTall())
     yPos = self.VBar:GetOffset()
 
@@ -177,7 +184,6 @@ function PANEL:PerformLayout(w, h)
 
     self.Canvas:SetPos(xPos, yPos)
     self.Canvas:SetWide(wide)
-
     self:Rebuild()
 end
 
@@ -185,6 +191,7 @@ function PANEL:Clear()
     return self.Canvas:Clear()
 end
 
-function PANEL:Paint(w, h) end
+function PANEL:Paint(w, h)
+end
 
 vgui.Register("PIXEL.ScrollPanel", PANEL, "DPanel")

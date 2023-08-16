@@ -23,7 +23,6 @@ PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetDrawOutline(true)
-    self:SetSounds(false)
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
     self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
@@ -128,7 +127,6 @@ end
 function PANEL:SelectItem(id)
     local item = self.Items[id]
     if not item then return end
-
     if self.SelectedItem and self.SelectedItem == id then return end
     self.SelectedItem = id
 

@@ -1,4 +1,3 @@
-
 --[[
 PIXEL UI
 Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
@@ -15,28 +14,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
-
 local PANEL = {}
-
 AccessorFunc(PANEL, "AlphaBarEnabled", "AlphaBar", FORCE_BOOL)
 AccessorFunc(PANEL, "ShowTextEntries", "ShowTextEntries", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoHeight", "AutoHeight", FORCE_BOOL)
-
 AccessorFunc(PANEL, "Hue", "Hue")
 AccessorFunc(PANEL, "Saturation", "Saturation")
 AccessorFunc(PANEL, "Luminosity", "Luminosity")
 AccessorFunc(PANEL, "Alpha", "Alpha")
-
 AccessorFunc(PANEL, "R", "R")
 AccessorFunc(PANEL, "G", "G")
 AccessorFunc(PANEL, "B", "B")
-
 PIXEL.RegisterFont("UI.ColorPickerNumberEntry", "Rubik", 12)
 
 function PANEL:Init()
 	self:SetShowTextEntries(true)
 	self:SetSize(PIXEL.Scale(256), PIXEL.Scale(50))
-
 	self.ColorBox = vgui.Create("EditablePanel", self)
 	self.ColorBox:Dock(LEFT)
 	self.ColorBox:SetWide(self:GetTall())
@@ -47,7 +40,6 @@ function PANEL:Init()
 			PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
 		end, function()
 			PIXEL.DrawImgur(0, 0, w, h, "ewL9tYn", color_white)
-
 			local color = PIXEL.SetColorTransparency(self:GetColor(), self:GetAlpha())
 			PIXEL.DrawRoundedBox(0, 0, 0, w, h, color)
 		end)
@@ -57,17 +49,14 @@ function PANEL:Init()
 	self.HueBar:Dock(TOP)
 	self.HueBar:SetTall(PIXEL.Scale(20))
 	self.HueBar:DockMargin(0, 0, 0, 0)
-
 	self.SaturationBar = vgui.Create("PIXEL.SaturationBar", self)
 	self.SaturationBar:Dock(TOP)
 	self.SaturationBar:SetTall(PIXEL.Scale(20))
 	self.SaturationBar:DockMargin(0, PIXEL.Scale(10), 0, 0)
-
 	self.LuminosityBar = vgui.Create("PIXEL.LuminosityBar", self)
 	self.LuminosityBar:Dock(TOP)
 	self.LuminosityBar:SetTall(PIXEL.Scale(20))
 	self.LuminosityBar:DockMargin(0, PIXEL.Scale(10), 0, 0)
-
 	self.AlphaBar = vgui.Create("PIXEL.AlphaBar", self)
 	self.AlphaBar:Dock(TOP)
 	self.AlphaBar:SetTall(PIXEL.Scale(20))
@@ -102,7 +91,6 @@ function PANEL:Init()
 	end
 
 	self:SetColor(Color(0, 0, 255))
-
 	self:SetAlphaBar(true)
 	self:SetAutoHeight(true)
 	self:InvalidateLayout()
@@ -141,7 +129,6 @@ end
 
 function PANEL:SetColor(color)
 	local h, s, l = ColorToHSL(color)
-
 	self:UpdateColor(h, s, l, color.a or 255, color)
 end
 
@@ -203,7 +190,6 @@ function PANEL:GetColor()
 	local l = self:GetLuminosity()
 	local color = HSLToColor(h, s, l)
 
-
 	return color
 end
 
@@ -219,19 +205,13 @@ end
 
 function PANEL:ConVarThink()
 	if input.IsMouseDown(MOUSE_LEFT) then return end
-
 end
 
 function PANEL:DoConVarThink(convar)
 	if not convar then return end
-
 	local value = GetConVar(convar):GetInt()
 	local oldValue = self["ConVarOld" .. convar]
-
-	if oldValue and value == oldValue then
-		return oldValue, false
-	end
-
+	if oldValue and value == oldValue then return oldValue, false end
 	self["ConVarOld" .. convar] = value
 
 	return value, true

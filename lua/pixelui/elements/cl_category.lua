@@ -54,7 +54,6 @@ function PANEL:Init()
     self:SetAnimTime(0.2)
     self.SlideAnimation = Derma_Anim("Anim", self, self.AnimSlide)
     self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 2)
-
     self:InvalidateLayout(true)
 end
 

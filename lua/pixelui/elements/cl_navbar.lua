@@ -14,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 AccessorFunc(PANEL, "Name", "Name", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID")
@@ -31,7 +30,6 @@ end
 function PANEL:Init()
     self:SetName("N/A")
     self:SetColor(PIXEL.Colors.Primary)
-    self:SetSounds(false)
     self:SetImgurScale(0.2)
     self.NormalCol = PIXEL.Colors.PrimaryText
     self.HoverCol = PIXEL.Colors.SecondaryText
@@ -115,7 +113,6 @@ end
 function PANEL:SelectItem(id)
     local item = self.Items[id]
     if not item then return end
-
     if self.SelectedItem and self.SelectedItem == id then return end
     item:SetSelected(false)
     self.SelectedItem = id

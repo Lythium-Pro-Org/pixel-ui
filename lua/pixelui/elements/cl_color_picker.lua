@@ -14,20 +14,21 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
-
 local gradientMat = Material("nil")
+
 PIXEL.GetImgur("i0xcO1R", function(mat)
     gradientMat = mat
 end)
 
 local colorWheelMat = Material("nil")
+
 PIXEL.GetImgur("k5mtok6", function(mat)
     colorWheelMat = mat
 end)
 
 local pickerMat = Material("nil")
+
 PIXEL.GetImgur("t0k86qy", function(mat)
     pickerMat = mat
 end)
@@ -35,18 +36,16 @@ end)
 function PANEL:Init()
     self.Hue = 0
     self.SmoothHue = 0
-
     self.Lightness = 0
     self.Saturation = 0
-
     self.TriX = 0
     self.TriY = 0
-
     self:UpdateColor()
     self:UpdatePositions()
 end
 
-function PANEL:OnChange(color) end
+function PANEL:OnChange(color)
+end
 
 function PANEL:UpdateColor()
     self.Color = PIXEL.HSLToColor(self.Hue, self.Saturation, self.Lightness)
@@ -59,10 +58,8 @@ function PANEL:SetColor(color)
     self.Hue = h
     self.Saturation = s
     self.Lightness = l
-
     self.Color = color
     self:OnChange(color)
-
     self:UpdatePositions()
 end
 
@@ -71,18 +68,15 @@ function PANEL:UpdatePositions()
     local third = (2 / 3) * math.pi
     local sat = self.Saturation
     local light = 1 - self.Lightness
-
     local hX = math.cos(hue)
     local hY = math.sin(hue)
     local sX = math.cos(hue - third)
     local sY = math.sin(hue - third)
     local vX = math.cos(hue + third)
     local vY = math.sin(hue + third)
-
     local mX = (sX + vX) / 2
     local mY = (sY + vY) / 2
     local a = (1 - 2 * math.abs(light - 0.5)) * sat
-
     self.TriX = sX + (vX - sX) * light + (hX - mX) * a
     self.TriY = sY + (vY - sY) * light + (hY - mY) * a
 end
@@ -91,9 +85,7 @@ function PANEL:Think()
     local cursorX, cursorY = self:CursorPos()
     local cX, cY = self:GetCenter()
     local triangleRadius = self:GetTriangleRadius()
-
     if not self.Pressed then return end
-
     local diffX = cursorX - cX
     local diffY = cursorY - cY
     local rad = math.atan2(diffY, diffX)
@@ -106,6 +98,7 @@ function PANEL:Think()
         self.Hue = rad
         self:UpdatePositions()
         self:UpdateColor()
+
         return
     end
 
@@ -129,23 +122,19 @@ function PANEL:Think()
 
     self.TriX = math.cos(rad) * r / triangleRadius
     self.TriY = math.sin(rad) * r / triangleRadius
-
     local triangleSideLen = math.sqrt(3) * triangleRadius
     local light = ((math.sin(rad0) * r) / triangleSideLen) + 0.5
     local widthShare = 1.0 - math.abs(light - 0.5) * 2.0
     local saturation = (((math.cos(rad0) * r) + (triangleRadius / 2)) / (1.5 * triangleRadius)) / widthShare
     saturation = math.Clamp(saturation, 0, 1)
-
     self.Lightness = 1 - light
     self.Saturation = saturation
-
     self:UpdateColor()
 end
 
 function PANEL:OnMousePressed()
     self:MouseCapture(true)
     self.Pressed = true
-
     local cX, cY = self:GetCenter()
     local cursorX, cursorY = self:CursorPos()
     local cursor = Vector(cursorX, cursorY)
@@ -153,6 +142,7 @@ function PANEL:OnMousePressed()
 
     if cursor:Distance(center) > self:GetTriangleRadius() then
         self.PressedWheel = true
+
         return
     end
 
@@ -187,15 +177,15 @@ function PANEL:GetHueColor()
 end
 
 local whiteTexture = surface.GetTextureID("vgui/white")
+
 function PANEL:Paint(w, h)
     local cX, cY = self:GetCenter()
     local radius = self:GetRadius()
     local triangleRadius = self:GetTriangleRadius()
-
     surface.SetTexture(whiteTexture)
-
     local triangleAng = self.Hue
     local triangleOff = math.pi * 2 / 3
+
     local vertices = {
         {
             x = cX + math.cos(triangleAng - triangleOff) * triangleRadius,
@@ -220,30 +210,24 @@ function PANEL:Paint(w, h)
     local col = self:GetHueColor()
     surface.SetDrawColor(col)
     surface.DrawPoly(vertices)
-
     surface.SetDrawColor(255, 255, 255, 255)
     surface.SetMaterial(gradientMat)
     surface.DrawPoly(vertices)
     surface.DrawPoly(vertices)
-
     vertices[1].u = 0.99
     vertices[1].v = 0.01
-
     vertices[2].u = 0.01
     vertices[2].v = 0.01
-
     vertices[3].u = 0.5
     vertices[3].v = 0.99
-
     surface.SetDrawColor(0, 0, 0, 255)
     surface.SetMaterial(gradientMat)
     surface.DrawPoly(vertices)
-
     surface.SetDrawColor(255, 255, 255, 255)
     surface.SetMaterial(colorWheelMat)
     surface.DrawTexturedRect(cX - radius, cY - radius, radius * 2, radius * 2)
-
     local pickerSize = PIXEL.Scale(5)
+
     local pickerVerts = {
         {
             x = cX + self.TriX * triangleRadius + pickerSize,
@@ -274,10 +258,10 @@ function PANEL:Paint(w, h)
     surface.SetDrawColor(255, 255, 255, 255)
     surface.SetMaterial(pickerMat)
     surface.DrawPoly(pickerVerts)
-
     local hpX = cX + math.cos(self.Hue) * (radius - self:GetRingThickness() / 2)
     local hpY = cY + math.sin(self.Hue) * (radius - self:GetRingThickness() / 2)
     local size = PIXEL.Scale(16)
+
     local huePickerVerts = {
         {
             x = hpX + size / 2,
@@ -304,6 +288,7 @@ function PANEL:Paint(w, h)
             v = 0
         }
     }
+
     surface.SetDrawColor(255, 255, 255, 255)
     surface.SetMaterial(pickerMat)
     surface.DrawPoly(huePickerVerts)

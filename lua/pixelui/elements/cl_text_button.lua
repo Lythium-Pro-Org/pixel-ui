@@ -20,7 +20,6 @@ AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "TextSpacing", "TextSpacing", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 AccessorFunc(PANEL, "Icon", "Icon")
-
 PIXEL.RegisterFont("UI.TextButton", "Rubik", 20, 600)
 
 function PANEL:Init()
@@ -29,7 +28,6 @@ function PANEL:Init()
     self:SetTextSpacing(PIXEL.Scale(6))
     self:SetFont("UI.TextButton")
     self:SetSize(PIXEL.Scale(100), PIXEL.Scale(30))
-    self:SetSounds(true)
     self:SetIcon(false)
 end
 
@@ -39,16 +37,16 @@ function PANEL:SizeToText()
     if self:GetIcon() then
         local iconSize = self:GetTall() * .6
         self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(20) + iconSize, PIXEL.Scale(30))
+
         return
     end
 
-    self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(14) , PIXEL.Scale(30))
+    self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(14), PIXEL.Scale(30))
 end
 
 function PANEL:PaintExtra(w, h)
     local textAlign = self:GetTextAlign()
     local textX = (textAlign == TEXT_ALIGN_CENTER and w / 2) or (textAlign == TEXT_ALIGN_RIGHT and w - self:GetTextSpacing()) or self:GetTextSpacing()
-
     local iconSize = 0
 
     if self:GetIcon() then

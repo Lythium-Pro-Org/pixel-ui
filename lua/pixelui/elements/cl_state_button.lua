@@ -14,9 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
-
 local PANEL = {}
-
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "TextSpacing", "TextSpacing", FORCE_NUMBER)
@@ -72,7 +70,6 @@ end
 function PANEL:PaintExtra(w, h)
     local textAlign = self:GetTextAlign()
     local textX = (textAlign == TEXT_ALIGN_CENTER and w / 2) or (textAlign == TEXT_ALIGN_RIGHT and w - self:GetTextSpacing()) or self:GetTextSpacing()
-
     local iconSize = self:GetTall() * .6
 
     if self:GetIcon() and self:GetState() ~= "loading" then
@@ -85,6 +82,7 @@ function PANEL:PaintExtra(w, h)
 
     if not self:IsEnabled() then
         PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
+
         return
     end
 
@@ -94,6 +92,7 @@ end
 function PANEL:Think()
     if not self.FadeOut then return end
     self.StateColor = PIXEL.LerpColor(FrameTime() * 16, self.StateColor, Color(255, 255, 255, 0))
+
     if self.StateColor.a <= 10 then
         self:SetState("default")
         self.FadeOut = false

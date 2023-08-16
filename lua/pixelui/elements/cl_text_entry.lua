@@ -14,14 +14,12 @@
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ]]
-
 local PANEL = {}
-
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 
 function PANEL:SetFont(font, isPixel)
     if isPixel then
-       self.TextEntry:SetFont(font, isPixel)
+        self.TextEntry:SetFont(font, isPixel)
     else
         self.TextEntry:SetFont(font, isPixel)
     end
@@ -78,6 +76,7 @@ function PANEL:Paint(w, h)
 
     if not self:IsEnabled() then
         PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.DisabledCol)
+
         return
     end
 

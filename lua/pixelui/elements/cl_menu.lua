@@ -14,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 AccessorFunc(PANEL, "m_bBorder", "DrawBorder")
 AccessorFunc(PANEL, "m_bDeleteSelf", "DeleteSelf")
@@ -35,7 +34,6 @@ function PANEL:Init()
     self:SetPadding(0)
     self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 10)
     RegisterDermaMenuForClose(self)
-
     self.OptionTexts = {}
 end
 
@@ -54,7 +52,6 @@ function PANEL:AddOption(strText, funcFunction)
     end
 
     self:AddPanel(pnl)
-
     self.OptionTexts[strText] = pnl
 
     return pnl
@@ -73,7 +70,6 @@ function PANEL:AddCVar(strText, convar, on, off, funcFunction)
     pnl:SetValueOn(on)
     pnl:SetValueOff(off)
     self:AddPanel(pnl)
-
     self.OptionTexts[strText] = pnl
 
     return pnl
@@ -89,7 +85,6 @@ function PANEL:AddSpacer(text, func)
 
     pnl:SetTall(PIXEL.Scale(3))
     self:AddPanel(pnl)
-
     self.OptionTexts[text] = pnl
 
     return pnl
@@ -105,7 +100,6 @@ function PANEL:AddSubMenu(strText, funcFunction)
     end
 
     self:AddPanel(pnl)
-
     self.OptionTexts[strText] = pnl
 
     return subMenu, pnl
@@ -212,14 +206,15 @@ function PANEL:Open(x, y, skipanimation, ownerpanel)
     self:MakePopup()
     self:SetVisible(true)
     self:SetKeyboardInputEnabled(false)
-
     self.DrawTall = PIXEL.Scale(0)
     local children = self:GetCanvas():GetChildren()
     local childTall = children[1]:GetTall()
     local childCount = 1
+
     for k, v in pairs(children) do
         v:Hide(false)
     end
+
     timer.Create("PIXEL.Menu.Open", 0.025, self:ChildCount(), function()
         if not IsValid(self) then return end
         self.DrawTall = self.DrawTall + childTall

@@ -15,7 +15,7 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-PIXEL.RegisterFontUnscaled("UI.Overhead", "Open Sans Bold", 100)
+PIXEL.RegisterFontUnscaled("UI.Overhead", "Rubik", 100, 700)
 
 local localPly
 local function checkDistance(ent)

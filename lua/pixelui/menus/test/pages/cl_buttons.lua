@@ -2,12 +2,12 @@ PIXEL = PIXEL or {}
 local sc = PIXEL.Scale
 local PANEL = {}
 
-
 function PANEL:Init()
 	self.Button = vgui.Create("PIXEL.Button", self)
 	self.Button:Dock(TOP)
 	self.Button:DockMargin(sc(10), sc(10), sc(10), sc(10))
 	self.Button:SetTall(sc(50))
+
 	self.Button.DoClick = function()
 		notification.AddLegacy("Normal Button!", NOTIFY_GENERIC, 5)
 	end
@@ -17,20 +17,10 @@ function PANEL:Init()
 	self.TextButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
 	self.TextButton:SetTall(sc(50))
 	self.TextButton:SetText("Non Clicky Button!")
+
 	self.TextButton.DoClick = function()
 		notification.AddLegacy("Non Clicky Text button!", NOTIFY_GENERIC, 5)
 	end
-
-	self.NoSoundButton = vgui.Create("PIXEL.TextButton", self)
-	self.NoSoundButton:Dock(TOP)
-	self.NoSoundButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
-	self.NoSoundButton:SetTall(sc(50))
-	self.NoSoundButton:SetText("No Sound Clicky Button!")
-	self.NoSoundButton:SetSounds(false)
-	self.NoSoundButton.DoClick = function()
-		notification.AddLegacy("No Sound Button!", NOTIFY_GENERIC, 5)
-	end
-
 
 	self.ImgurButton = vgui.Create("PIXEL.ImgurButton", self)
 	self.ImgurButton:Dock(TOP)
@@ -41,12 +31,13 @@ function PANEL:Init()
 	self.ImgurButton:SetHoverColor(PIXEL.Colors.Negative)
 	self.ImgurButton:SetClickColor(PIXEL.Colors.Positive)
 	self.ImgurButton:SetDisabledColor(PIXEL.Colors.DisabledText)
+
 	self.ImgurButton.DoClick = function()
 		notification.AddLegacy("Imgur Button!", NOTIFY_GENERIC, 5)
 	end
 end
 
-function PANEL:PaintOver(w,h)
+function PANEL:PaintOver(w, h)
 end
 
 vgui.Register("PIXEL.Test.Buttons", PANEL)

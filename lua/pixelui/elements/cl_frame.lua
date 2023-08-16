@@ -39,24 +39,20 @@ function PANEL:Init()
         self:Close()
     end
 
+    self.ExtraButtons = {}
+    self:SetTitle("PIXEL Frame")
+    self:SetDraggable(true)
+    self:SetScreenLock(true)
+    self:SetRemoveOnClose(true)
+    local size = PIXEL.Scale(200)
+    self:SetMinWidth(size)
+    self:SetMinHeight(size)
+    local oldMakePopup = self.MakePopup
 
-	self.ExtraButtons = {}
-
-	self:SetTitle("PIXEL Frame")
-
-	self:SetDraggable(true)
-	self:SetScreenLock(true)
-	self:SetRemoveOnClose(true)
-
-	local size = PIXEL.Scale(200)
-	self:SetMinWidth(size)
-	self:SetMinHeight(size)
-
-	local oldMakePopup = self.MakePopup
-	function self:MakePopup()
-		oldMakePopup(self)
-		self:Open()
-	end
+    function self:MakePopup()
+        oldMakePopup(self)
+        self:Open()
+    end
 end
 
 function PANEL:DragThink(targetPanel, hoverPanel)
@@ -231,11 +227,14 @@ function PANEL:Open()
 end
 
 function PANEL:Close()
-	self:AlphaTo(0, .1, 0, function(anim, pnl)
+    self:AlphaTo(0, .1, 0, function(anim, pnl)
         if not IsValid(pnl) then return end
         pnl:SetVisible(false)
         pnl:OnClose()
-        if pnl:GetRemoveOnClose() then pnl:Remove() end
+
+        if pnl:GetRemoveOnClose() then
+            pnl:Remove()
+        end
     end)
 end
 

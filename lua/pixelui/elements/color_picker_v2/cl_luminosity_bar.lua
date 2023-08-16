@@ -1,7 +1,6 @@
 local PANEL = {}
 local clamp = math.Clamp
 local scale = PIXEL.Scale
-
 AccessorFunc(PANEL, "BaseColor", "BaseColor", FORCE_NUMBER)
 AccessorFunc(PANEL, "Hue", "Hue", FORCE_NUMBER)
 AccessorFunc(PANEL, "Saturation", "Saturation", FORCE_NUMBER)
@@ -55,7 +54,6 @@ function PANEL:OnCursorMoved(x, y)
     local wide = x / self:GetWide()
     local luminosity = clamp(wide, 0, 1)
     self:SetLuminosity(luminosity)
-
     local col = self:GetColor(hue)
 
     if col then
@@ -83,17 +81,16 @@ function PANEL:Paint(w, h)
     local wh
 
     PIXEL.Mask(function()
-       PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+        PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
     end, function()
         PIXEL.DrawLinearGradient(x, y, w, h, self.Steps, true)
     end)
 
     if not self.LastX then return end
-
     local newX = self.LastX
 
     if newX < (h / 2) then
-        newX = (h / 2)
+        newX = h / 2
     end
 
     if newX > w - (h / 2) then

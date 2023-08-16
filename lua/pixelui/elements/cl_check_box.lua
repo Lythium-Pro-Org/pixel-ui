@@ -14,12 +14,11 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetIsToggle(true)
     local boxSize = PIXEL.Scale(20)
+    self:SetIsToggle(true)
     self:SetSize(boxSize, boxSize)
     self:SetImgurID("Qf8Owl7")
     self:SetNormalColor(PIXEL.Colors.Transparent)

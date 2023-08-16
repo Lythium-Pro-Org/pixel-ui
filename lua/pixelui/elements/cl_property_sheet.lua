@@ -14,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 AccessorFunc(PANEL, "m_sText", "Text")
 AccessorFunc(PANEL, "m_pPropertySheet", "PropertySheet")

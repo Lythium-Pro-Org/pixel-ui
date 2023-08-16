@@ -1,13 +1,10 @@
 local PANEL = {}
-
 PIXEL.RegisterFont("StepCounterStep", "Rubik", 19, 700)
-
 AccessorFunc(PANEL, "Step", "Step", FORCE_NUMBER)
 AccessorFunc(PANEL, "Enabled", "Enabled", FORCE_BOOL)
 
 function PANEL:Init()
     self:SetTall(PIXEL.Scale(90))
-
     self.BackgroundCol = PIXEL.Colors.Header
     self.EnabledCol = PIXEL.Colors.Positive
     self.ActiveCol = PIXEL.Colors.Primary
@@ -26,14 +23,9 @@ function PANEL:Paint(w, h)
 end
 
 vgui.Register("PIXEL.StepCounterStep", PANEL, "EditablePanel")
-
 --
-
 PANEL = {}
-
 PIXEL.RegisterFont("StepCounterTitle", "Rubik", 24, 700)
-
-
 AccessorFunc(PANEL, "StepCount", "StepCount", FORCE_NUMBER)
 AccessorFunc(PANEL, "CurrentStep", "CurrentStep", FORCE_NUMBER)
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
@@ -45,7 +37,6 @@ function PANEL:ReloadSteps()
     end
 
     self.Steps = {}
-
     self:SetStepCount(self:GetStepCount())
 end
 
@@ -56,6 +47,7 @@ end
 
 function PANEL:SetStepCount(count)
     self.StepCount = count
+
     for i = 1, count do
         self.Steps[i] = vgui.Create("PIXEL.StepCounterStep", self)
         self.Steps[i]:SetStep(i)
@@ -71,7 +63,6 @@ end
 function PANEL:Init()
     self:SetTitle("PIXEL Step Counter")
     self:SetFont("StepCounterTitle")
-
     self.Steps = {}
 end
 
@@ -107,9 +98,11 @@ function PANEL:PerformLayout(w, h)
     local stepSize = PIXEL.Scale(38)
     local allStepWidth = stepSize * steps
     local space = (w - allStepWidth) / (steps - 1)
+
     for k, v in ipairs(self.Steps) do
         v:SetSize(stepSize, stepSize)
         v:SetX((k - 1) * (stepSize + space))
+
         if self:GetTitle() then
             local _, textH = PIXEL.GetTextSize(self:GetTitle(), self:GetFont())
             v:SetY(PIXEL.Scale(35) + (textH / 3))

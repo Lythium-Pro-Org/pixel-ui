@@ -14,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 AccessorFunc(PANEL, "m_bAllowEnter", "EnterAllowed", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bUpdateOnType", "UpdateOnType", FORCE_BOOL)
@@ -33,7 +32,6 @@ function PANEL:SetFont(font, isPixel)
         self:SetFontInternal(font)
     end
 end
-
 
 function PANEL:Init()
     self:SetHistoryEnabled(false)
@@ -246,10 +244,7 @@ function PANEL:AllowInput(value)
     if self:CheckNumeric(value) then return true end
     local parent = self:GetParent()
     if not parent then return end
-
-    if parent.AllowInput and parent:AllowInput(value) then
-        return true
-    end
+    if parent.AllowInput and parent:AllowInput(value) then return true end
 end
 
 function PANEL:SetEditable(enabled)

@@ -14,7 +14,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
-
 local PANEL = {}
 
 function PANEL:Init()
@@ -33,22 +32,42 @@ function PANEL:PerformLayout(w, h)
     self.Checkbox:Dock(LEFT)
     self.Checkbox:SetWide(h)
     self.Checkbox:DockMargin(0, 0, PIXEL.Scale(6), 0)
-
     self.Label:SetPos(self.Checkbox:GetWide() + PIXEL.Scale(6), (h / 2) - (self.Label:GetTall() / 2) + 1)
 end
 
-function PANEL:OnToggled(enabled) end
+function PANEL:OnToggled(enabled)
+end
 
-function PANEL:SetText(text) self.Label:SetText(text) end
-function PANEL:GetText() return self.Label:GetText() end
+function PANEL:SetText(text)
+    self.Label:SetText(text)
+end
 
-function PANEL:SetFont(font) self.Label:SetFont(font) end
-function PANEL:GetFont() return self.Label:GetFont() end
+function PANEL:GetText()
+    return self.Label:GetText()
+end
 
-function PANEL:SetTextColor(col) self.Label:SetTextColor(col) end
-function PANEL:GetTextColor() return self.Label:GetTextColor() end
+function PANEL:SetFont(font)
+    self.Label:SetFont(font)
+end
 
-function PANEL:SetAutoWrap(enabled) self.Label:SetAutoWrap(enabled) end
-function PANEL:GetAutoWrap() return self.Label:GetAutoWrap() end
+function PANEL:GetFont()
+    return self.Label:GetFont()
+end
+
+function PANEL:SetTextColor(col)
+    self.Label:SetTextColor(col)
+end
+
+function PANEL:GetTextColor()
+    return self.Label:GetTextColor()
+end
+
+function PANEL:SetAutoWrap(enabled)
+    self.Label:SetAutoWrap(enabled)
+end
+
+function PANEL:GetAutoWrap()
+    return self.Label:GetAutoWrap()
+end
 
 vgui.Register("PIXEL.LabelledCheckbox", PANEL, "Panel")

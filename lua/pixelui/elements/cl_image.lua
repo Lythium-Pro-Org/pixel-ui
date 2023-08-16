@@ -4,7 +4,6 @@ AccessorFunc(PANEL, "ImageColor", "ImageColor")
 AccessorFunc(PANEL, "KeepAspect", "KeepAspect")
 AccessorFunc(PANEL, "MatName", "MatName")
 AccessorFunc(PANEL, "FailsafeMatName", "FailsafeMatName")
-
 local find = string.find
 
 function PANEL:Init()
@@ -35,6 +34,7 @@ end
 
 function PANEL:DoLoadMaterial()
     local mat = Material(self:GetMatName())
+
     if mat:IsError() then
         if self:GetFailsafeMatName() then
             mat = Material(self:GetFailsafeMatName())
@@ -42,6 +42,7 @@ function PANEL:DoLoadMaterial()
             return
         end
     end
+
     self:SetMaterial(mat)
     self:FixVertexLitMaterial()
     self:InvalidateParent()
@@ -50,11 +51,14 @@ end
 function PANEL:SetMaterial(material)
     if isstring(material) then
         self:SetImage(material)
+
         return
     end
+
     self.Material = material
     if not self.Material then return end
     local tex = self.Material:GetTexture("$basetexture")
+
     if tex then
         self.ActualWidth = tex:Width()
         self.ActualHeight = tex:Height()
@@ -64,11 +68,11 @@ function PANEL:SetMaterial(material)
     end
 end
 
-
 function PANEL:SetImage(image, imageBackup)
     if imageBackup and not file.Exists("materials/" .. image .. ".vmt", "GAME") and not file.Exists("materials/" .. image, "GAME") then
         image = imageBackup
     end
+
     self.ImageName = image
     local mat = Material(image)
     self:SetMaterial(mat)
@@ -82,8 +86,10 @@ end
 function PANEL:FixVertexLitMaterial()
     local mat = self:GetMaterial()
     local image = mat:GetName()
+
     if find(mat:GetShader(), "VertexLitGeneric") or find(mat:GetShader(), "Cable") then
         local t = mat:GetString("$basetexture")
+
         if t then
             local params = {}
             params["$basetexture"] = t
@@ -92,6 +98,7 @@ function PANEL:FixVertexLitMaterial()
             mat = CreateMaterial(image .. "_DImage", "UnlitGeneric", params)
         end
     end
+
     self:SetMaterial(mat)
 end
 
