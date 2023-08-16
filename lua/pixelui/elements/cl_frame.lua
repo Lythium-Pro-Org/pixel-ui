@@ -11,10 +11,9 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <https://www.gnu.org/licenses/>.
---]]
-
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+]]
 local PANEL = {}
 AccessorFunc(PANEL, "Draggable", "Draggable", FORCE_BOOL)
 AccessorFunc(PANEL, "Sizable", "Sizable", FORCE_BOOL)
@@ -286,9 +285,6 @@ function PANEL:PaintHeader(x, y, w, h)
     end
 
     PIXEL.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PIXEL.Scale(12), y + h / 2, PIXEL.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
-end
-
-function PANEL:PaintMore(w, h)
 end
 
 function PANEL:PaintMore(w, h)

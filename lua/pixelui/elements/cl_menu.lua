@@ -240,6 +240,10 @@ function PANEL:Paint(w, h)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 end
 
+function PANEL:Paint(w, h)
+    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+end
+
 function PANEL:OptionSelectedInternal(option)
     self:OptionSelected(option, option:GetText())
 end

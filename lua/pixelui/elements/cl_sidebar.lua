@@ -11,10 +11,9 @@
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <https://www.gnu.org/licenses/>.
---]]
-
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+]]
 local PANEL = {}
 AccessorFunc(PANEL, "Name", "Name", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
@@ -24,7 +23,6 @@ PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
 function PANEL:Init()
     self:SetName("N/A")
     self:SetDrawOutline(true)
-
     self:SetSounds(false)
     self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
     self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
@@ -74,7 +72,6 @@ AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
 AccessorFunc(PANEL, "ImgurScale", "ImgurScale", FORCE_NUMBER)
 AccessorFunc(PANEL, "ImgurOffset", "ImgurOffset", FORCE_NUMBER)
 AccessorFunc(PANEL, "ButtonOffset", "ButtonOffset", FORCE_NUMBER)
-AccessorFunc(PANEL, "ButtonBtmOffset", "ButtonBtmOffset", FORCE_NUMBER)
 AccessorFunc(PANEL, "ButtonBtmOffset", "ButtonBtmOffset", FORCE_NUMBER)
 
 function PANEL:Init()

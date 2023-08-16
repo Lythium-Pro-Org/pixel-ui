@@ -29,7 +29,6 @@ function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetSortItems(true)
     self:SetSounds(false)
-    self:SetSounds(false)
 end
 
 function PANEL:PerformLayout(w, h)
@@ -47,6 +46,7 @@ function PANEL:Clear()
 
     if not self.Menu then return end
     self.Menu:Remove()
+    self:OnClose()
     self:OnClose()
     self.Menu = nil
 end
@@ -87,7 +87,19 @@ function PANEL:ChooseOption(value, index)
         index = table.KeyFromValue(self.Data, value)
     end
 
+    if not index then
+        index = table.KeyFromValue(self.Data, value)
+    end
+
     self.selected = index
+    local choicesKey = table.KeyFromValue(self.Choices, value)
+
+    if self.ChoiceIcons[choicesKey] then
+        self:SetIcon(self.ChoiceIcons[choicesKey])
+    else
+        self:SetIcon(nil)
+    end
+
     local choicesKey = table.KeyFromValue(self.Choices, value)
 
     if self.ChoiceIcons[choicesKey] then
@@ -188,6 +200,8 @@ function PANEL:OpenMenu(pControlOpener)
         if not IsValid(self) then return end
         PIXEL.PlayExpand("close")
         self:OnClose()
+        PIXEL.PlayExpand("close")
+        self:OnClose()
         self:SetToggle(false)
     end
 end
@@ -219,12 +233,6 @@ end
 function PANEL:DoClick()
     if self:IsMenuOpen() then return self:CloseMenu() end
     self:OpenMenu()
-end
-
-function PANEL:OnOpen()
-end
-
-function PANEL:OnClose()
 end
 
 function PANEL:OnOpen()
