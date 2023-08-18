@@ -53,14 +53,14 @@ local function drawOverhead(ent, pos, text, ang, scale, col)
         PIXEL.DrawRoundedBox(12, x, y, h, h, PIXEL.Colors.Primary)
         PIXEL.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, col or PIXEL.Colors.Primary, false, false, false, true)
         PIXEL.DrawText(text, "UI.Overhead", x + h + 15, y + 8, PIXEL.Colors.PrimaryText)
-        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
+        PIXEL.DrawImage(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
     end
     end3d2d()
 
     disableClipping(oldClipping)
 end
 
-local function drawImgurOverhead(ent, pos, imgurId, size, ang, scale, col)
+local function drawImageOverhead(ent, pos, imageURL, size, ang, scale, col)
     if ang then
         ang = ent:LocalToWorldAngles(ang)
     else
@@ -78,7 +78,7 @@ local function drawImgurOverhead(ent, pos, imgurId, size, ang, scale, col)
 
 
     start3d2d(pos, ang, scale or 0.05)
-        PIXEL.DrawImgur(x + 10, y + 10, h - 20, h - 20, imgurId, color_white)
+        PIXEL.DrawImage(x + 10, y + 10, h - 20, h - 20, imageURL, color_white)
     end3d2d()
 end
 
@@ -117,12 +117,16 @@ end
 
 function PIXEL.EnableIconOverheads(new)
     local oldIcon = Icon
+    local imgurMatch = new:match("^%w+$")
+    if imgurMatch then
+        new = "https://i.imgur.com/" .. new .. ".png"
+    end
     Icon = new
     return oldIcon
 end
 
--- Imgur
-function PIXEL.DrawEntImgurOverhead(ent, imgurId, size, angleOverride, posOverride, scaleOverride, colOverride)
+-- Image Overheads
+function PIXEL.DrawEntImageOverhead(ent, imageURL, size, angleOverride, posOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     if posOverride then
@@ -133,10 +137,14 @@ function PIXEL.DrawEntImgurOverhead(ent, imgurId, size, angleOverride, posOverri
     local pos = ent:OBBMaxs()
     pos:SetUnpacked(0, 0, pos[3] + entOffset)
 
-    drawImgurOverhead(ent, ent:LocalToWorld(pos), imgurId, size, angleOverride, scaleOverride, colOverride)
+    drawImageOverhead(ent, ent:LocalToWorld(pos), imageURL, size, angleOverride, scaleOverride, colOverride)
 end
 
-function PIXEL.DrawNPCImgurOverhead(ent, imgurId, size, angleOverride, offsetOverride, scaleOverride, colOverride)
+function PIXEL.DrawEntImageOverhead(ent, imgurId, size, angleOverride, posOverride, scaleOverride, colOverride)
+    PIXEL.DrawEntImageOverhead(ent, "https://i.imgur.com/" .. imgurId .. ".png", size, angleOverride, posOverride, scaleOverride, colOverride)
+end
+
+function PIXEL.DrawNPCImageOverhead(ent, imageURL, size, angleOverride, offsetOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     local eyeId = ent:LookupAttachment("eyes")
@@ -144,10 +152,14 @@ function PIXEL.DrawNPCImgurOverhead(ent, imgurId, size, angleOverride, offsetOve
         local eyes = ent:GetAttachment(eyeId)
         if eyes then
             eyes.Pos:Add(offsetOverride or eyeOffset)
-            drawImgurOverhead(ent, eyes.Pos, imgurId, size, angleOverride, scaleOverride)
+            drawImageOverhead(ent, eyes.Pos, imageURL, size, angleOverride, scaleOverride)
             return
         end
     end
 
-    drawImgurOverhead(ent, ent:GetPos() + fallbackOffset, imgurId, size, angleOverride, scaleOverride, colOverride)
+    drawImageOverhead(ent, ent:GetPos() + fallbackOffset, imageURL, size, angleOverride, scaleOverride, colOverride)
+end
+
+function PIXEL.DrawNPCImageOverhead(ent, imgurId, size, angleOverride, offsetOverride, scaleOverride, colOverride)
+    PIXEL.DrawNPCImageOverhead(ent, "https://i.imgur.com/" .. imgurId .. ".png", size, angleOverride, offsetOverride, scaleOverride, colOverride)
 end

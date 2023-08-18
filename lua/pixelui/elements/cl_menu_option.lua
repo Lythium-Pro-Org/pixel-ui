@@ -25,6 +25,16 @@ AccessorFunc(PANEL, "Icon", "Icon", FORCE_STRING)
 AccessorFunc(PANEL, "IconColor", "IconColor", FORCE_COLOR)
 PIXEL.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
 
+function PANEL:SetIcon(icon)
+    assert(type(icon) == "string", "bad argument #1 to 'SetIcon' (string expected, got " .. type(icon) .. ")")
+    local imgurMatch = icon:match("^%w+$")
+    if imgurMatch then
+        icon = "https://i.imgur.com/" .. icon .. ".png"
+    end
+
+    self.Icon = icon
+end
+
 function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetFont("UI.MenuOption")
@@ -71,13 +81,13 @@ function PANEL:Paint(w, h)
 
     if self:GetIcon() then
         iconSize = self:GetTall() * .6
-        PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self:GetIconColor())
+        PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self:GetIconColor())
     end
 
     PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14) + iconSize, h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     if not self.SubMenu then return end
     local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "YTOZJoK", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImage(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/ce2kyfb88", PIXEL.Colors.PrimaryText)
 end
 
 function PANEL:OnPressed(mousecode)

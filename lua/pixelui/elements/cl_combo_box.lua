@@ -90,14 +90,6 @@ function PANEL:ChooseOption(value, index)
         self:SetIcon(nil)
     end
 
-    local choicesKey = table.KeyFromValue(self.Choices, value)
-
-    if self.ChoiceIcons[choicesKey] then
-        self:SetIcon(self.ChoiceIcons[choicesKey])
-    else
-        self:SetIcon(nil)
-    end
-
     self:OnSelect(index, value, self.Data[index])
     if not self:GetSizeToText() then return end
     self:SizeToText()
@@ -242,7 +234,7 @@ end
 
 function PANEL:PaintOver(w, h)
     local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImgur(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "IP0UlBl", PIXEL.Colors.PrimaryText)
+    PIXEL.DrawImage(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/5r7ovslav", PIXEL.Colors.PrimaryText)
 end
 
 vgui.Register("PIXEL.ComboBox", PANEL, "PIXEL.TextButton")

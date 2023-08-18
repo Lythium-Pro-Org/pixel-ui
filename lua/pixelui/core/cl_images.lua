@@ -22,6 +22,16 @@ local useProxy = false
 
 file.CreateDir(PIXEL.DownloadPath)
 
+local contentTypes = {
+    ["image/png"] = ".png",
+    ["image/jpeg"] = ".jpg",
+}
+
+local function endsWithExtension(str)
+    local dotIndex = string.find(str, "%.[^%.]+$")
+    return (dotIndex and dotIndex == #str - string.len(string.match(str, "%.[^%.]+$")) + 1) or false
+end
+
 local function processQueue()
     if queue[1] then
         local url, filePath, matSettings, callback = unpack(queue[1])
@@ -31,8 +41,15 @@ local function processQueue()
                 if len > 2097152 then
                     materials[filePath] = Material("nil")
                 else
-                    file.Write(filePath, body)
-                    materials[filePath] = Material("../data/" .. filePath, matSettings or "noclamp smooth mips")
+
+                    local contentType = headers["Content-Type"]
+                    local writeFilePath = filePath
+                    if not endsWithExtension(filePath) then
+                        writeFilePath = filePath .. (contentTypes[contentType] or ".png")
+                    end
+
+                    file.Write(writeFilePath, body)
+                    materials[filePath] = Material("../data/" .. writeFilePath, matSettings or "noclamp smooth mips")
                 end
 
                 callback(materials[filePath])

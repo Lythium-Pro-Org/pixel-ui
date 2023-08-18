@@ -14,63 +14,38 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 --]]
+
 local PANEL = {}
+
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING)
-AccessorFunc(PANEL, "ImageSize", "ImageSize", FORCE_NUMBER)
-AccessorFunc(PANEL, "NormalColor", "NormalColor")
-AccessorFunc(PANEL, "HoverColor", "HoverColor")
-AccessorFunc(PANEL, "ClickColor", "ClickColor")
-AccessorFunc(PANEL, "DisabledColor", "DisabledColor")
-AccessorFunc(PANEL, "FrameEnabled", "FrameEnabled")
-AccessorFunc(PANEL, "Rounded", "Rounded", FORCE_NUMBER)
+AccessorFunc(PANEL, "ImgurSize", "ImgurSize", FORCE_NUMBER)
+
+function PANEL:SetImgurID(id)
+    assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id))
+    print("[PIXEL UI] PIXEL.ImgurButton:SetImgurID is deprecated, use PIXEL.ImageButton:SetImageURL instead.")
+    self.ImgurID = id
+    self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
+end
+
+function PANEL:GetImgurID()
+    print("[PIXEL UI] PIXEL.ImgurButton:GetImgurID is deprecated, use PIXEL.ImageButton:GetImgurID instead.")
+    return self:GetImageURL():match("https://i.imgur.com/(.*).png")
+end
+
+function PANEL:SetImgurSize(size)
+    assert(type(size) == "number", "bad argument #1 to 'SetImgurSize' (number expected, got " .. type(size))
+    print("[PIXEL UI] PIXEL.ImgurButton:SetImgurSize is deprecated, use PIXEL.ImageButton:SetImageSize instead.")
+    self.ImgurSize = size
+    self:SetImageSize(size, size)
+end
+
+function PANEL:GetImgurSize()
+    print("[PIXEL UI] PIXEL.ImgurButton:GetImgurSize is deprecated, use PIXEL.ImageButton:GetImageSize instead.")
+    return self:GetImageSize()
+end
 
 function PANEL:Init()
-    self.ImageCol = PIXEL.CopyColor(color_white)
-    self:SetImgurID("w72Iz3n")
-    self:SetNormalColor(color_white)
-    self:SetHoverColor(color_white)
-    self:SetClickColor(color_white)
-    self:SetDisabledColor(color_white)
-    self:SetImageSize(1)
-    self:SetFrameEnabled(false)
+    print("[PIXEL UI] PIXEL.ImgurButton is deprecated, use PIXEL.ImageButton instead.")
 end
 
-function PANEL:PaintBackground(w, h)
-end
-
-function PANEL:Paint(w, h)
-    self:PaintBackground(w, h)
-
-    if self:IsHovered() and self:GetFrameEnabled() then
-        PIXEL.DrawRoundedBox(self:GetRounded(), 0, 0, w, h, self:GetHoverColor())
-    end
-
-    local imageSize = h * self:GetImageSize()
-    local imageOffset = (h / 2) - (imageSize / 2)
-
-    if self:GetFrameEnabled() then
-        imageSize = imageSize * .45
-        imageOffset = (h / 2) - (imageSize / 2) + PIXEL.Scale(1)
-    end
-
-    if not self:IsEnabled() then
-        PIXEL.DrawImgur(imageOffset, imageOffset, imageSize, imageSize, self:GetImgurID(), self:GetDisabledColor())
-
-        return
-    end
-
-    local col = self:GetNormalColor()
-
-    if self:IsHovered() and not self:GetFrameEnabled() then
-        col = self:GetHoverColor()
-    end
-
-    if self:IsDown() or self:GetToggle() then
-        col = self:GetClickColor()
-    end
-
-    self.ImageCol = PIXEL.LerpColor(FrameTime() * 12, self.ImageCol, col)
-    PIXEL.DrawImgur(imageOffset, imageOffset, imageSize, imageSize, self:GetImgurID(), self.ImageCol)
-end
-
-vgui.Register("PIXEL.ImgurButton", PANEL, "PIXEL.Button")
+vgui.Register("PIXEL.ImgurButton", PANEL, "PIXEL.Imagebutton")
