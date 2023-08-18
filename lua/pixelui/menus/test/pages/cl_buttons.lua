@@ -22,18 +22,18 @@ function PANEL:Init()
 		notification.AddLegacy("Non Clicky Text button!", NOTIFY_GENERIC, 5)
 	end
 
-	self.ImgurButton = vgui.Create("PIXEL.ImgurButton", self)
-	self.ImgurButton:Dock(TOP)
-	self.ImgurButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
-	self.ImgurButton:SetSize(sc(50), sc(50))
-	self.ImgurButton:SetImgurID("8bKjn4t")
-	self.ImgurButton:SetNormalColor(PIXEL.Colors.PrimaryText)
-	self.ImgurButton:SetHoverColor(PIXEL.Colors.Negative)
-	self.ImgurButton:SetClickColor(PIXEL.Colors.Positive)
-	self.ImgurButton:SetDisabledColor(PIXEL.Colors.DisabledText)
+	self.ImageButton = vgui.Create("PIXEL.ImageButton", self)
+	self.ImageButton:Dock(TOP)
+	self.ImageButton:DockMargin(sc(10), sc(10), sc(10), sc(10))
+	self.ImageButton:SetSize(sc(50), sc(50))
+	self.ImageButton:SetImgurID("https://pixel-cdn.lythium.dev/i/pixellogo")
+	self.ImageButton:SetNormalColor(PIXEL.Colors.PrimaryText)
+	self.ImageButton:SetHoverColor(PIXEL.Colors.Negative)
+	self.ImageButton:SetClickColor(PIXEL.Colors.Positive)
+	self.ImageButton:SetDisabledColor(PIXEL.Colors.DisabledText)
 
-	self.ImgurButton.DoClick = function()
-		notification.AddLegacy("Imgur Button!", NOTIFY_GENERIC, 5)
+	self.ImageButton.DoClick = function()
+		notification.AddLegacy("Image Button!", NOTIFY_GENERIC, 5)
 	end
 end
 

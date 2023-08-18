@@ -16,9 +16,35 @@
 --]]
 local PANEL = {}
 AccessorFunc(PANEL, "Name", "Name", FORCE_STRING)
-AccessorFunc(PANEL, "ImgurID", "ImgurID")
-AccessorFunc(PANEL, "ImgurScale", "ImgurScale")
 AccessorFunc(PANEL, "Selected", "Selected", FORCE_BOOL)
+AccessorFunc(PANEL, "ImageURL", "ImageURL") -- Deprecated
+AccessorFunc(PANEL, "ImageScale", "ImageScale") -- Deprecated
+
+AccessorFunc(PANEL, "ImgurID", "ImgurID") -- Deprecated
+AccessorFunc(PANEL, "ImgurScale", "ImgurScale") -- Deprecated
+
+function PANEL:SetImgurID(id)
+    self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
+    print("[PIXEL UI] PIXEL.NavbarItem:SetImgurID is deprecated, use PIXEL.NavbarItem:SetImageURL instead.")
+    self.ImgurID = id
+end
+
+function PANEL:GetImgurID()
+    print("[PIXEL UI] PIXEL.NavbarItem:GetImgurID is deprecated, use PIXEL.NavbarItem:GetImageURL instead.")
+    return (self:GetImageURL() or ""):match("i.imgur.com/(.-).png")
+end
+
+function PANEL:SetImgurScale(scale)
+    self:SetImageScale(scale)
+    print("[PIXEL UI] PIXEL.NavbarItem:SetImgurScale is deprecated, use PIXEL.NavbarItem:SetImageScale instead.")
+    self.ImgurScale = scale
+end
+
+function PANEL:GetImgurScale()
+    print("[PIXEL UI] PIXEL.NavbarItem:GetImgurScale is deprecated, use PIXEL.NavbarItem:GetImageScale instead.")
+    return self:GetImageScale()
+end
+
 PIXEL.RegisterFont("UI.NavbarItem", "Rubik", 22, 600)
 
 function PANEL:SetColor(col)
@@ -30,7 +56,7 @@ end
 function PANEL:Init()
     self:SetName("N/A")
     self:SetColor(PIXEL.Colors.Primary)
-    self:SetImgurScale(0.2)
+    self:SetImageScale(0.2)
     self.NormalCol = PIXEL.Colors.PrimaryText
     self.HoverCol = PIXEL.Colors.SecondaryText
     self.TextCol = PIXEL.CopyColor(self.NormalCol)
@@ -60,11 +86,11 @@ function PANEL:Paint(w, h)
 
     local animTime = FrameTime() * 12
     self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
-    local imgurID = self:GetImgurID()
+    local imageURL = self:GetImageURL()
 
-    if imgurID then
-        local imageSize = w * self:GetImgurScale()
-        PIXEL.DrawImgur(0, (self:GetTall() / 2) - (imageSize / 2), imageSize, imageSize, imgurID, color_white)
+    if imageURL then
+        local imageSize = w * self:GetImageScale()
+        PIXEL.DrawImage(0, (self:GetTall() / 2) - (imageSize / 2), imageSize, imageSize, imageURL, color_white)
         PIXEL.DrawSimpleText(self:GetName(), "UI.NavbarItem", imageSize + PIXEL.Scale(3), h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
         return
@@ -86,9 +112,14 @@ function PANEL:Init()
     self.BackgroundCol = PIXEL.Colors.Header
 end
 
-function PANEL:AddItem(id, name, doClick, order, color, imgurID)
+function PANEL:AddItem(id, name, doClick, order, color, imageURL)
     local btn = vgui.Create("PIXEL.NavbarItem", self)
-    btn:SetImgurID(imgurID)
+    local imgurMatch = (imageURL or ""):match("^[a-zA-Z0-9]+$")
+    if imgurMatch then
+        imageURL = "https://i.imgur.com/" .. imageURL .. ".png"
+    end
+
+    btn:SetImageURL(imageURL)
     btn:SetName(name)
     btn:SetZPos(order or table.Count(self.Items) + 1)
     btn:SetColor((IsColor(color) and color) or PIXEL.Colors.Primary)

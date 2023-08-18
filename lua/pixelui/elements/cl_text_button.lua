@@ -20,6 +20,22 @@ AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "TextSpacing", "TextSpacing", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 AccessorFunc(PANEL, "Icon", "Icon")
+
+function PANEL:SetIcon(icon)
+    if type(icon) ~= "string" then
+        self.Icon = icon
+        return
+    end
+
+    local imgurMatch = (icon or ""):match("^[a-zA-Z0-9]+$")
+    if imgurMatch then
+        print("[PIXEL UI] Using imgur icons inside of PIXEL.TextButton is deprecated.")
+        icon = "https://i.imgur.com/" .. icon .. ".png"
+    end
+
+    self.Icon = icon
+end
+
 PIXEL.RegisterFont("UI.TextButton", "Rubik", 20, 600)
 
 function PANEL:Init()
@@ -51,7 +67,7 @@ function PANEL:PaintExtra(w, h)
 
     if self:GetIcon() then
         iconSize = self:GetTall() * .6
-        PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PIXEL.Colors.PrimaryText)
+        PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PIXEL.Colors.PrimaryText)
         iconSize = iconSize + PIXEL.Scale(6)
     end
 

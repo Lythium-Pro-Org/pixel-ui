@@ -29,7 +29,7 @@ end
 
 function PANEL:GetImgurID()
 	print("[PIXEL UI] PIXEL.SidebarItem:GetImgurID is deprecated, use PIXEL.SidebarItem:GetImageURL instead")
-	return self:GetImageURL():match("https://i.imgur.com/(.-).png")
+	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
 PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
@@ -98,7 +98,7 @@ end
 
 function PANEL:GetImgurID()
 	print("[PIXEL UI] PIXEL.Sidebar:GetImgurID is deprecated, use PIXEL.Sidebar:GetImageURL instead")
-	return self:GetImageURL():match("https://i.imgur.com/(.-).png")
+	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
 function PANEL:SetImgurScale(scale)
@@ -154,7 +154,7 @@ function PANEL:AddItem(id, name, imageURL, doClick, order)
 	btn:SetName(name)
 
 	if imageURL then
-		local imgurMatch = imageURL:match("^%w+$")
+		local imgurMatch = (imageURL or ""):match("^[a-zA-Z0-9]+$")
 		if imgurMatch then
 			imageURL = "https://i.imgur.com/" .. imageURL .. ".png"
 		end

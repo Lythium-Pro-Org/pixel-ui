@@ -40,7 +40,7 @@ do
             curSize = curSize + curSize
         end
 
-        PIXEL.DrawImgur(x, y, w, h, id, col)
+        PIXEL.DrawImage(x, y, w, h, id, col)
     end
 end
 

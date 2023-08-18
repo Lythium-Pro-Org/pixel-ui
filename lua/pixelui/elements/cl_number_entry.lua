@@ -13,8 +13,8 @@ function PANEL:Init()
     self:SetMax(100)
     self:SetHistoryEnabled(false)
     self:SetUpdateOnType(true)
-    self.UpButton = self:Add("PIXEL.ImgurButton")
-    self.UpButton:SetImgurID("YW5cZRk")
+    self.UpButton = self:Add("PIXEL.ImageButton")
+    self.UpButton:SetImageURL("https://pixel-cdn.lythium.dev/i/upbutton")
 
     self.UpButton.DoClick = function(s)
         local current = tonumber(self:GetValue())
@@ -33,8 +33,8 @@ function PANEL:Init()
         self:SetValue(new)
     end
 
-    self.DownButton = self:Add("PIXEL.ImgurButton")
-    self.DownButton:SetImgurID("IP0UlBl")
+    self.DownButton = self:Add("PIXEL.ImageButton")
+    self.DownButton:SetImageURL("https://pixel-cdn.lythium.dev/i/downbutton")
 
     self.DownButton.DoClick = function(s)
         local current = tonumber(self:GetValue())

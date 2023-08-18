@@ -33,15 +33,15 @@ function PANEL:Init()
         },
         ["disabled"] = {
             Color = PIXEL.Colors.PrimaryText,
-            Icon = "3myjhEM"
+            Icon = "https://pixel-cdn.lythium.dev/i/disabled-icon"
         },
         ["success"] = {
             Color = PIXEL.Colors.Positive,
-            Icon = "Qf8Owl7"
+            Icon = "https://pixel-cdn.lythium.dev/i/tick"
         },
         ["failed"] = {
             Color = PIXEL.Colors.Negative,
-            Icon = "qHORTll"
+            Icon = "https://pixel-cdn.lythium.dev/i/cross"
         }
     }
 
@@ -73,7 +73,7 @@ function PANEL:PaintExtra(w, h)
     local iconSize = self:GetTall() * .6
 
     if self:GetIcon() and self:GetState() ~= "loading" then
-        PIXEL.DrawImgur(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self.StateColor)
+        PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self.StateColor)
         textX = textX + PIXEL.Scale(8)
     elseif self:GetState() == "loading" then
         PIXEL.DrawProgressWheel(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, PIXEL.Colors.PrimaryText)

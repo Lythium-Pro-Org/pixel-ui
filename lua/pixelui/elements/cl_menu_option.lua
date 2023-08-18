@@ -27,7 +27,7 @@ PIXEL.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
 
 function PANEL:SetIcon(icon)
     assert(type(icon) == "string", "bad argument #1 to 'SetIcon' (string expected, got " .. type(icon) .. ")")
-    local imgurMatch = icon:match("^%w+$")
+    local imgurMatch = (icon or ""):match("^[a-zA-Z0-9]+$")
     if imgurMatch then
         icon = "https://i.imgur.com/" .. icon .. ".png"
     end
