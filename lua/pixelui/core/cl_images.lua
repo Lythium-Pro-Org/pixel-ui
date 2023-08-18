@@ -66,10 +66,7 @@ end
 function PIXEL.GetImage(url, callback, matSettings)
     local protocol = url:match("^([%a]+://)")
     local urlWithoutProtocol = string.gsub(url, protocol, "")
-    print(protocol, urlWithoutProtocol, url)
-    if string.EndsWith(url, ".png.png") then
-        debug.Trace()
-    end
+
     local fileNameStart = url:find("[^/]+$")
     if not fileNameStart then
         return
@@ -83,8 +80,8 @@ function PIXEL.GetImage(url, callback, matSettings)
     file.CreateDir(dirPath)
 
     local readFilePath = filePath
-    if not endsWithExtension(filePath) then
-        readFilePath = file.Exists(filePath .. ".png", "DATA") and (filePath .. ".png")
+    if not endsWithExtension(filePath) and file.Exists(filePath .. ".png", "DATA") then
+        readFilePath = filePath .. ".png"
     end
 
     if materials[filePath] then
