@@ -202,35 +202,6 @@ function PANEL:AddHeaderButton(elem, size)
 	return table.insert(self.ExtraButtons, elem)
 end
 
-function PANEL:LayoutContent(w, h)
-	local headerH = PIXEL.Scale(30)
-	local btnPad = PIXEL.Scale(6)
-	local btnSpacing = PIXEL.Scale(6)
-
-	if IsValid(self.CloseButton) then
-		local btnSize = headerH * .45
-		self.CloseButton:SetSize(btnSize, btnSize)
-		self.CloseButton:SetPos(w - btnSize - btnPad, (headerH - btnSize) / 2)
-		btnPad = btnPad + btnSize + btnSpacing
-	end
-
-	for _, btn in ipairs(self.ExtraButtons) do
-		local btnSize = headerH * btn.HeaderIconSize
-		btn:SetSize(btnSize, btnSize)
-		btn:SetPos(w - btnSize - btnPad, (headerH - btnSize) / 2)
-		btnPad = btnPad + btnSize + btnSpacing
-	end
-
-	if IsValid(self.SideBar) then
-		self.SideBar:SetPos(0, headerH)
-		self.SideBar:SetSize(PIXEL.Scale(200), h - headerH)
-	end
-
-	local padding = PIXEL.Scale(6)
-	self:DockPadding(self.SideBar and PIXEL.Scale(200) + padding or padding, headerH + padding, padding, padding)
-	self:LayoutContent(w, h)
-end
-
 function PANEL:Open()
 	self:SetVisible(false)
 	self:SetAlpha(0)
@@ -282,6 +253,9 @@ function PANEL:PerformLayout(w, h)
 	self:LayoutContent(w, h)
 end
 
+function PANEL:LayoutContent(w, h)
+end
+
 function PANEL:PaintHeader(x, y, w, h)
 	PIXEL.DrawRoundedBoxEx(PIXEL.Scale(8), x, y, w, h, PIXEL.Colors.Header, true, true)
 
@@ -301,7 +275,8 @@ end
 
 function PANEL:Paint(w, h)
 	PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
-	local contentX, contentY = self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH
+	local contentX = self.SideBar and PIXEL.Scale(200) or self.ContentPadding
+	local contentY = self.HeaderH
 	PIXEL.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY, PIXEL.Colors.Background, true, true, true, true)
 	self:PaintHeader(0, 0, w, self.HeaderH)
 	self:PaintMore(w, h)

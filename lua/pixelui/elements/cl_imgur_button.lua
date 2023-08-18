@@ -48,4 +48,4 @@ function PANEL:Init()
     print("[PIXEL UI] PIXEL.ImgurButton is deprecated, use PIXEL.ImageButton instead.")
 end
 
-vgui.Register("PIXEL.ImgurButton", PANEL, "PIXEL.Imagebutton")
+vgui.Register("PIXEL.ImgurButton", PANEL, "PIXEL.ImageButton")
