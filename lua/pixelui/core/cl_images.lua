@@ -24,6 +24,9 @@ file.CreateDir(PIXEL.DownloadPath)
 
 local function endsWithExtension(str)
     local fileName = str:match(".+/(.-)$")
+    if not fileName then
+        return false
+    end
     local extractedExtension = fileName and fileName:match("^.+(%..+)$")
 
     return extractedExtension and string.sub(str, -#extractedExtension) == extractedExtension or false
@@ -38,7 +41,6 @@ local function processQueue()
                 if len > 2097152 then
                     materials[filePath] = Material("nil")
                 else
-
                     local writeFilePath = filePath
                     if not endsWithExtension(filePath) then
                         writeFilePath = filePath .. ".png"
@@ -65,7 +67,12 @@ end
 
 function PIXEL.GetImage(url, callback, matSettings)
     local protocol = url:match("^([%a]+://)")
-    local urlWithoutProtocol = string.gsub(url, protocol, "")
+    local urlWithoutProtocol = url
+    if not protocol then
+        print("[PIXEL UI] Trying to run PIXEL.GetImage without URL protocol.")
+    else
+        urlWithoutProtocol = string.gsub(url, protocol, "")
+    end
 
     local fileNameStart = url:find("[^/]+$")
     if not fileNameStart then
