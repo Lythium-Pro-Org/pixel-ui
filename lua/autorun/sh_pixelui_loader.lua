@@ -18,6 +18,7 @@
 PIXEL = PIXEL or {}
 PIXEL.UI = PIXEL.UI or {}
 PIXEL.UI.Version = "2.0.0"
+PIXEL.UI.PulsarFork = true
 
 function PIXEL.LoadDirectory(path)
     local files, folders = file.Find(path .. "/*", "LUA")
