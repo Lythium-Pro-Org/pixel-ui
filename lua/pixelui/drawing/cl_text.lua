@@ -60,7 +60,7 @@ function PIXEL.DrawText(text, font, x, y, col, xAlign, yAlign)
         if #str > 0 then
             if find(str, "\t") then
                 for tabs, str2 in gmatch(str, "(\t*)([^\t]*)") do
-                    curX = ceil((curX + tabWidth * max(#tabs - 1, 0 )) / tabWidth) * tabWidth
+                    curX = ceil((curX + tabWidth * max(#tabs - 1, 0)) / tabWidth) * tabWidth
 
                     if #str2 > 0 then
                         drawSimpleText(str2, font, curX, curY, col, xAlign)
