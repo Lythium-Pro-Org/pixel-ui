@@ -23,6 +23,7 @@ AccessorFunc(PANEL, "TextAlign", "TextAlign", FORCE_NUMBER)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 AccessorFunc(PANEL, "Icon", "Icon", FORCE_STRING)
 AccessorFunc(PANEL, "IconColor", "IconColor", FORCE_COLOR)
+
 PIXEL.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
 
 function PANEL:SetIcon(icon)
@@ -77,14 +78,15 @@ function PANEL:Paint(w, h)
     if self.Hidden then return end
     self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
     PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
-    local iconSize = 0
 
+    local iconSize = 0
     if self:GetIcon() then
         iconSize = self:GetTall() * .6
         PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self:GetIconColor())
     end
-
     PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14) + iconSize, h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+
+
     if not self.SubMenu then return end
     local dropBtnSize = PIXEL.Scale(8)
     PIXEL.DrawImage(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/ce2kyfb88", PIXEL.Colors.PrimaryText)
