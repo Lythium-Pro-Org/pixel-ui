@@ -16,7 +16,7 @@ local mat_white = Material("vgui/white")
 PIXEL = PIXEL or {}
 
 function PIXEL.DrawSimpleLinearGradient(x, y, w, h, startColor, endColor, horizontal)
-	PIXEL.DrawLinearGradient(x, y, w, h, { {offset = 0, color = startColor}, {offset = 1, color = endColor} }, horizontal)
+	PIXEL.DrawLinearGradient(x, y, w, h, {{offset = 0, color = startColor}, {offset = 1, color = endColor}}, horizontal)
 end
 
 --[[
