@@ -20,6 +20,30 @@ AccessorFunc(PANEL, "ImageURL", "ImageURL", FORCE_STRING)
 AccessorFunc(PANEL, "DrawOutline", "DrawOutline", FORCE_BOOL)
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING) -- Deprecated
 
+AccessorFunc(PANEL, "GradientEnabled", "GradientEnabled", FORCE_BOOL)
+AccessorFunc(PANEL, "GradientColor", "GradientColor", FORCE_COLOR)
+AccessorFunc(PANEL, "GradientColorLeft", "GradientColorLeft", FORCE_COLOR)
+AccessorFunc(PANEL, "GradientColorRight", "GradientColorRight", FORCE_COLOR)
+
+function PANEL:SetGradientColor(col)
+	assert(type(col) == "table", "bad argument #1 to 'SetGradientColor' (table expected, got " .. type(col) .. ")")
+	self:SetGradientColorLeft(col)
+	local offsetCol = PIXEL.OffsetColor(col, -40, true)
+	self:SetGradientColorRight(offsetCol)
+end
+
+function PANEL:SetGradientColorLeft(color)
+	self.GradientColorLeft = color
+	self.GradientColorLeftHover = ColorAlpha(color, color.a - 30)
+	self.GradientColorLeftSelect = ColorAlpha(color, color.a - 40)
+end
+
+function PANEL:SetGradientColorRight(color)
+	self.GradientColorRight = color
+	self.GradientColorRightHover = ColorAlpha(color, color.a - 30)
+	self.GradientColorRightSelect = ColorAlpha(color, color.a - 40)
+end
+
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id) .. ")")
 	print("[PIXEL UI] PIXEL.SidebarItem:SetImgurID is deprecated, use PIXEL.SidebarItem:SetImageURL instead")
@@ -37,6 +61,7 @@ PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
 function PANEL:Init()
 	self:SetName("N/A")
 	self:SetDrawOutline(true)
+	self:SetGradientColor(PIXEL.Colors.Primary)
 	self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
 	self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
 	self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
@@ -46,24 +71,48 @@ end
 function PANEL:Paint(w, h)
 	local textCol = PIXEL.Colors.SecondaryText
 	local backgroundCol = PIXEL.Colors.Transparent
+	local leftGradCol = PIXEL.Colors.Transparent
+	local rightGradCol = PIXEL.Colors.Transparent
 
 	if self:IsHovered() then
 		textCol = PIXEL.Colors.PrimaryText
 		backgroundCol = self.BackgroundHoverCol
 		hoverLineCol = PIXEL.Colors.Primary
+
+		if self:GetGradientEnabled() then
+			leftGradCol = self.GradientColorLeftHover
+			rightGradCol = self.GradientColorRightHover
+		end
 	end
 
 	if self:IsDown() or self:GetToggle() then
 		textCol = PIXEL.Colors.PrimaryText
 		backgroundCol = self.BackgroundSelectCol
+
+		if self:GetGradientEnabled() then
+			leftGradCol = self.GradientColorLeftSelect
+			rightGradCol = self.GradientColorRightSelect
+		end
 	end
 
-	local animTime = FrameTime() * 12
+	local animTime = FrameTime() * 24
 	self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
 	self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
-	if self:GetDrawOutline() then
-		PIXEL.DrawRoundedBox(8, 0, 0, w, h, backgroundCol, PIXEL.Scale(1))
+	if self:GetGradientEnabled() then
+		self.GradientColorLeft = PIXEL.LerpColor(animTime, self.GradientColorLeft, leftGradCol)
+		self.GradientColorRight = PIXEL.LerpColor(animTime, self.GradientColorRight, rightGradCol)
+	end
+
+	if self:GetDrawOutline() and self:GetGradientEnabled() then
+		PIXEL.Mask(function()
+			PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+		end, function()
+			local lX, lY = self:LocalToScreen()
+			PIXEL.DrawSimpleLinearGradient(lX, lY, w, h, self.GradientColorLeft, self.GradientColorRight, true)
+		end)
+	elseif self:GetDrawOutline() then
+		PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
 	end
 
 	local imageURL = self:GetImageURL()
@@ -84,6 +133,7 @@ AccessorFunc(PANEL, "ImageURL", "ImageURL", FORCE_STRING)
 AccessorFunc(PANEL, "ImageScale", "ImageScale", FORCE_NUMBER)
 AccessorFunc(PANEL, "ImageOffset", "ImageOffset", FORCE_NUMBER)
 AccessorFunc(PANEL, "ButtonOffset", "ButtonOffset", FORCE_NUMBER)
+AccessorFunc(PANEL, "GradientEnabled", "GradientEnabled", FORCE_BOOL)
 
 AccessorFunc(PANEL, "ImgurID", "ImgurID", FORCE_STRING) -- Deprecated
 AccessorFunc(PANEL, "ImgurScale", "ImgurScale", FORCE_NUMBER) -- Deprecated
