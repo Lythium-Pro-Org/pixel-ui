@@ -1,7 +1,7 @@
 ---
---- Melon's Masks
+--- Modified Melon's Masks
 --- https://github.com/melonstuff/melonsmasks/
---- Licensed under MIT
+--- Licensed under MIT (https://github.com/melonstuff/melonsmasks/blob/main/LICENSE)
 ---
 
 PIXEL.Masks = {}
@@ -97,12 +97,3 @@ function PIXEL.Masks.End(kind)
     setMaterial(PIXEL.Masks.Dest.Mat)
     drawTexturedRect(0, 0, ScrW(), ScrH())
 end
-
-hook.Add("HUDPaint", "Test", function()
-    PIXEL.Masks.Start()
-        PIXEL.DrawImage(100, 100, 1000, 1000, "https://i.imgur.com/abcde.jpg", color_white)
-    PIXEL.Masks.Source()
-        PIXEL.DrawFullRoundedBoxEx(8, 100, 100, 1000, 1000, Color(255, 255, 255), true, true, true, true)
-
-    PIXEL.Masks.End()
-end)
