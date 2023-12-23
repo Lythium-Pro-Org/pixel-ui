@@ -100,7 +100,7 @@ local roundedBoxCache = {}
 local whiteTexture = surface.GetTextureID("vgui/white")
 local drawPoly = surface.DrawPoly
 
-function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, tl, tr, bl, br)
+function PIXEL.DrawFullRoundedBoxExLegacy(borderSize, x, y, w, h, col, tl, tr, bl, br)
     setDrawColor(col.r, col.g, col.b, col.a)
 
     if borderSize <= 0 then
@@ -192,6 +192,60 @@ function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, tl, tr, bl, br)
     end
 end
 
+function PIXEL.DrawFullRoundedBoxLegacy(borderSize, x, y, w, h, col)
+    return PIXEL.DrawFullRoundedBoxExLegacy(borderSize, x, y, w, h, col, true, true, true, true)
+end
+
+-- new shit, thx xeninui for making me realise i can do this
+function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
+    setDrawColor(col.r, col.g, col.b, col.a)
+
+    if borderSize <= 0 then
+        drawRect(x, y, w, h)
+
+        return
+    end
+
+    x = round(x)
+    y = round(y)
+    w = round(w)
+    h = round(h)
+    borderSize = min(round(borderSize), floor(w / 2))
+    drawRect(x + borderSize, y, w - borderSize * 2, h)
+    drawRect(x, y + borderSize, borderSize, h - borderSize * 2)
+    drawRect(x + w - borderSize, y + borderSize, borderSize, h - borderSize * 2)
+
+    if topLeft then
+        PIXEL.DrawFilledArc(x + borderSize, y + borderSize, 270, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x, y, borderSize, borderSize)
+    end
+
+    if topRight then
+        PIXEL.DrawFilledArc(x + w - borderSize, y + borderSize, 0, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x + w - borderSize, y, borderSize, borderSize)
+    end
+
+    if bottomLeft then
+        PIXEL.DrawFilledArc(x + borderSize, y + h - borderSize, 180, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x, y + h - borderSize, borderSize, borderSize)
+    end
+
+    if bottomRight then
+        PIXEL.DrawFilledArc(x + w - borderSize, y + h - borderSize, 90, 90, borderSize, col, borderSize)
+    else
+        setDrawColor(col)
+        drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize)
+    end
+end
+
+local drawFullRoundedBoxEx = PIXEL.DrawFullRoundedBoxEx
+
 function PIXEL.DrawFullRoundedBox(borderSize, x, y, w, h, col)
-    return PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
+    return drawFullRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
 end
