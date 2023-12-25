@@ -92,9 +92,9 @@ function PANEL:Paint(w, h)
         newX = w - (h / 2)
     end
 
-    PIXEL.DrawFullRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
+    PIXEL.DrawRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
     x, y, wh = newX + scale(3), scale(3), h - scale(6)
-    PIXEL.DrawFullRoundedBox(4, x - (h / 2), y, wh, wh, self:GetColor())
+    PIXEL.DrawRoundedBox(4, x - (h / 2), y, wh, wh, self:GetColor())
 end
 
 vgui.Register("PIXEL.HueBar", PANEL, "EditablePanel")

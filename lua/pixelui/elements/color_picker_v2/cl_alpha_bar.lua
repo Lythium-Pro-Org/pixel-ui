@@ -37,17 +37,19 @@ function PANEL:Paint(w, h)
 	local x, y = self:LocalToScreen()
 	local wh
 
-	PIXEL.Mask(function()
-		PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
-	end, function()
-		for i = 0, w / 2 do
-			local x2 = i * h
-			if x2 > w then break end
-			PIXEL.DrawImage(x2, 0, h, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
-		end
+	-- PIXEL.Mask(function()
+	-- 	PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+	-- end, function()
+	-- 	for i = 0, w / 2 do
+	-- 		local x2 = i * h
+	-- 		if x2 > w then break end
+	-- 		PIXEL.DrawImage(x2, 0, h, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
+	-- 	end
 
-		PIXEL.DrawSimpleLinearGradient(x, y, w, h, self:GetBaseColor(), Color(200, 200, 200, 0), true)
-	end)
+	-- 	PIXEL.DrawSimpleLinearGradient(x, y, w, h, self:GetBaseColor(), Color(200, 200, 200, 0), true)
+	-- end)
+
+	PIXEL.DrawSimpleLinearGradient(x, y, w, h, self:GetBaseColor(), Color(200, 200, 200, 0), true)
 
 	local newX = self.LastX
 

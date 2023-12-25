@@ -1,94 +1,79 @@
---[[
-	PIXEL UI - Copyright Notice
-	© 2023 Thomas O'Sullivan - All rights reserved
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License.
+PIXEL.RegisterFont("UI.TextEntryLabel", "Rubik", 10)
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-]]
 local PANEL = {}
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
+AccessorFunc(PANEL, "Label", "Label", FORCE_STRING)
 
 function PANEL:SetFont(font, isPixel)
-    if isPixel then
-        self.TextEntry:SetFont(font, isPixel)
-    else
-        self.TextEntry:SetFont(font, isPixel)
-    end
+	self.TextEntry:SetFont(font, isPixel)
 end
 
 function PANEL:Init()
-    self.TextEntry = vgui.Create("PIXEL.TextEntryInternal", self)
-    self.PlaceholderTextCol = PIXEL.OffsetColor(PIXEL.Colors.SecondaryText, -110)
-    self.DisabledCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 6)
-    self.FocusedOutlineCol = PIXEL.Colors.PrimaryText
-    self.OutlineCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, 10)
-    self.InnerOutlineCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
+	self:SetLabel("test")
+	self.TextEntry = vgui.Create("PIXEL.TextEntryInternal", self)
+	self.PlaceholderTextCol = PIXEL.OffsetColor(PIXEL.Colors.SecondaryText, -110)
+
+	self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, -25)
+	self.BaseBackgroundCol = PIXEL.CopyColor(self.BackgroundCol)
+	self.HoveredCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, -15)
+	self.FocusedCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, -5)
 end
 
 function PANEL:PerformLayout(w, h)
-    self:LayoutContent(w, h)
-    self.TextEntry:Dock(FILL)
-    local xPad, yPad = PIXEL.Scale(4), PIXEL.Scale(8)
-    self:DockPadding(xPad, yPad, xPad, yPad)
+	self:LayoutContent(w, h)
+	self.TextEntry:Dock(FILL)
+	local xPad, yPad = PIXEL.Scale(8), PIXEL.Scale(8)
+	self:DockPadding(xPad, yPad, xPad, yPad)
 end
 
 function PANEL:LayoutContent(w, h)
 end
 
 function PANEL:Paint(w, h)
-    if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.DisabledCol)
-    end
+	if not self:IsEnabled() then
+		PIXEL.DrawRoundedBoxEx(8, PIXEL.Scale(3), 0, w - PIXEL.Scale(3), h, self.BackgroundCol, false, true, false, true)
+		PIXEL.DrawRoundedBoxEx(8, 0, 0, PIXEL.Scale(3), h, self.DisabledCol, true, false, true, false)
 
-    if not self:IsEnabled() and self:GetValue() == "" then
-        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		PIXEL.DrawSimpleText("Disabled", "UI.TextEntry", PIXEL.Scale(8), h / 2, PIXEL.Colors.SecondaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		return
+	end
 
-        return
-    end
+	if self:GetValue() == "" then
+		PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	end
 
-    if self:GetValue() == "" then
-        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-    end
+	local label = self:GetLabel()
 
-    local outlineThickness = PIXEL.Scale(1)
-    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.OutlineCol)
-    local col = PIXEL.Colors.Transparent
+	local backgroundCol = self.BaseBackgroundCol
+	local animTime = FrameTime() * 24
 
-    if self:IsEditing() then
-        col = self.FocusedOutlineCol
-    end
+	if self:IsHovered() then
+		backgroundCol = self.HoveredCol
+	end
 
-    if self.OverrideCol then
-        col = self.OverrideCol
-    end
+	if self:IsEditing() then
+		backgroundCol = self.FocusedCol
+	end
 
-    self.InnerOutlineCol = PIXEL.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
-    PIXEL.DrawFullOutlinedRoundedBox(8, 0, 0, w, h, self.InnerOutlineCol, outlineThickness)
+	if self.OverrideCol then
+		backgroundCol = self.OverrideCol
+	end
 
-    if not self:IsEnabled() then
-        PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.DisabledCol)
+	self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
-        return
-    end
+	local labelH = 0
+	if label then
+		_, labelH = PIXEL.GetTextSize(label, "UI.TextEntryLabel")
+	end
 
-    if not self:IsEnabled() and self:GetValue() == "" then
-        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	print(labelH)
 
-        return
-    end
+	PIXEL.DrawRoundedBox((h - labelH) / 2, 0, labelH, w, h - labelH, self.BackgroundCol)
 
-    if self:GetValue() == "" then
-        PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-    end
+	if label then
+		PIXEL.DrawSimpleText(label, "UI.TextEntryLabel", PIXEL.Scale(12), 0, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT)
+	end
 end
 
 function PANEL:OnChange()
@@ -97,96 +82,100 @@ end
 function PANEL:OnValueChange(value)
 end
 
+function PANEL:IsHovered()
+	return self.TextEntry:IsHovered()
+end
+
 function PANEL:IsEnabled()
-    return self.TextEntry:IsEnabled()
+	return self.TextEntry:IsEnabled()
 end
 
 function PANEL:SetEnabled(enabled)
-    self.TextEntry:SetEnabled(enabled)
+	self.TextEntry:SetEnabled(enabled)
 end
 
 function PANEL:GetValue()
-    return self.TextEntry:GetValue()
+	return self.TextEntry:GetValue()
 end
 
 function PANEL:SetValue(value)
-    self.TextEntry:SetValue(value)
+	self.TextEntry:SetValue(value)
 end
 
 function PANEL:IsMultiline()
-    return self.TextEntry:IsMultiline()
+	return self.TextEntry:IsMultiline()
 end
 
 function PANEL:SetMultiline(isMultiline)
-    self.TextEntry:SetMultiline(isMultiline)
+	self.TextEntry:SetMultiline(isMultiline)
 end
 
 function PANEL:IsEditing()
-    return self.TextEntry:IsEditing()
+	return self.TextEntry:IsEditing()
 end
 
 function PANEL:GetEnterAllowed()
-    return self.TextEntry:GetEnterAllowed()
+	return self.TextEntry:GetEnterAllowed()
 end
 
 function PANEL:SetEnterAllowed(allow)
-    self.TextEntry:SetEnterAllowed(allow)
+	self.TextEntry:SetEnterAllowed(allow)
 end
 
 function PANEL:GetUpdateOnType()
-    return self.TextEntry:GetUpdateOnType()
+	return self.TextEntry:GetUpdateOnType()
 end
 
 function PANEL:SetUpdateOnType(enabled)
-    self.TextEntry:SetUpdateOnType(enabled)
+	self.TextEntry:SetUpdateOnType(enabled)
 end
 
 function PANEL:GetNumeric()
-    return self.TextEntry:GetNumeric()
+	return self.TextEntry:GetNumeric()
 end
 
 function PANEL:SetNumeric(enabled)
-    self.TextEntry:SetNumeric(enabled)
+	self.TextEntry:SetNumeric(enabled)
 end
 
 function PANEL:GetHistoryEnabled()
-    return self.TextEntry:GetHistoryEnabled()
+	return self.TextEntry:GetHistoryEnabled()
 end
 
 function PANEL:SetHistoryEnabled(enabled)
-    self.TextEntry:SetHistoryEnabled(enabled)
+	self.TextEntry:SetHistoryEnabled(enabled)
 end
 
 function PANEL:GetTabbingDisabled()
-    return self.TextEntry:GetTabbingDisabled()
+	return self.TextEntry:GetTabbingDisabled()
 end
 
 function PANEL:SetTabbingDisabled(disabled)
-    self.TextEntry:SetTabbingDisabled(disabled)
+	self.TextEntry:SetTabbingDisabled(disabled)
 end
 
 function PANEL:GetPlaceholderText()
-    return self.TextEntry:GetPlaceholderText()
+	return self.TextEntry:GetPlaceholderText()
 end
 
 function PANEL:SetPlaceholderText(text)
-    self.TextEntry:SetPlaceholderText(text)
+	self.TextEntry:SetPlaceholderText(text)
 end
 
 function PANEL:GetInt()
-    return self.TextEntry:GetInt()
+	return self.TextEntry:GetInt()
 end
 
 function PANEL:GetFloat()
-    return self.TextEntry:GetFloat()
+	return self.TextEntry:GetFloat()
 end
 
 function PANEL:IsEditing()
-    return self.TextEntry:IsEditing()
+	return self.TextEntry:IsEditing()
 end
 
 function PANEL:SetEditable(enabled)
-    self.TextEntry:SetEditable(enabled)
+	self.TextEntry:SetEditable(enabled)
 end
 
 function PANEL:AllowInput(value)

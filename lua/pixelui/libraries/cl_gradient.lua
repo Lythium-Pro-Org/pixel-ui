@@ -4,14 +4,6 @@
 -- By Bo Anderson
 -- Licensed under Mozilla Public License v2.0
 
---[[
-Test scripts:
-	lua_run_cl hook.Add("HUDPaint", "test", function() PIXEL.DrawSimpleLinearGradient(100, 200, 100, 100, Color(255, 0, 0), Color(255, 255, 0), false) PIXEL.DrawSimpleLinearGradient(250, 200, 100, 100, Color(0, 255, 0), Color(0, 0, 255), true) end)
-	lua_run_cl hook.Add("HUDPaint", "test2", function() PIXEL.DrawSimpleLinearGradient(100, 350, 100, 100, Color(255, 255, 255), Color(0, 0, 0), true) PIXEL.DrawSimpleLinearGradient(250, 350, 100, 100, Color(0, 0, 0, 255), Color(0, 0, 0, 0), false) end)
-	lua_run_cl hook.Add("HUDPaint", "test3", function() PIXEL.DrawLinearGradient(100, 500, 100, 100, { {offset = 0, color = Color(255, 0, 0)}, {offset = 0.5, color = Color(255, 255, 255)}, {offset = 1, color = Color(0, 255, 0)} }, false) end)
-	lua_run_cl hook.Add("HUDPaint", "test4", function() PIXEL.DrawLinearGradient(250, 500, 100, 100, { {offset = 0, color = Color(0, 0, 255)}, {offset = 0.5, color = Color(255, 255, 0)}, {offset = 1, color = Color(255, 0, 0)} }, true) end)
-]]
-
 local mat_white = Material("vgui/white")
 PIXEL = PIXEL or {}
 
@@ -19,23 +11,6 @@ function PIXEL.DrawSimpleLinearGradient(x, y, w, h, startColor, endColor, horizo
 	PIXEL.DrawLinearGradient(x, y, w, h, {{offset = 0, color = startColor}, {offset = 1, color = endColor}}, horizontal)
 end
 
---[[
-The stops argument is a table of GradientStop structures.
-
-Example:
-	PIXEL.LinearGradient(0, 0, 100, 100, {
-		{offset = 0, color = Color(255, 0, 0)},
-		{offset = 0.5, color = Color(255, 255, 0)},
-		{offset = 1, color = Color(255, 0, 0)}
-	}, false)
-
-== GradientStop structure ==
-
-Field  |  Type  | Description
------- | ------ | ---------------------------------------------------------------------------------------
-offset | number | Where along the gradient should this stop occur, scaling from 0 (beginning) to 1 (end).
-color  | table  | Color structure of what color this stop should be.
-]]
 function PIXEL.DrawLinearGradient(x, y, w, h, stops, horizontal)
 	if #stops == 0 then
 		return
@@ -50,14 +25,16 @@ function PIXEL.DrawLinearGradient(x, y, w, h, stops, horizontal)
 	render.SetMaterial(mat_white)
 	mesh.Begin(MATERIAL_QUADS, #stops - 1)
 	for i = 1, #stops - 1 do
-		local offset1 = math.Clamp(stops[i].offset, 0, 1)
-		local offset2 = math.Clamp(stops[i + 1].offset, 0, 1)
+		local stop1 = stops[i]
+		local stop2 = stops[i + 1]
+		local offset1 = math.Clamp(stop1.offset, 0, 1)
+		local offset2 = math.Clamp(stop2.offset, 0, 1)
 		if offset1 == offset2 then continue end
 
 		local deltaX1, deltaY1, deltaX2, deltaY2
 
-		local color1 = stops[i].color
-		local color2 = stops[i + 1].color
+		local color1 = stop1.color
+		local color2 = stop2.color
 
 		local r1, g1, b1, a1 = color1.r, color1.g, color1.b, color1.a
 		local r2, g2, b2, a2

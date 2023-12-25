@@ -74,12 +74,14 @@ function PANEL:Paint(w, h)
 	local leftGradCol = PIXEL.Colors.Transparent
 	local rightGradCol = PIXEL.Colors.Transparent
 
+	local gradientEnabled = self:GetGradientEnabled()
+
 	if self:IsHovered() then
 		textCol = PIXEL.Colors.PrimaryText
 		backgroundCol = self.BackgroundHoverCol
 		hoverLineCol = PIXEL.Colors.Primary
 
-		if self:GetGradientEnabled() then
+		if gradientEnabled then
 			leftGradCol = self.GradientColorLeftHover
 			rightGradCol = self.GradientColorRightHover
 		end
@@ -89,7 +91,7 @@ function PANEL:Paint(w, h)
 		textCol = PIXEL.Colors.PrimaryText
 		backgroundCol = self.BackgroundSelectCol
 
-		if self:GetGradientEnabled() then
+		if gradientEnabled then
 			leftGradCol = self.GradientColorLeftSelect
 			rightGradCol = self.GradientColorRightSelect
 		end
@@ -99,12 +101,12 @@ function PANEL:Paint(w, h)
 	self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
 	self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
-	if self:GetGradientEnabled() then
+	if gradientEnabled then
 		self.GradientColorLeft = PIXEL.LerpColor(animTime, self.GradientColorLeft, leftGradCol)
 		self.GradientColorRight = PIXEL.LerpColor(animTime, self.GradientColorRight, rightGradCol)
 	end
 
-	if self:GetDrawOutline() and self:GetGradientEnabled() then
+	if self:GetDrawOutline() and gradientEnabled then
 		PIXEL.Mask(function()
 			PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
 		end, function()

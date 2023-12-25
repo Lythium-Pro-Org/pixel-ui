@@ -61,7 +61,8 @@ function PANEL:Paint(w, h)
     PIXEL.Mask(function()
         PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
     end, function()
-        PIXEL.DrawSimpleLinearGradient(x, y, w, h, Color(128, 128, 128), self:GetBaseColor(), true)
+        local color = HSLToColor(self:GetHue(), 1, self:GetLuminosity())
+        PIXEL.DrawSimpleLinearGradient(x, y, w, h, Color(128, 128, 128), color, true)
     end)
 
     if not self.LastX then return end
@@ -75,9 +76,9 @@ function PANEL:Paint(w, h)
         newX = w - (h / 2)
     end
 
-    PIXEL.DrawFullRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
+    PIXEL.DrawRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
     x, y, wh = newX + scale(3), scale(3), h - scale(6)
-    PIXEL.DrawFullRoundedBox(4, x - (h / 2), y, wh, wh, self:GetColor())
+    PIXEL.DrawRoundedBox(5, x - (h / 2), y, wh, wh, self:GetColor())
 end
 
 vgui.Register("PIXEL.SaturationBar", PANEL, "EditablePanel")

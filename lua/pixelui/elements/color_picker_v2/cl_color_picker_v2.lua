@@ -1,19 +1,4 @@
---[[
-PIXEL UI
-Copyright (C) 2021 Tom O'Sullivan (Tom.bat)
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-]]
 local PANEL = {}
 AccessorFunc(PANEL, "AlphaBarEnabled", "AlphaBar", FORCE_BOOL)
 AccessorFunc(PANEL, "ShowTextEntries", "ShowTextEntries", FORCE_BOOL)
@@ -36,13 +21,17 @@ function PANEL:Init()
 	self.ColorBox:DockMargin(0, 0, PIXEL.Scale(10), 0)
 
 	self.ColorBox.Paint = function(s, w, h)
-		PIXEL.Mask(function()
-			PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
-		end, function()
-			PIXEL.DrawImage(0, 0, w, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
-			local color = PIXEL.SetColorTransparency(self:GetColor(), self:GetAlpha())
-			PIXEL.DrawRoundedBox(0, 0, 0, w, h, color)
-		end)
+		local alpha = self:GetAlpha()
+		if alpha < 255 then
+			PIXEL.Mask(function()
+				PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+			end, function()
+				PIXEL.DrawImage(0, 0, w, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
+			end)
+		end
+
+		local color = PIXEL.SetColorTransparency(self:GetColor(), alpha)
+		PIXEL.DrawRoundedBox(8, 0, 0, w, h, color)
 	end
 
 	self.HueBar = vgui.Create("PIXEL.HueBar", self)
