@@ -1,35 +1,35 @@
-PIXEL = PIXEL or {}
+PulsarUI = PulsarUI or {}
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetSize(PIXEL.Scale(900), PIXEL.Scale(550))
+    self:SetSize(PulsarUI.Scale(900), PulsarUI.Scale(550))
     self:Center()
     self:MakePopup()
-    self:SetTitle("PIXEL Test")
-    self.Sidebar = self:CreateSidebar("PIXEL.Test.Avatar", "8bKjn4t")
+    self:SetTitle("PulsarUI Test")
+    self.Sidebar = self:CreateSidebar("PulsarUI.Test.Avatar", "8bKjn4t")
 
-    self.Sidebar:AddItem("PIXEL.Test.Avatar", "Avatar", "8bKjn4t", function()
-        self:ChangeTab("PIXEL.Test.Avatar")
+    self.Sidebar:AddItem("PulsarUI.Test.Avatar", "Avatar", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.Avatar")
     end)
 
-    self.Sidebar:AddItem("PIXEL.Test.Buttons", "Buttons", "8bKjn4t", function()
-        self:ChangeTab("PIXEL.Test.Buttons")
+    self.Sidebar:AddItem("PulsarUI.Test.Buttons", "Buttons", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.Buttons")
     end)
 
-    self.Sidebar:AddItem("PIXEL.Test.Navigation", "Navigation", "8bKjn4t", function()
-        self:ChangeTab("PIXEL.Test.Navigation")
+    self.Sidebar:AddItem("PulsarUI.Test.Navigation", "Navigation", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.Navigation")
     end)
 
-    self.Sidebar:AddItem("PIXEL.Test.ScrollPanel", "ScrollPanel", "8bKjn4t", function()
-        self:ChangeTab("PIXEL.Test.ScrollPanel")
+    self.Sidebar:AddItem("PulsarUI.Test.ScrollPanel", "ScrollPanel", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.ScrollPanel")
     end)
 
-    self.Sidebar:AddItem("PIXEL.Test.Text", "Text", "8bKjn4t", function()
-        self:ChangeTab("PIXEL.Test.Text")
+    self.Sidebar:AddItem("PulsarUI.Test.Text", "Text", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.Text")
     end)
 
-    self.Sidebar:AddItem("PIXEL.Test.Other", "Other", "8bKjn4t", function()
-        self:ChangeTab("PIXEL.Test.Other")
+    self.Sidebar:AddItem("PulsarUI.Test.Other", "Other", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.Other")
     end)
 end
 
@@ -80,8 +80,8 @@ end
 function PANEL:PaintMore(w, h)
 end
 
-vgui.Register("PIXEL.Test.Main", PANEL, "PIXEL.Frame")
+vgui.Register("PulsarUI.Test.Main", PANEL, "PulsarUI.Frame")
 
 concommand.Add("pixel_test", function()
-    PIXEL.TestFrame = vgui.Create("PIXEL.Test.Main")
+    PulsarUI.TestFrame = vgui.Create("PulsarUI.Test.Main")
 end)

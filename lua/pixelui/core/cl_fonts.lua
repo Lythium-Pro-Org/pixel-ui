@@ -1,17 +1,17 @@
 
-PIXEL.UI.RegisteredFonts = PIXEL.UI.RegisteredFonts or {}
-local registeredFonts = PIXEL.UI.RegisteredFonts
+PulsarUI.RegisteredFonts = PulsarUI.RegisteredFonts or {}
+local registeredFonts = PulsarUI.RegisteredFonts
 
 do
-    PIXEL.UI.SharedFonts = PIXEL.UI.SharedFonts or {}
-    local sharedFonts = PIXEL.UI.SharedFonts
+    PulsarUI.SharedFonts = PulsarUI.SharedFonts or {}
+    local sharedFonts = PulsarUI.SharedFonts
 
-    function PIXEL.RegisterFontUnscaled(name, font, size, weight)
+    function PulsarUI.RegisterFontUnscaled(name, font, size, weight)
         weight = weight or 500
 
         local identifier = font .. size .. ":" .. weight
 
-        local fontName = "PIXEL:" .. identifier
+        local fontName = "PulsarUI:" .. identifier
         registeredFonts[name] = fontName
 
         if sharedFonts[identifier] then return end
@@ -28,41 +28,41 @@ do
 end
 
 do
-    PIXEL.UI.ScaledFonts = PIXEL.UI.ScaledFonts or {}
-    local scaledFonts = PIXEL.UI.ScaledFonts
+    PulsarUI.ScaledFonts = PulsarUI.ScaledFonts or {}
+    local scaledFonts = PulsarUI.ScaledFonts
 
-    function PIXEL.RegisterFont(name, font, size, weight)
+    function PulsarUI.RegisterFont(name, font, size, weight)
         scaledFonts[name] = {
             font = font,
             size = size,
             weight = weight
         }
 
-        PIXEL.RegisterFontUnscaled(name, font, PIXEL.Scale(size), weight)
+        PulsarUI.RegisterFontUnscaled(name, font, PulsarUI.Scale(size), weight)
     end
 
-    function PIXEL.GenerateFont(size, weight, font, name)
+    function PulsarUI.GenerateFont(size, weight, font, name)
         weight = weight or 700
-        PIXEL.Fonts = PIXEL.Fonts or {}
-        fontName = name or "PIXEL.Font.Size" .. size
+        PulsarUI.Fonts = PulsarUI.Fonts or {}
+        fontName = name or "PulsarUI.Font.Size" .. size
         font = font or "Rubik"
 
-        if !PIXEL.Fonts[fontName] or PIXEL.Fonts[fontName].size != size or PIXEL.Fonts[fontName].weight != weight then
-            PIXEL.Fonts[fontName] = {
+        if !PulsarUI.Fonts[fontName] or PulsarUI.Fonts[fontName].size != size or PulsarUI.Fonts[fontName].weight != weight then
+            PulsarUI.Fonts[fontName] = {
                 name = fontName,
                 size = size,
                 weight = weight
             }
-            PIXEL.RegisterFont(fontName, font, size, weight)
+            PulsarUI.RegisterFont(fontName, font, size, weight)
             return fontName
         end
 
         return fontName
     end
 
-    hook.Add("OnScreenSizeChanged", "PIXEL.UI.ReRegisterFonts", function()
+    hook.Add("OnScreenSizeChanged", "PulsarUI.ReRegisterFonts", function()
         for k,v in pairs(scaledFonts) do
-            PIXEL.RegisterFont(k, v.font, v.size, v.weight)
+            PulsarUI.RegisterFont(k, v.font, v.size, v.weight)
         end
     end)
 end
@@ -79,15 +79,15 @@ do
         setFont(font)
     end
 
-    PIXEL.SetFont = setPixelFont
+    PulsarUI.SetFont = setPixelFont
 
     local getTextSize = surface.GetTextSize
-    function PIXEL.GetTextSize(text, font)
+    function PulsarUI.GetTextSize(text, font)
         if font then setPixelFont(font) end
         return getTextSize(text)
     end
 
-    function PIXEL.GetRealFont(font)
+    function PulsarUI.GetRealFont(font)
         return registeredFonts[font]
     end
 end

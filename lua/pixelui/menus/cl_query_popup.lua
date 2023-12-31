@@ -5,16 +5,16 @@ local PANEL = {}
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "ButtonText", "ButtonText", FORCE_STRING)
 
-PIXEL.RegisterFont("UI.Message", "Rubik", 18, 600)
+PulsarUI.RegisterFont("UI.Message", "Rubik", 18, 600)
 
 function PANEL:Init()
     self:SetDraggable(true)
     self:SetSizable(true)
 
-    self:SetMinWidth(PIXEL.Scale(260))
-    self:SetMinHeight(PIXEL.Scale(80))
+    self:SetMinWidth(PulsarUI.Scale(260))
+    self:SetMinHeight(PulsarUI.Scale(80))
 
-    self.Message = vgui.Create("PIXEL.Label", self)
+    self.Message = vgui.Create("PulsarUI.Label", self)
     self.Message:SetTextAlign(TEXT_ALIGN_CENTER)
     self.Message:SetFont("UI.Message")
 
@@ -27,7 +27,7 @@ end
 function PANEL:AddOption(name, callback)
     callback = callback or function() end
 
-    local btn = vgui.Create("PIXEL.TextButton", self.ButtonHolder)
+    local btn = vgui.Create("PulsarUI.TextButton", self.ButtonHolder)
     btn:SetText(name)
     btn.DoClick = function()
         self:Close(true)
@@ -39,13 +39,13 @@ end
 function PANEL:LayoutContent(w, h)
     self.Message:SetSize(self.Message:CalculateSize())
     self.Message:Dock(TOP)
-    self.Message:DockMargin(PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8))
+    self.Message:DockMargin(PulsarUI.Scale(8), PulsarUI.Scale(8), PulsarUI.Scale(8), PulsarUI.Scale(8))
 
     for k, v in ipairs(self.Buttons) do
         v:SizeToText()
-        v:SetTall(PIXEL.Scale(32))
+        v:SetTall(PulsarUI.Scale(32))
         v:Dock(LEFT)
-        v:DockMargin(PIXEL.Scale(8), 0, PIXEL.Scale(8), PIXEL.Scale(8))
+        v:DockMargin(PulsarUI.Scale(8), 0, PulsarUI.Scale(8), PulsarUI.Scale(8))
     end
 
     self.ButtonHolder:SizeToChildren(true)
@@ -66,13 +66,13 @@ function PANEL:LayoutContent(w, h)
         self.BottomPanel:SetWide(self.ButtonHolder:GetWide())
     end
 
-    if self:GetWide() < PIXEL.Scale(240) then
+    if self:GetWide() < PulsarUI.Scale(240) then
         self:SetWide(240)
         self:Center()
     end
 
-    if self:GetWide() - PIXEL.Scale(40) < self.Message:GetWide() then
-        self.Message:SetWide(self:GetWide() + self.Message:GetWide() - (self:GetWide() - PIXEL.Scale(40)))
+    if self:GetWide() - PulsarUI.Scale(40) < self.Message:GetWide() then
+        self.Message:SetWide(self:GetWide() + self.Message:GetWide() - (self:GetWide() - PulsarUI.Scale(40)))
     end
 
     if self.HasSized and self.HasSized > 1 then return end
@@ -85,12 +85,12 @@ end
 function PANEL:SetText(text) self.Message:SetText(text) end
 function PANEL:GetText(text) return self.Message:GetText() end
 
-vgui.Register("PIXEL.Query", PANEL, "PIXEL.Frame")
+vgui.Register("PulsarUI.Query", PANEL, "PulsarUI.Frame")
 
-PIXEL.UI.Overrides.Derma_Query = PIXEL.UI.Overrides.Derma_Query or Derma_Query
+PulsarUI.Overrides.Derma_Query = PulsarUI.Overrides.Derma_Query or Derma_Query
 
-Derma_Query = PIXEL.UI.CreateToggleableOverride(PIXEL.UI.Overrides.Derma_Query, function(text, title, ...)
-    local msg = vgui.Create("PIXEL.Query")
+Derma_Query = PulsarUI.CreateToggleableOverride(PulsarUI.Overrides.Derma_Query, function(text, title, ...)
+    local msg = vgui.Create("PulsarUI.Query")
     msg:SetTitle(title)
     msg:SetText(text)
 
@@ -103,4 +103,4 @@ Derma_Query = PIXEL.UI.CreateToggleableOverride(PIXEL.UI.Overrides.Derma_Query, 
     msg:DoModal()
 
     return msg
-end, PIXEL.UI.ShouldOverrideDermaPopups)
+end, PulsarUI.ShouldOverrideDermaPopups)

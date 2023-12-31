@@ -144,4 +144,4 @@ function PANEL:Paint()
     drawTexturedRect(x, y, dw, dh)
 end
 
-vgui.Register("PIXEL.Image", PANEL, "EditablePanel")
+vgui.Register("PulsarUI.Image", PANEL, "EditablePanel")

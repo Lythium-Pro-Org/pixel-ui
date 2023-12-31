@@ -3,23 +3,23 @@ local PANEL = {}
 AccessorFunc(PANEL, "m_sText", "Text")
 AccessorFunc(PANEL, "m_pPropertySheet", "PropertySheet")
 AccessorFunc(PANEL, "m_pPanel", "Panel")
-PIXEL.RegisterFont("UI.Tab", "Rubik", 16)
+PulsarUI.RegisterFont("UI.Tab", "Rubik", 16)
 
 function PANEL:Init()
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, -4)
-    self.SelectedCol = PIXEL.Colors.Primary
-    self.UnselectedTextCol = PIXEL.Colors.SecondaryText
-    self.SelectedTextCol = PIXEL.Colors.PrimaryText
-    self.Color = PIXEL.CopyColor(self.BackgroundCol)
-    self.TextColor = PIXEL.CopyColor(self.UnselectedTextCol)
+    self.BackgroundCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, -4)
+    self.SelectedCol = PulsarUI.Colors.Primary
+    self.UnselectedTextCol = PulsarUI.Colors.SecondaryText
+    self.SelectedTextCol = PulsarUI.Colors.PrimaryText
+    self.Color = PulsarUI.CopyColor(self.BackgroundCol)
+    self.TextColor = PulsarUI.CopyColor(self.UnselectedTextCol)
 end
 
 function PANEL:Setup(text, propertySheet, panel)
     self:SetText(text)
     self:SetPropertySheet(propertySheet)
     self:SetPanel(panel)
-    PIXEL.SetFont("UI.Tab")
-    self:SetWide(PIXEL.GetTextSize(text) + PIXEL.Scale(16))
+    PulsarUI.SetFont("UI.Tab")
+    self:SetWide(PulsarUI.GetTextSize(text) + PulsarUI.Scale(16))
 end
 
 function PANEL:IsActive()
@@ -31,7 +31,7 @@ function PANEL:DoClick()
 end
 
 function PANEL:GetTabHeight()
-    return PIXEL.Scale(24)
+    return PulsarUI.Scale(24)
 end
 
 function PANEL:DragHoverClick(hoverTime)
@@ -40,7 +40,7 @@ end
 
 function PANEL:DoRightClick()
     if not IsValid(self:GetPropertySheet()) then return end
-    local tabs = vgui.Create("PIXEL.Menu", self)
+    local tabs = vgui.Create("PulsarUI.Menu", self)
 
     for k, v in pairs(self:GetPropertySheet().Items) do
         if not v or not IsValid(v.Tab) or not v.Tab:IsVisible() then continue end
@@ -56,13 +56,13 @@ function PANEL:DoRightClick()
 end
 
 function PANEL:Paint(w, h)
-    self.Color = PIXEL.LerpColor(FrameTime() * 12, self.Color, (self:IsActive() or self:IsHovered()) and self.SelectedCol or self.BackgroundCol)
-    self.TextColor = PIXEL.LerpColor(FrameTime() * 12, self.TextColor, (self:IsActive() or self:IsHovered()) and self.SelectedTextCol or self.UnselectedTextCol)
-    PIXEL.DrawRoundedBoxEx(PIXEL.Scale(6), 0, 0, w, h, self.Color, true, true)
-    PIXEL.DrawSimpleText(self:GetText(), "UI.Tab", w * .5, h * .5, self.TextColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    self.Color = PulsarUI.LerpColor(FrameTime() * 12, self.Color, (self:IsActive() or self:IsHovered()) and self.SelectedCol or self.BackgroundCol)
+    self.TextColor = PulsarUI.LerpColor(FrameTime() * 12, self.TextColor, (self:IsActive() or self:IsHovered()) and self.SelectedTextCol or self.UnselectedTextCol)
+    PulsarUI.DrawRoundedBoxEx(PulsarUI.Scale(6), 0, 0, w, h, self.Color, true, true)
+    PulsarUI.DrawSimpleText(self:GetText(), "UI.Tab", w * .5, h * .5, self.TextColor, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
-vgui.Register("PIXEL.Tab", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.Tab", PANEL, "PulsarUI.Button")
 PANEL = {}
 AccessorFunc(PANEL, "m_pActiveTab", "ActiveTab")
 AccessorFunc(PANEL, "m_iPadding", "Padding")
@@ -70,19 +70,19 @@ AccessorFunc(PANEL, "m_fFadeTime", "FadeTime")
 
 function PANEL:Init()
     self.tabScroller = vgui.Create("DHorizontalScroller", self)
-    self.tabScroller:SetOverlap(PIXEL.Scale(5))
+    self.tabScroller:SetOverlap(PulsarUI.Scale(5))
     self.tabScroller:Dock(TOP)
-    self.tabScroller:DockMargin(PIXEL.Scale(3), 0, PIXEL.Scale(3), 0)
+    self.tabScroller:DockMargin(PulsarUI.Scale(3), 0, PulsarUI.Scale(3), 0)
     self:SetFadeTime(0.1)
-    self:SetPadding(PIXEL.Scale(8))
+    self:SetPadding(PulsarUI.Scale(8))
     self.animFade = Derma_Anim("Fade", self, self.CrossFade)
     self.Items = {}
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 2)
+    self.BackgroundCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, 2)
 end
 
 function PANEL:AddSheet(label, panel, material, noStretchX, noStretchY, tooltip)
     if not IsValid(panel) then
-        ErrorNoHalt("PIXEL.PropertySheet:AddSheet tried to add invalid panel!")
+        ErrorNoHalt("PulsarUI.PropertySheet:AddSheet tried to add invalid panel!")
         debug.Trace()
 
         return
@@ -90,13 +90,13 @@ function PANEL:AddSheet(label, panel, material, noStretchX, noStretchY, tooltip)
 
     local sheet = {}
     sheet.Name = label
-    sheet.Tab = vgui.Create("PIXEL.Tab", self)
+    sheet.Tab = vgui.Create("PulsarUI.Tab", self)
     sheet.Tab:SetTooltip(tooltip)
     sheet.Tab:Setup(label, self, panel, material)
     sheet.Panel = panel
     sheet.Panel.NoStretchX = noStretchX
     sheet.Panel.NoStretchY = noStretchY
-    sheet.Panel:SetPos(self:GetPadding(), PIXEL.Scale(24) + self:GetPadding())
+    sheet.Panel:SetPos(self:GetPadding(), PulsarUI.Scale(24) + self:GetPadding())
     sheet.Panel:SetVisible(false)
     panel:SetParent(self)
     table.insert(self.Items, sheet)
@@ -291,7 +291,7 @@ end
 function PANEL:Paint(w, h)
     local activeTab = self:GetActiveTab()
     local offset = activeTab and activeTab:GetTall() or 0
-    PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, offset, w, h - offset, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(PulsarUI.Scale(4), 0, offset, w, h - offset, self.BackgroundCol)
 end
 
-vgui.Register("PIXEL.PropertySheet", PANEL, "Panel")
+vgui.Register("PulsarUI.PropertySheet", PANEL, "Panel")

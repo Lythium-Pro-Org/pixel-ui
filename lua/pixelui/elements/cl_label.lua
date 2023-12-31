@@ -9,7 +9,7 @@ AccessorFunc(PANEL, "AutoHeight", "AutoHeight", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoWidth", "AutoWidth", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoSize", "AutoSize", FORCE_BOOL)
 AccessorFunc(PANEL, "AutoWrap", "AutoWrap", FORCE_BOOL)
-PIXEL.RegisterFont("UI.Label", "Rubik", 14)
+PulsarUI.RegisterFont("UI.Label", "Rubik", 14)
 
 function PANEL:SetAutoSize(autoSize)
     self:SetAutoWidth(autoSize)
@@ -20,7 +20,7 @@ function PANEL:Init()
     self:SetText("Label")
     self:SetFont("UI.Label")
     self:SetTextAlign(TEXT_ALIGN_LEFT)
-    self:SetTextColor(PIXEL.Colors.SecondaryText)
+    self:SetTextColor(PulsarUI.Colors.SecondaryText)
 end
 
 function PANEL:SetText(text)
@@ -29,9 +29,9 @@ function PANEL:SetText(text)
 end
 
 function PANEL:CalculateSize()
-    PIXEL.SetFont(self:GetFont())
+    PulsarUI.SetFont(self:GetFont())
 
-    return PIXEL.GetTextSize(self:GetText())
+    return PulsarUI.GetTextSize(self:GetText())
 end
 
 function PANEL:PerformLayout(w, h)
@@ -46,25 +46,25 @@ function PANEL:PerformLayout(w, h)
     end
 
     if self:GetAutoWrap() then
-        self.Text = PIXEL.WrapText(self.OriginalText, w, self:GetFont())
+        self.Text = PulsarUI.WrapText(self.OriginalText, w, self:GetFont())
     end
 end
 
 function PANEL:Paint(w, h)
     local align = self:GetTextAlign()
-    local text = self:GetEllipses() and PIXEL.EllipsesText(self:GetText(), w, self:GetFont()) or self:GetText()
+    local text = self:GetEllipses() and PulsarUI.EllipsesText(self:GetText(), w, self:GetFont()) or self:GetText()
 
     if align == TEXT_ALIGN_CENTER then
-        PIXEL.DrawText(text, self:GetFont(), w / 2, 0, self:GetTextColor(), TEXT_ALIGN_CENTER)
+        PulsarUI.DrawText(text, self:GetFont(), w / 2, 0, self:GetTextColor(), TEXT_ALIGN_CENTER)
 
         return
     elseif align == TEXT_ALIGN_RIGHT then
-        PIXEL.DrawText(text, self:GetFont(), w, 0, self:GetTextColor(), TEXT_ALIGN_RIGHT)
+        PulsarUI.DrawText(text, self:GetFont(), w, 0, self:GetTextColor(), TEXT_ALIGN_RIGHT)
 
         return
     end
 
-    PIXEL.DrawText(text, self:GetFont(), 0, 0, self:GetTextColor())
+    PulsarUI.DrawText(text, self:GetFont(), 0, 0, self:GetTextColor())
 end
 
-vgui.Register("PIXEL.Label", PANEL, "Panel")
+vgui.Register("PulsarUI.Label", PANEL, "Panel")

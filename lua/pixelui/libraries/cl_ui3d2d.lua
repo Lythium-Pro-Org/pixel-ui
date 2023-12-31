@@ -1,7 +1,7 @@
 
 
 local ui3d2d = ui3d2d or {}
-PIXEL.UI.UI3D2D = ui3d2d
+PulsarUI.UI3D2D = ui3d2d
 
 do --Input handling
     local getRenderTarget, cursorVisible = render.GetRenderTarget, vgui.CursorVisible
@@ -9,7 +9,7 @@ do --Input handling
 
     local inputEnabled, isPressing, isPressed
 
-    hook.Add("PreRender", "PIXEL.UI.UI3D2D.InputHandler", function() --Check the input state before rendering UIs
+    hook.Add("PreRender", "PulsarUI.UI3D2D.InputHandler", function() --Check the input state before rendering UIs
         if getRenderTarget() then inputEnabled = false return end
         if cursorVisible() then inputEnabled = false return end
 
@@ -32,9 +32,9 @@ end
 do --Rendering context creation and mouse position getters
     local localPlayer
 
-    hook.Add("PreRender", "PIXEL.UI.UI3D2D.GetLocalPlayer", function() --Keep getting the local player until it's available
+    hook.Add("PreRender", "PulsarUI.UI3D2D.GetLocalPlayer", function() --Keep getting the local player until it's available
         localPlayer = LocalPlayer()
-        if IsValid(localPlayer) then hook.Remove("PreRender", "PIXEL.UI.UI3D2D.GetLocalPlayer") end
+        if IsValid(localPlayer) then hook.Remove("PreRender", "PulsarUI.UI3D2D.GetLocalPlayer") end
     end)
 
     local traceLine = util.TraceLine
@@ -127,8 +127,8 @@ do --Rendering context creation and mouse position getters
 
     local cursorMat
     local cursorHoverMat
-    PIXEL.GetImage("https://pixel-cdn.lythium.dev/i/cyf6d6gzf", function(mat) cursorMat = mat end)
-    PIXEL.GetImage("https://pixel-cdn.lythium.dev/i/m3m6x59yb", function(mat) cursorHoverMat = mat end)
+    PulsarUI.GetImage("https://pixel-cdn.lythium.dev/i/cyf6d6gzf", function(mat) cursorMat = mat end)
+    PulsarUI.GetImage("https://pixel-cdn.lythium.dev/i/m3m6x59yb", function(mat) cursorHoverMat = mat end)
 
     function ui3d2d.drawCursor(x, y, w, h, size)
         size = size or 20
@@ -260,4 +260,4 @@ do --3d2d VGUI Drawing
     end
 end
 
-hook.Run("PIXEL.UI.UI3D2D.FullyLoaded")
+hook.Run("PulsarUI.UI3D2D.FullyLoaded")

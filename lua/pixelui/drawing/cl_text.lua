@@ -1,12 +1,12 @@
 
 
 local ceil = math.ceil
-local getTextSize = PIXEL.GetTextSize
+local getTextSize = PulsarUI.GetTextSize
 local setTextPos = surface.SetTextPos
 local setTextColor = surface.SetTextColor
 local drawText = surface.DrawText
 
-function PIXEL.DrawSimpleText(text, font, x, y, col, xAlign, yAlign)
+function PulsarUI.DrawSimpleText(text, font, x, y, col, xAlign, yAlign)
     local w, h = getTextSize(text, font)
 
     if xAlign == 1 then
@@ -28,13 +28,13 @@ function PIXEL.DrawSimpleText(text, font, x, y, col, xAlign, yAlign)
     return w, h
 end
 
-local drawSimpleText = PIXEL.DrawSimpleText
+local drawSimpleText = PulsarUI.DrawSimpleText
 local gmatch = string.gmatch
 local find = string.find
 local max = math.max
 local select = select
 
-function PIXEL.DrawText(text, font, x, y, col, xAlign, yAlign)
+function PulsarUI.DrawText(text, font, x, y, col, xAlign, yAlign)
     local curX = x
     local curY = y
 
@@ -62,7 +62,7 @@ function PIXEL.DrawText(text, font, x, y, col, xAlign, yAlign)
     end
 end
 
-function PIXEL.DrawShadowText(text, font, x, y, col, xAlign, yAlign, depth, shadow)
+function PulsarUI.DrawShadowText(text, font, x, y, col, xAlign, yAlign, depth, shadow)
     shadow = shadow or 50
 
     for i = 1, depth do
@@ -72,9 +72,9 @@ function PIXEL.DrawShadowText(text, font, x, y, col, xAlign, yAlign, depth, shad
     drawSimpleText(text, font, x, y, col, xAlign, yAlign)
 end
 
-local drawShadowText = PIXEL.DrawShadowText
+local drawShadowText = PulsarUI.DrawShadowText
 
-function PIXEL.DrawDualText(title, subtitle, x, y, h)
+function PulsarUI.DrawDualText(title, subtitle, x, y, h)
     x = x or 0
     y = y or 0
 
@@ -107,7 +107,7 @@ end
 
 local subString = string.sub
 
-function PIXEL.WrapText(text, width, font) --Edit of https://github.com/FPtje/DarkRP/blob/master/gamemode/modules/base/cl_util.lua#L21
+function PulsarUI.WrapText(text, width, font) --Edit of https://github.com/FPtje/DarkRP/blob/master/gamemode/modules/base/cl_util.lua#L21
     local chachedName = text .. width .. font
     if textWrapCache[chachedName] then return textWrapCache[chachedName] end
 
@@ -154,7 +154,7 @@ local left = string.Left
 
 local ellipsesTextCache = {}
 
-function PIXEL.EllipsesText(text, width, font)
+function PulsarUI.EllipsesText(text, width, font)
     local chachedName = text .. width .. font
     if ellipsesTextCache[chachedName] then return ellipsesTextCache[chachedName] end
 

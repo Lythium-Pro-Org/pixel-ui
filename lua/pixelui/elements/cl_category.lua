@@ -1,10 +1,10 @@
 local PANEL = {}
 AccessorFunc(PANEL, "Title", "Title", FORCE_STRING)
-PIXEL.RegisterFont("UI.CategoryHeader", "Rubik", 19, 600)
+PulsarUI.RegisterFont("UI.CategoryHeader", "Rubik", 19, 600)
 
 function PANEL:Init()
     self.ArrowRotation = 0
-    self.BackgroundCol = PIXEL.Colors.Header
+    self.BackgroundCol = PulsarUI.Colors.Header
 end
 
 function PANEL:DoClick()
@@ -14,14 +14,14 @@ end
 local lerp = Lerp
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
-    PIXEL.DrawSimpleText(self.Title, "UI.CategoryHeader", PIXEL.Scale(10), h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+    PulsarUI.DrawSimpleText(self.Title, "UI.CategoryHeader", PulsarUI.Scale(10), h / 2, PulsarUI.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     self.ArrowRotation = lerp(FrameTime() * 10, self.ArrowRotation, self:GetParent():GetExpanded() and 0 or 90)
     local arrowSize = h * .45
-    PIXEL.DrawImageRotated(w - h * .3 - PIXEL.Scale(4), h / 2, arrowSize, arrowSize, self.ArrowRotation, "https://pixel-cdn.lythium.dev/i/5r7ovslav", PIXEL.Colors.PrimaryText)
+    PulsarUI.DrawImageRotated(w - h * .3 - PulsarUI.Scale(4), h / 2, arrowSize, arrowSize, self.ArrowRotation, "https://pixel-cdn.lythium.dev/i/5r7ovslav", PulsarUI.Colors.PrimaryText)
 end
 
-vgui.Register("PIXEL.CategoryHeader", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.CategoryHeader", PANEL, "PulsarUI.Button")
 PANEL = {}
 AccessorFunc(PANEL, "m_bSizeExpanded", "Expanded", FORCE_BOOL)
 AccessorFunc(PANEL, "m_iContentHeight", "StartHeight")
@@ -31,13 +31,13 @@ AccessorFunc(PANEL, "m_iPadding", "Padding")
 AccessorFunc(PANEL, "m_pList", "List")
 
 function PANEL:Init()
-    self.Header = vgui.Create("PIXEL.CategoryHeader", self)
-    self:SetTitle("PIXEL Category")
+    self.Header = vgui.Create("PulsarUI.CategoryHeader", self)
+    self:SetTitle("PulsarUI Category")
     self:SetExpanded(true)
     self:SetMouseInputEnabled(true)
     self:SetAnimTime(0.2)
     self.SlideAnimation = Derma_Anim("Anim", self, self.AnimSlide)
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 2)
+    self.BackgroundCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, 2)
     self:InvalidateLayout(true)
 end
 
@@ -60,14 +60,14 @@ function PANEL:SetTitle(title)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(PulsarUI.Scale(4), 0, 0, w, h, self.BackgroundCol)
 end
 
 function PANEL:SetContents(contents)
     self.Contents = contents
     self.Contents:SetParent(self)
     self.Contents:Dock(FILL)
-    local margin = PIXEL.Scale(8)
+    local margin = PulsarUI.Scale(8)
     self.Contents:DockMargin(margin, margin, margin, margin)
 
     if not self:GetExpanded() then
@@ -114,7 +114,7 @@ end
 
 function PANEL:PerformLayout(w, h)
     self.Header:Dock(TOP)
-    self.Header:SetTall(PIXEL.Scale(30))
+    self.Header:SetTall(PulsarUI.Scale(30))
 
     if IsValid(self.Contents) then
         if self:GetExpanded() then
@@ -178,4 +178,4 @@ function PANEL:AnimSlide(anim, delta, data)
     self:SetTall(Lerp(delta, data.From, data.To))
 end
 
-vgui.Register("PIXEL.Category", PANEL, "Panel")
+vgui.Register("PulsarUI.Category", PANEL, "Panel")

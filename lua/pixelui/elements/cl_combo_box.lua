@@ -14,7 +14,7 @@ end
 function PANEL:PerformLayout(w, h)
     if not self:GetSizeToText() then return end
     self:SizeToText()
-    self:SetWide(self:GetWide() + PIXEL.Scale(14))
+    self:SetWide(self:GetWide() + PulsarUI.Scale(14))
 end
 
 function PANEL:Clear()
@@ -78,7 +78,7 @@ function PANEL:ChooseOption(value, index)
     self:OnSelect(index, value, self.Data[index])
     if not self:GetSizeToText() then return end
     self:SizeToText()
-    self:SetWide(self:GetWide() + PIXEL.Scale(10))
+    self:SetWide(self:GetWide() + PulsarUI.Scale(10))
 end
 
 function PANEL:ChooseOptionID(index)
@@ -132,7 +132,7 @@ function PANEL:OpenMenu(pControlOpener)
     end
 
     CloseDermaMenus()
-    self.Menu = vgui.Create("PIXEL.Menu", self)
+    self.Menu = vgui.Create("PulsarUI.Menu", self)
 
     if self:GetSortItems() then
         local sorted = {}
@@ -174,7 +174,7 @@ function PANEL:OpenMenu(pControlOpener)
 
     local x, y = self:LocalToScreen(0, self:GetTall())
     self.Menu:SetMinimumWidth(self:GetWide())
-    self.Menu:Open(x, y + PIXEL.Scale(6), false, self)
+    self.Menu:Open(x, y + PulsarUI.Scale(6), false, self)
     self:SetToggle(true)
 
     self.Menu.OnRemove = function(s)
@@ -218,8 +218,8 @@ function PANEL:OnClose()
 end
 
 function PANEL:PaintOver(w, h)
-    local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImage(w - dropBtnSize - PIXEL.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/5r7ovslav", PIXEL.Colors.PrimaryText)
+    local dropBtnSize = PulsarUI.Scale(8)
+    PulsarUI.DrawImage(w - dropBtnSize - PulsarUI.Scale(8), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/5r7ovslav", PulsarUI.Colors.PrimaryText)
 end
 
-vgui.Register("PIXEL.ComboBox", PANEL, "PIXEL.TextButton")
+vgui.Register("PulsarUI.ComboBox", PANEL, "PulsarUI.TextButton")

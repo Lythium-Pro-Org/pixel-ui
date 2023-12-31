@@ -9,7 +9,7 @@ AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
 AccessorFunc(PANEL, "Icon", "Icon", FORCE_STRING)
 AccessorFunc(PANEL, "IconColor", "IconColor", FORCE_COLOR)
 
-PIXEL.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
+PulsarUI.RegisterFont("UI.MenuOption", "Rubik", 18, 600)
 
 function PANEL:SetIcon(icon)
     assert(type(icon) == "string", "bad argument #1 to 'SetIcon' (string expected, got " .. type(icon) .. ")")
@@ -25,10 +25,10 @@ function PANEL:Init()
     self:SetTextAlign(TEXT_ALIGN_LEFT)
     self:SetFont("UI.MenuOption")
     self:SetChecked(false)
-    self:SetIconColor(PIXEL.Colors.PrimaryText)
-    self.NormalCol = PIXEL.Colors.Transparent
-    self.HoverCol = PIXEL.Colors.Scroller
-    self.BackgroundCol = PIXEL.CopyColor(self.NormalCol)
+    self:SetIconColor(PulsarUI.Colors.PrimaryText)
+    self.NormalCol = PulsarUI.Colors.Transparent
+    self.HoverCol = PulsarUI.Colors.Scroller
+    self.BackgroundCol = PulsarUI.CopyColor(self.NormalCol)
 end
 
 function PANEL:SetSubMenu(menu)
@@ -36,7 +36,7 @@ function PANEL:SetSubMenu(menu)
 end
 
 function PANEL:AddSubMenu()
-    local subMenu = vgui.Create("PIXEL.Menu", self)
+    local subMenu = vgui.Create("PulsarUI.Menu", self)
     subMenu:SetVisible(false)
     subMenu:SetParent(self)
     self:SetSubMenu(subMenu)
@@ -61,20 +61,20 @@ end
 
 function PANEL:Paint(w, h)
     if self.Hidden then return end
-    self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
-    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+    self.BackgroundCol = PulsarUI.LerpColor(FrameTime() * 12, self.BackgroundCol, self:IsHovered() and self.HoverCol or self.NormalCol)
+    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
     local iconSize = 0
     if self:GetIcon() then
         iconSize = self:GetTall() * .6
-        PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self:GetIconColor())
+        PulsarUI.DrawImage(PulsarUI.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self:GetIconColor())
     end
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), PIXEL.Scale(14) + iconSize, h / 2, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    PulsarUI.DrawSimpleText(self:GetText(), self:GetFont(), PulsarUI.Scale(14) + iconSize, h / 2, PulsarUI.Colors.PrimaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
 
     if not self.SubMenu then return end
-    local dropBtnSize = PIXEL.Scale(8)
-    PIXEL.DrawImage(w - dropBtnSize - PIXEL.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/ce2kyfb88", PIXEL.Colors.PrimaryText)
+    local dropBtnSize = PulsarUI.Scale(8)
+    PulsarUI.DrawImage(w - dropBtnSize - PulsarUI.Scale(6), h / 2 - dropBtnSize / 2, dropBtnSize, dropBtnSize, "https://pixel-cdn.lythium.dev/i/ce2kyfb88", PulsarUI.Colors.PrimaryText)
 end
 
 function PANEL:OnPressed(mousecode)
@@ -111,21 +111,21 @@ function PANEL:OnChecked(enabled)
 end
 
 function PANEL:CalculateWidth()
-    PIXEL.SetFont(self:GetFont())
-    local textWide = PIXEL.GetTextSize(self:GetText())
+    PulsarUI.SetFont(self:GetFont())
+    local textWide = PulsarUI.GetTextSize(self:GetText())
 
     if self:GetIcon() then
-        textWide = textWide + self:GetTall() * .6 + PIXEL.Scale(8)
+        textWide = textWide + self:GetTall() * .6 + PulsarUI.Scale(8)
     end
 
-    return textWide + PIXEL.Scale(38)
+    return textWide + PulsarUI.Scale(38)
 end
 
 function PANEL:PerformLayout(w, h)
-    self:SetSize(math.max(self:CalculateWidth(), self:GetWide()), PIXEL.Scale(32))
+    self:SetSize(math.max(self:CalculateWidth(), self:GetWide()), PulsarUI.Scale(32))
 end
 
-vgui.Register("PIXEL.MenuOption", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.MenuOption", PANEL, "PulsarUI.Button")
 PANEL = {}
 AccessorFunc(PANEL, "ConVar", "ConVar")
 AccessorFunc(PANEL, "ValueOn", "ValueOn")
@@ -148,4 +148,4 @@ function PANEL:OnChecked(checked)
     RunConsoleCommand(self.ConVar, checked and self.ValueOn or self.ValueOff)
 end
 
-vgui.Register("PIXEL.MenuOptionCVar", PANEL, "PIXEL.MenuOption")
+vgui.Register("PulsarUI.MenuOptionCVar", PANEL, "PulsarUI.MenuOption")

@@ -1,6 +1,6 @@
 local PANEL = {}
 local clamp = math.Clamp
-local scale = PIXEL.Scale
+local scale = PulsarUI.Scale
 AccessorFunc(PANEL, "BaseColor", "BaseColor", FORCE_NUMBER)
 AccessorFunc(PANEL, "Hue", "Hue", FORCE_NUMBER)
 AccessorFunc(PANEL, "Saturation", "Saturation", FORCE_NUMBER)
@@ -80,13 +80,13 @@ function PANEL:Paint(w, h)
     local x, y = self:LocalToScreen()
     local wh
 
-    -- PIXEL.Mask(function()
-    --     PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+    -- PulsarUI.Mask(function()
+    --     PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
     -- end, function()
-    --     PIXEL.DrawLinearGradient(x, y, w, h, self.Steps, true)
+    --     PulsarUI.DrawLinearGradient(x, y, w, h, self.Steps, true)
     -- end)
 
-    PIXEL.DrawLinearGradient(x, y, w, h, self.Steps, true)
+    PulsarUI.DrawLinearGradient(x, y, w, h, self.Steps, true)
 
     if not self.LastX then return end
     local newX = self.LastX
@@ -99,9 +99,9 @@ function PANEL:Paint(w, h)
         newX = w - (h / 2)
     end
 
-    PIXEL.DrawRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
+    PulsarUI.DrawRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
     x, y, wh = newX + scale(3), scale(3), h - scale(6)
-    PIXEL.DrawRoundedBox(5, x - (h / 2), y, wh, wh, self:GetColor())
+    PulsarUI.DrawRoundedBox(5, x - (h / 2), y, wh, wh, self:GetColor())
 end
 
-vgui.Register("PIXEL.LuminosityBar", PANEL, "EditablePanel")
+vgui.Register("PulsarUI.LuminosityBar", PANEL, "EditablePanel")

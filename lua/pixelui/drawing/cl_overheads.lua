@@ -1,6 +1,6 @@
 
 
-PIXEL.RegisterFontUnscaled("UI.Overhead", "Rubik", 100, 700)
+PulsarUI.RegisterFontUnscaled("UI.Overhead", "Rubik", 100, 700)
 
 local localPly
 local function checkDistance(ent)
@@ -20,8 +20,8 @@ local function drawOverhead(ent, pos, text, ang, scale, col)
         ang:SetUnpacked(0, ang[2] - 90, 90)
     end
 
-    PIXEL.SetFont("UI.Overhead")
-    local w, h = PIXEL.GetTextSize(text)
+    PulsarUI.SetFont("UI.Overhead")
+    local w, h = PulsarUI.GetTextSize(text)
     w = w + 40
     h = h + 6
 
@@ -31,14 +31,14 @@ local function drawOverhead(ent, pos, text, ang, scale, col)
 
     start3d2d(pos, ang, scale or 0.05)
     if not Icon then
-        PIXEL.DrawRoundedBox(12, x, y, w, h, col or PIXEL.Colors.Primary)
-        PIXEL.DrawText(text, "UI.Overhead", 0, y + 1, PIXEL.Colors.PrimaryText, TEXT_ALIGN_CENTER)
+        PulsarUI.DrawRoundedBox(12, x, y, w, h, col or PulsarUI.Colors.Primary)
+        PulsarUI.DrawText(text, "UI.Overhead", 0, y + 1, PulsarUI.Colors.PrimaryText, TEXT_ALIGN_CENTER)
     else
         x = x - 40
-        PIXEL.DrawRoundedBox(12, x, y, h, h, PIXEL.Colors.Primary)
-        PIXEL.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, col or PIXEL.Colors.Primary, false, false, false, true)
-        PIXEL.DrawText(text, "UI.Overhead", x + h + 15, y + 8, PIXEL.Colors.PrimaryText)
-        PIXEL.DrawImage(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
+        PulsarUI.DrawRoundedBox(12, x, y, h, h, PulsarUI.Colors.Primary)
+        PulsarUI.DrawRoundedBoxEx(12, x + (h - 12), y + h - 20, w + 15, 20, col or PulsarUI.Colors.Primary, false, false, false, true)
+        PulsarUI.DrawText(text, "UI.Overhead", x + h + 15, y + 8, PulsarUI.Colors.PrimaryText)
+        PulsarUI.DrawImage(x + 10, y + 10, h - 20, h - 20, Icon, color_white)
     end
     end3d2d()
 
@@ -54,8 +54,8 @@ local function drawImageOverhead(ent, pos, imageURL, size, ang, scale, col)
     end
 
 
-    PIXEL.SetFont("UI.Overhead")
-    local w, h = PIXEL.GetTextSize("FUCKFUCKFUCKFUCK")
+    PulsarUI.SetFont("UI.Overhead")
+    local w, h = PulsarUI.GetTextSize("FUCKFUCKFUCKFUCK")
     w = w + 40
     h = h + 6
 
@@ -63,12 +63,12 @@ local function drawImageOverhead(ent, pos, imageURL, size, ang, scale, col)
 
 
     start3d2d(pos, ang, scale or 0.05)
-        PIXEL.DrawImage(x + 10, y + 10, h - 20, h - 20, imageURL, color_white)
+        PulsarUI.DrawImage(x + 10, y + 10, h - 20, h - 20, imageURL, color_white)
     end3d2d()
 end
 
 local entOffset = 2
-function PIXEL.DrawEntOverhead(ent, text, angleOverride, posOverride, scaleOverride, colOverride)
+function PulsarUI.DrawEntOverhead(ent, text, angleOverride, posOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     if posOverride then
@@ -84,7 +84,7 @@ end
 
 local eyeOffset = Vector(0, 0, 7)
 local fallbackOffset = Vector(0, 0, 73)
-function PIXEL.DrawNPCOverhead(ent, text, angleOverride, offsetOverride, scaleOverride, colOverride)
+function PulsarUI.DrawNPCOverhead(ent, text, angleOverride, offsetOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     local eyeId = ent:LookupAttachment("eyes")
@@ -100,7 +100,7 @@ function PIXEL.DrawNPCOverhead(ent, text, angleOverride, offsetOverride, scaleOv
     drawOverhead(ent, ent:GetPos() + fallbackOffset, text, angleOverride, scaleOverride, colOverride)
 end
 
-function PIXEL.EnableIconOverheads(new)
+function PulsarUI.EnableIconOverheads(new)
     local oldIcon = Icon
     local imgurMatch = (new or ""):match("^[a-zA-Z0-9]+$")
     if imgurMatch then
@@ -111,7 +111,7 @@ function PIXEL.EnableIconOverheads(new)
 end
 
 -- Image Overheads
-function PIXEL.DrawEntImageOverhead(ent, imageURL, size, angleOverride, posOverride, scaleOverride, colOverride)
+function PulsarUI.DrawEntImageOverhead(ent, imageURL, size, angleOverride, posOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     if posOverride then
@@ -125,11 +125,11 @@ function PIXEL.DrawEntImageOverhead(ent, imageURL, size, angleOverride, posOverr
     drawImageOverhead(ent, ent:LocalToWorld(pos), imageURL, size, angleOverride, scaleOverride, colOverride)
 end
 
-function PIXEL.DrawEntImageOverhead(ent, imgurId, size, angleOverride, posOverride, scaleOverride, colOverride)
-    PIXEL.DrawEntImageOverhead(ent, "https://i.imgur.com/" .. imgurId .. ".png", size, angleOverride, posOverride, scaleOverride, colOverride)
+function PulsarUI.DrawEntImageOverhead(ent, imgurId, size, angleOverride, posOverride, scaleOverride, colOverride)
+    PulsarUI.DrawEntImageOverhead(ent, "https://i.imgur.com/" .. imgurId .. ".png", size, angleOverride, posOverride, scaleOverride, colOverride)
 end
 
-function PIXEL.DrawNPCImageOverhead(ent, imageURL, size, angleOverride, offsetOverride, scaleOverride, colOverride)
+function PulsarUI.DrawNPCImageOverhead(ent, imageURL, size, angleOverride, offsetOverride, scaleOverride, colOverride)
     if checkDistance(ent) then return end
 
     local eyeId = ent:LookupAttachment("eyes")
@@ -145,6 +145,6 @@ function PIXEL.DrawNPCImageOverhead(ent, imageURL, size, angleOverride, offsetOv
     drawImageOverhead(ent, ent:GetPos() + fallbackOffset, imageURL, size, angleOverride, scaleOverride, colOverride)
 end
 
-function PIXEL.DrawNPCImageOverhead(ent, imgurId, size, angleOverride, offsetOverride, scaleOverride, colOverride)
-    PIXEL.DrawNPCImageOverhead(ent, "https://i.imgur.com/" .. imgurId .. ".png", size, angleOverride, offsetOverride, scaleOverride, colOverride)
+function PulsarUI.DrawNPCImageOverhead(ent, imgurId, size, angleOverride, offsetOverride, scaleOverride, colOverride)
+    PulsarUI.DrawNPCImageOverhead(ent, "https://i.imgur.com/" .. imgurId .. ".png", size, angleOverride, offsetOverride, scaleOverride, colOverride)
 end

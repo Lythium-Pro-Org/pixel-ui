@@ -1,7 +1,7 @@
 do
-    util.AddNetworkString("PIXEL.SpawnConfetti")
+    util.AddNetworkString("PulsarUI.SpawnConfetti")
     util.PrecacheSound("pixel_confetti.mp3")
-    function PIXEL.SpawnConfetti(ply)
+    function PulsarUI.SpawnConfetti(ply)
         local effectData = EffectData()
         effectData:SetOrigin(ply:GetPos())
         util.Effect("pixel_confetti", effectData)

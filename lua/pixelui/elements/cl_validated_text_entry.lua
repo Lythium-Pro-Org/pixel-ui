@@ -2,8 +2,8 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self.TextEntry = vgui.Create("PIXEL.TextEntry", self)
-    self.Message = vgui.Create("PIXEL.Label", self)
+    self.TextEntry = vgui.Create("PulsarUI.TextEntry", self)
+    self.Message = vgui.Create("PulsarUI.Label", self)
     self.Message:SetText("")
 
     self.TextEntry.OnChange = function(s)
@@ -21,14 +21,14 @@ function PANEL:Init()
 
         if valid then
             self.Message:SetText(message or "")
-            self.Message:SetTextColor(PIXEL.Colors.Positive)
+            self.Message:SetTextColor(PulsarUI.Colors.Positive)
             self.TextValid = true
-            s.OverrideCol = PIXEL.Colors.Positive
+            s.OverrideCol = PulsarUI.Colors.Positive
         else
             self.Message:SetText(message or "")
-            self.Message:SetTextColor(PIXEL.Colors.Negative)
+            self.Message:SetTextColor(PulsarUI.Colors.Negative)
             self.TextValid = false
-            s.OverrideCol = PIXEL.Colors.Negative
+            s.OverrideCol = PulsarUI.Colors.Negative
         end
     end
 end
@@ -47,10 +47,10 @@ function PANEL:OnValidate(valid, message)
 end
 
 function PANEL:PerformLayout(w, h)
-    self.TextEntry:SetTall(PIXEL.Scale(34))
+    self.TextEntry:SetTall(PulsarUI.Scale(34))
     self.TextEntry:Dock(TOP)
     self.Message:Dock(TOP)
-    self.Message:DockMargin(PIXEL.Scale(4), PIXEL.Scale(5), 0, 0)
+    self.Message:DockMargin(PulsarUI.Scale(4), PulsarUI.Scale(5), 0, 0)
     self:SizeToChildren(false, true)
 end
 
@@ -70,4 +70,4 @@ function PANEL:GetPlaceholderText()
     return self.TextEntry:GetPlaceholderText()
 end
 
-vgui.Register("PIXEL.ValidatedTextEntry", PANEL, "Panel")
+vgui.Register("PulsarUI.ValidatedTextEntry", PANEL, "Panel")

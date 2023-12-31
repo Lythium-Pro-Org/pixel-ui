@@ -13,35 +13,35 @@ function PANEL:SetIcon(icon)
 
     local imgurMatch = (icon or ""):match("^[a-zA-Z0-9]+$")
     if imgurMatch then
-        print("[PIXEL UI] Using imgur icons inside of PIXEL.TextButton is deprecated.")
+        print("[PulsarUI UI] Using imgur icons inside of PulsarUI.TextButton is deprecated.")
         icon = "https://i.imgur.com/" .. icon .. ".png"
     end
 
     self.Icon = icon
 end
 
-PIXEL.RegisterFont("UI.TextButton", "Rubik", 20, 600)
+PulsarUI.RegisterFont("UI.TextButton", "Rubik", 20, 600)
 
 function PANEL:Init()
     self:SetText("Button")
     self:SetTextAlign(TEXT_ALIGN_CENTER)
-    self:SetTextSpacing(PIXEL.Scale(6))
+    self:SetTextSpacing(PulsarUI.Scale(6))
     self:SetFont("UI.TextButton")
-    self:SetSize(PIXEL.Scale(100), PIXEL.Scale(30))
+    self:SetSize(PulsarUI.Scale(100), PulsarUI.Scale(30))
     self:SetIcon(false)
 end
 
 function PANEL:SizeToText()
-    PIXEL.SetFont(self:GetFont())
+    PulsarUI.SetFont(self:GetFont())
 
     if self:GetIcon() then
         local iconSize = self:GetTall() * .6
-        self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(20) + iconSize, PIXEL.Scale(30))
+        self:SetSize(PulsarUI.GetTextSize(self:GetText()) + PulsarUI.Scale(20) + iconSize, PulsarUI.Scale(30))
 
         return
     end
 
-    self:SetSize(PIXEL.GetTextSize(self:GetText()) + PIXEL.Scale(14), PIXEL.Scale(30))
+    self:SetSize(PulsarUI.GetTextSize(self:GetText()) + PulsarUI.Scale(14), PulsarUI.Scale(30))
 end
 
 function PANEL:PaintExtra(w, h)
@@ -51,17 +51,17 @@ function PANEL:PaintExtra(w, h)
 
     if self:GetIcon() then
         iconSize = self:GetTall() * .6
-        PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PIXEL.Colors.PrimaryText)
-        iconSize = iconSize + PIXEL.Scale(6)
+        PulsarUI.DrawImage(PulsarUI.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), PulsarUI.Colors.PrimaryText)
+        iconSize = iconSize + PulsarUI.Scale(6)
     end
 
     if not self:IsEnabled() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
+        PulsarUI.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PulsarUI.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
 
         return
     end
 
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    PulsarUI.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PulsarUI.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
 end
 
-vgui.Register("PIXEL.TextButton", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.TextButton", PANEL, "PulsarUI.Button")

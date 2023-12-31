@@ -11,25 +11,25 @@ do
     local curTime = CurTime
     local drawTexturedRectRotated = surface.DrawTexturedRectRotated
 
-    function PIXEL.DrawProgressWheel(x, y, w, h, col)
+    function PulsarUI.DrawProgressWheel(x, y, w, h, col)
         local progSize = min(w, h)
         setMaterial(progressMat)
         setDrawColor(col.r, col.g, col.b, col.a)
         drawTexturedRectRotated(x + w * .5, y + h * .5, progSize, progSize, -curTime() * 100)
     end
-    drawProgressWheel = PIXEL.DrawProgressWheel
+    drawProgressWheel = PulsarUI.DrawProgressWheel
 end
 
 local materials = {}
 local grabbingMaterials = {}
 
-local getImage = PIXEL.GetImage
-getImage(PIXEL.ProgressImageURL, function(mat)
+local getImage = PulsarUI.GetImage
+getImage(PulsarUI.ProgressImageURL, function(mat)
     progressMat = mat
 end)
 
 local drawTexturedRect = surface.DrawTexturedRect
-function PIXEL.DrawImage(x, y, w, h, url, col)
+function PulsarUI.DrawImage(x, y, w, h, url, col)
     if not materials[url] then
         drawProgressWheel(x, y, w, h, col)
 
@@ -50,7 +50,7 @@ function PIXEL.DrawImage(x, y, w, h, url, col)
 end
 
 local drawTexturedRectRotated = surface.DrawTexturedRectRotated
-function PIXEL.DrawImageRotated(x, y, w, h, rot, url, col)
+function PulsarUI.DrawImageRotated(x, y, w, h, rot, url, col)
     if not materials[url] then
         drawProgressWheel(x - w * .5, y - h * .5, w, h, col)
 
@@ -70,12 +70,12 @@ function PIXEL.DrawImageRotated(x, y, w, h, rot, url, col)
     drawTexturedRectRotated(x, y, w, h, rot)
 end
 
-function PIXEL.DrawImgur(x, y, w, h, imgurId, col)
+function PulsarUI.DrawImgur(x, y, w, h, imgurId, col)
     local url = "https://i.imgur.com/" .. imgurId .. ".png"
-    PIXEL.DrawImage(x, y, w, h, url, col)
+    PulsarUI.DrawImage(x, y, w, h, url, col)
 end
 
-function PIXEL.DrawImgurRotated(x, y, w, h, rot, imgurId, col)
+function PulsarUI.DrawImgurRotated(x, y, w, h, rot, imgurId, col)
     local url = "https://i.imgur.com/" .. imgurId .. ".png"
-    PIXEL.DrawImageRotated(x, y, w, h, rot, url, col)
+    PulsarUI.DrawImageRotated(x, y, w, h, rot, url, col)
 end

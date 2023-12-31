@@ -14,7 +14,7 @@ local drawRect = surface.DrawRect
 local drawTexturedRectUV = surface.DrawTexturedRectUV
 local setTexture = surface.SetTexture
 
-function PIXEL.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
+function PulsarUI.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
 	setDrawColor(col.r, col.g, col.b, col.a)
 
 	if borderSize <= 0 then
@@ -62,9 +62,9 @@ function PIXEL.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, 
 	end
 end
 
-local drawRoundedBoxEx = PIXEL.DrawRoundedBoxEx
+local drawRoundedBoxEx = PulsarUI.DrawRoundedBoxEx
 
-function PIXEL.DrawRoundedBox(borderSize, x, y, w, h, col)
+function PulsarUI.DrawRoundedBox(borderSize, x, y, w, h, col)
 	return drawRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
 end
 
@@ -73,7 +73,7 @@ local whiteTexture = surface.GetTextureID("vgui/white")
 
 local drawPoly = surface.DrawPoly
 
-function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, tl, tr, bl, br)
+function PulsarUI.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, tl, tr, bl, br)
 	setDrawColor(col.r, col.g, col.b, col.a)
 
 	if borderSize <= 0 then
@@ -122,6 +122,6 @@ function PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, tl, tr, bl, br)
 	if not br then drawRect(x + w - borderSize, y + h - borderSize, borderSize, borderSize) end
 end
 
-function PIXEL.DrawFullRoundedBox(borderSize, x, y, w, h, col)
-	return PIXEL.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
+function PulsarUI.DrawFullRoundedBox(borderSize, x, y, w, h, col)
+	return PulsarUI.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, true, true, true, true)
 end

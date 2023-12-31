@@ -14,7 +14,7 @@ do
     }
 
     local max = math.max
-    function PIXEL.DrawCircle(x, y, w, h, col)
+    function PulsarUI.DrawCircle(x, y, w, h, col)
         local size = max(w, h)
         local id = materials[1]
 
@@ -25,7 +25,7 @@ do
             curSize = curSize + curSize
         end
 
-        PIXEL.DrawImage(x, y, w, h, id, col)
+        PulsarUI.DrawImage(x, y, w, h, id, col)
     end
 end
 
@@ -33,7 +33,7 @@ do
     local insert = table.insert
     local rad, sin, cos = math.rad, math.sin, math.cos
 
-    function PIXEL.CreateCircle(x, y, ang, seg, pct, radius)
+    function PulsarUI.CreateCircle(x, y, ang, seg, pct, radius)
         local circle = {}
 
         insert(circle, {x = x, y = y})
@@ -47,8 +47,8 @@ do
     end
 end
 
-local createCircle = PIXEL.CreateCircle
+local createCircle = PulsarUI.CreateCircle
 local drawPoly = surface.DrawPoly
-function PIXEL.DrawCircleUncached(x, y, ang, seg, pct, radius)
+function PulsarUI.DrawCircleUncached(x, y, ang, seg, pct, radius)
     drawPoly(createCircle(x, y, ang, seg, pct, radius))
 end

@@ -2,13 +2,13 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self.Checkbox = vgui.Create("PIXEL.Checkbox", self)
+    self.Checkbox = vgui.Create("PulsarUI.Checkbox", self)
 
     self.Checkbox.OnToggled = function(s, enabled)
         self:OnToggled(enabled)
     end
 
-    self.Label = vgui.Create("PIXEL.Label", self)
+    self.Label = vgui.Create("PulsarUI.Label", self)
     self.Label:SetAutoWidth(true)
     self.Label:SetAutoHeight(true)
 end
@@ -16,8 +16,8 @@ end
 function PANEL:PerformLayout(w, h)
     self.Checkbox:Dock(LEFT)
     self.Checkbox:SetWide(h)
-    self.Checkbox:DockMargin(0, 0, PIXEL.Scale(6), 0)
-    self.Label:SetPos(self.Checkbox:GetWide() + PIXEL.Scale(6), (h / 2) - (self.Label:GetTall() / 2) + 1)
+    self.Checkbox:DockMargin(0, 0, PulsarUI.Scale(6), 0)
+    self.Label:SetPos(self.Checkbox:GetWide() + PulsarUI.Scale(6), (h / 2) - (self.Label:GetTall() / 2) + 1)
 end
 
 function PANEL:OnToggled(enabled)
@@ -55,4 +55,4 @@ function PANEL:GetAutoWrap()
     return self.Label:GetAutoWrap()
 end
 
-vgui.Register("PIXEL.LabelledCheckbox", PANEL, "Panel")
+vgui.Register("PulsarUI.LabelledCheckbox", PANEL, "Panel")

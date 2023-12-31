@@ -13,7 +13,7 @@ function PANEL:Init()
     self:SetMax(100)
     self:SetHistoryEnabled(false)
     self:SetUpdateOnType(true)
-    self.UpButton = self:Add("PIXEL.ImageButton")
+    self.UpButton = self:Add("PulsarUI.ImageButton")
     self.UpButton:SetImageURL("https://pixel-cdn.lythium.dev/i/upbutton")
 
     self.UpButton.DoClick = function(s)
@@ -33,7 +33,7 @@ function PANEL:Init()
         self:SetValue(new)
     end
 
-    self.DownButton = self:Add("PIXEL.ImageButton")
+    self.DownButton = self:Add("PulsarUI.ImageButton")
     self.DownButton:SetImageURL("https://pixel-cdn.lythium.dev/i/downbutton")
 
     self.DownButton.DoClick = function(s)
@@ -113,4 +113,4 @@ function PANEL:LayoutContent(w, h)
     self.DownButton:SetZPos(zPos + 1)
 end
 
-vgui.Register("PIXEL.NumberEntry", PANEL, "PIXEL.TextEntry")
+vgui.Register("PulsarUI.NumberEntry", PANEL, "PulsarUI.TextEntry")

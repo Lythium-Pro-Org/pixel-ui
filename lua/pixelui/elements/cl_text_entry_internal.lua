@@ -8,11 +8,11 @@ AccessorFunc(PANEL, "m_bDisableTabbing", "TabbingDisabled", FORCE_BOOL)
 AccessorFunc(PANEL, "m_txtPlaceholder", "PlaceholderText", FORCE_STRING)
 AccessorFunc(PANEL, "m_txtFont", "Font", FORCE_STRING)
 Derma_Install_Convar_Functions(PANEL)
-PIXEL.RegisterFont("UI.TextEntry", "Rubik", 18)
+PulsarUI.RegisterFont("UI.TextEntry", "Rubik", 18)
 
 function PANEL:SetFont(font, isPixel)
     if isPixel then
-        self:SetFontInternal(PIXEL.GetRealFont(font))
+        self:SetFontInternal(PulsarUI.GetRealFont(font))
     else
         self:SetFontInternal(font)
     end
@@ -28,10 +28,10 @@ function PANEL:Init()
     self:SetUpdateOnType(false)
     self:SetNumeric(false)
     self:SetAllowNonAsciiCharacters(true)
-    self:SetTall(PIXEL.Scale(34))
+    self:SetTall(PulsarUI.Scale(34))
     self.m_bLoseFocusOnClickAway = true
     self:SetCursor("beam")
-    self:SetFontInternal(PIXEL.GetRealFont("UI.TextEntry"))
+    self:SetFontInternal(PulsarUI.GetRealFont("UI.TextEntry"))
 end
 
 function PANEL:IsEditing()
@@ -197,7 +197,7 @@ function PANEL:UpdateConvarValue()
 end
 
 function PANEL:Paint(w, h)
-    self:DrawTextEntryText(color_white, PIXEL.Colors.Primary, PIXEL.Colors.Primary)
+    self:DrawTextEntryText(color_white, PulsarUI.Colors.Primary, PulsarUI.Colors.Primary)
 end
 
 function PANEL:SetValue(value)
@@ -288,4 +288,4 @@ function PANEL:GetFloat()
     return tonumber(self:GetText())
 end
 
-vgui.Register("PIXEL.TextEntryInternal", PANEL, "TextEntry")
+vgui.Register("PulsarUI.TextEntryInternal", PANEL, "TextEntry")

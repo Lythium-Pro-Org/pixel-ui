@@ -9,29 +9,29 @@ AccessorFunc(PANEL, "State", "State")
 function PANEL:Init()
     self.States = {
         ["default"] = {
-            Color = PIXEL.Colors.PrimaryText,
+            Color = PulsarUI.Colors.PrimaryText,
             Icon = nil
         },
         ["loading"] = {
-            Color = PIXEL.Colors.PrimaryText,
+            Color = PulsarUI.Colors.PrimaryText,
             Icon = nil
         },
         ["disabled"] = {
-            Color = PIXEL.Colors.PrimaryText,
+            Color = PulsarUI.Colors.PrimaryText,
             Icon = "https://pixel-cdn.lythium.dev/i/disabled-icon"
         },
         ["success"] = {
-            Color = PIXEL.Colors.Positive,
+            Color = PulsarUI.Colors.Positive,
             Icon = "https://pixel-cdn.lythium.dev/i/tick"
         },
         ["failed"] = {
-            Color = PIXEL.Colors.Negative,
+            Color = PulsarUI.Colors.Negative,
             Icon = "https://pixel-cdn.lythium.dev/i/cross"
         }
     }
 
     self:SetState("default")
-    self.StateColor = PIXEL.Colors.PrimaryText
+    self.StateColor = PulsarUI.Colors.PrimaryText
 end
 
 function PANEL:SetState(state)
@@ -58,31 +58,31 @@ function PANEL:PaintExtra(w, h)
     local iconSize = self:GetTall() * .6
 
     if self:GetIcon() and self:GetState() ~= "loading" then
-        PIXEL.DrawImage(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self.StateColor)
-        textX = textX + PIXEL.Scale(8)
+        PulsarUI.DrawImage(PulsarUI.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, self:GetIcon(), self.StateColor)
+        textX = textX + PulsarUI.Scale(8)
     elseif self:GetState() == "loading" then
-        PIXEL.DrawProgressWheel(PIXEL.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, PIXEL.Colors.PrimaryText)
-        textX = textX + PIXEL.Scale(8)
+        PulsarUI.DrawProgressWheel(PulsarUI.Scale(8), h / 2 - iconSize / 2, iconSize, iconSize, PulsarUI.Colors.PrimaryText)
+        textX = textX + PulsarUI.Scale(8)
     end
 
     if not self:IsEnabled() then
-        PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PIXEL.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
+        PulsarUI.DrawSimpleText(self:GetText(), self:GetFont(), textX + iconSize, h / 2, PulsarUI.Colors.DisabledText, textAlign, TEXT_ALIGN_CENTER)
 
         return
     end
 
-    PIXEL.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PIXEL.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
+    PulsarUI.DrawSimpleText(self:GetText(), self:GetFont(), textX, h / 2, PulsarUI.Colors.PrimaryText, textAlign, TEXT_ALIGN_CENTER)
 end
 
 function PANEL:Think()
     if not self.FadeOut then return end
-    self.StateColor = PIXEL.LerpColor(FrameTime() * 16, self.StateColor, Color(255, 255, 255, 0))
+    self.StateColor = PulsarUI.LerpColor(FrameTime() * 16, self.StateColor, Color(255, 255, 255, 0))
 
     if self.StateColor.a <= 10 then
         self:SetState("default")
         self.FadeOut = false
-        self.StateColor = PIXEL.Colors.PrimaryText
+        self.StateColor = PulsarUI.Colors.PrimaryText
     end
 end
 
-vgui.Register("PIXEL.StateButton", PANEL, "PIXEL.TextButton")
+vgui.Register("PulsarUI.StateButton", PANEL, "PulsarUI.TextButton")

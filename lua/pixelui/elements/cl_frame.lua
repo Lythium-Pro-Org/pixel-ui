@@ -12,25 +12,25 @@ AccessorFunc(PANEL, "ImageURL", "ImageURL", FORCE_STRING)
 
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to SetImgurID, string expected, got " .. type(id))
-	print("[PIXEL UI] PIXEL.Frame:SetImgurID is deprecated, use PIXEL.Frame:SetImageURL instead")
+	print("[PulsarUI UI] PulsarUI.Frame:SetImgurID is deprecated, use PulsarUI.Frame:SetImageURL instead")
 	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
 	self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-	print("[PIXEL UI] PIXEL.Frame:GetImgurID is deprecated, use PIXEL.Frame:GetImageURL instead")
+	print("[PulsarUI UI] PulsarUI.Frame:GetImgurID is deprecated, use PulsarUI.Frame:GetImageURL instead")
 	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
-PIXEL.RegisterFont("UI.FrameTitle", "Rubik", 20, 700)
+PulsarUI.RegisterFont("UI.FrameTitle", "Rubik", 20, 700)
 
 function PANEL:Init()
-	self.CloseButton = vgui.Create("PIXEL.ImageButton", self)
+	self.CloseButton = vgui.Create("PulsarUI.ImageButton", self)
 	self.CloseButton:SetImageURL("https://pixel-cdn.lythium.dev/i/fh640z2o")
-	self.CloseButton:SetNormalColor(PIXEL.Colors.PrimaryText)
-	self.CloseButton:SetHoverColor(PIXEL.Colors.Negative)
-	self.CloseButton:SetClickColor(PIXEL.Colors.Negative)
-	self.CloseButton:SetDisabledColor(PIXEL.Colors.DisabledText)
+	self.CloseButton:SetNormalColor(PulsarUI.Colors.PrimaryText)
+	self.CloseButton:SetHoverColor(PulsarUI.Colors.Negative)
+	self.CloseButton:SetClickColor(PulsarUI.Colors.Negative)
+	self.CloseButton:SetDisabledColor(PulsarUI.Colors.DisabledText)
 	self.CloseButton:SetFrameEnabled(true)
 	self.CloseButton:SetRounded(8)
 
@@ -39,11 +39,11 @@ function PANEL:Init()
 	end
 
 	self.ExtraButtons = {}
-	self:SetTitle("PIXEL Frame")
+	self:SetTitle("PulsarUI Frame")
 	self:SetDraggable(true)
 	self:SetScreenLock(true)
 	self:SetRemoveOnClose(true)
-	local size = PIXEL.Scale(200)
+	local size = PulsarUI.Scale(200)
 	self:SetMinWidth(size)
 	self:SetMinHeight(size)
 	local oldMakePopup = self.MakePopup
@@ -72,7 +72,7 @@ function PANEL:DragThink(targetPanel, hoverPanel)
 
 	local _, screenY = targetPanel:LocalToScreen(0, 0)
 
-	if (hoverPanel or targetPanel).Hovered and targetPanel:GetDraggable() and mousey < (screenY + PIXEL.Scale(30)) then
+	if (hoverPanel or targetPanel).Hovered and targetPanel:GetDraggable() and mousey < (screenY + PulsarUI.Scale(30)) then
 		targetPanel:SetCursor("sizeall")
 
 		return true
@@ -109,7 +109,7 @@ function PANEL:SizeThink(targetPanel, hoverPanel)
 
 	local screenX, screenY = targetPanel:LocalToScreen(0, 0)
 
-	if (hoverPanel or targetPanel).Hovered and targetPanel.Sizable and mousex > (screenX + targetPanel:GetWide() - PIXEL.Scale(20)) and mousey > (screenY + targetPanel:GetTall() - PIXEL.Scale(20)) then
+	if (hoverPanel or targetPanel).Hovered and targetPanel.Sizable and mousex > (screenX + targetPanel:GetWide() - PulsarUI.Scale(20)) and mousey > (screenY + targetPanel:GetTall() - PulsarUI.Scale(20)) then
 		(hoverPanel or targetPanel):SetCursor("sizenwse")
 
 		return true
@@ -130,7 +130,7 @@ function PANEL:OnMousePressed()
 	local screenX, screenY = self:LocalToScreen(0, 0)
 	local mouseX, mouseY = gui.MouseX(), gui.MouseY()
 
-	if self.Sizable and mouseX > (screenX + self:GetWide() - PIXEL.Scale(30)) and mouseY > (screenY + self:GetTall() - PIXEL.Scale(30)) then
+	if self.Sizable and mouseX > (screenX + self:GetWide() - PulsarUI.Scale(30)) and mouseY > (screenY + self:GetTall() - PulsarUI.Scale(30)) then
 		self.Sizing = {mouseX - self:GetWide(), mouseY - self:GetTall()}
 
 		self:MouseCapture(true)
@@ -138,7 +138,7 @@ function PANEL:OnMousePressed()
 		return
 	end
 
-	if self:GetDraggable() and mouseY < (screenY + PIXEL.Scale(30)) then
+	if self:GetDraggable() and mouseY < (screenY + PulsarUI.Scale(30)) then
 		self.Dragging = {mouseX - self.x, mouseY - self.y}
 
 		self:MouseCapture(true)
@@ -155,7 +155,7 @@ end
 
 function PANEL:CreateSidebar(defaultItem, imageURL, imageScale, imageYOffset, buttonYOffset)
 	if IsValid(self.SideBar) then return end
-	self.SideBar = vgui.Create("PIXEL.Sidebar", self)
+	self.SideBar = vgui.Create("PulsarUI.Sidebar", self)
 
 	if defaultItem then
 		timer.Simple(0, function()
@@ -209,9 +209,9 @@ function PANEL:OnClose()
 end
 
 function PANEL:PerformLayout(w, h)
-	self.HeaderH = PIXEL.Scale(30)
-	local btnPad = PIXEL.Scale(6)
-	local btnSpacing = PIXEL.Scale(6)
+	self.HeaderH = PulsarUI.Scale(30)
+	local btnPad = PulsarUI.Scale(6)
+	local btnSpacing = PulsarUI.Scale(6)
 
 	if IsValid(self.CloseButton) then
 		local btnSize = self.HeaderH
@@ -229,11 +229,11 @@ function PANEL:PerformLayout(w, h)
 
 	if IsValid(self.SideBar) then
 		self.SideBar:SetPos(0, self.HeaderH)
-		self.SideBar:SetSize(PIXEL.Scale(200), h - self.HeaderH)
+		self.SideBar:SetSize(PulsarUI.Scale(200), h - self.HeaderH)
 	end
 
-	self.ContentPadding = PIXEL.Scale(8)
-	self:DockPadding(self.SideBar and PIXEL.Scale(200) or self.ContentPadding, self.HeaderH, self.ContentPadding, self.ContentPadding)
+	self.ContentPadding = PulsarUI.Scale(8)
+	self:DockPadding(self.SideBar and PulsarUI.Scale(200) or self.ContentPadding, self.HeaderH, self.ContentPadding, self.ContentPadding)
 	self:LayoutContent(w, h)
 end
 
@@ -241,29 +241,29 @@ function PANEL:LayoutContent(w, h)
 end
 
 function PANEL:PaintHeader(x, y, w, h)
-	PIXEL.DrawRoundedBoxEx(PIXEL.Scale(8), x, y, w, h, PIXEL.Colors.Header, true, true)
+	PulsarUI.DrawRoundedBoxEx(PulsarUI.Scale(8), x, y, w, h, PulsarUI.Colors.Header, true, true)
 
 	local imageURL = self:GetImageURL()
 	if imageURL then
 		local iconSize = h * .6
-		PIXEL.DrawImage(PIXEL.Scale(6), x + (h - iconSize) / 2, y + iconSize, iconSize, imageURL, color_white)
-		PIXEL.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PIXEL.Scale(12) + iconSize, y + h / 2, PIXEL.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER)
+		PulsarUI.DrawImage(PulsarUI.Scale(6), x + (h - iconSize) / 2, y + iconSize, iconSize, imageURL, color_white)
+		PulsarUI.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PulsarUI.Scale(12) + iconSize, y + h / 2, PulsarUI.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER)
 		return
 	end
 
-	PIXEL.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PIXEL.Scale(12), y + h / 2, PIXEL.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
+	PulsarUI.DrawSimpleText(self:GetTitle(), "UI.FrameTitle", x + PulsarUI.Scale(12), y + h / 2, PulsarUI.Colors.PrimaryText, nil, TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 end
 
 function PANEL:PaintMore(w, h)
 end
 
 function PANEL:Paint(w, h)
-	PIXEL.DrawRoundedBox(8, 0, 0, w, h, PIXEL.Colors.Header)
-	local contentX = self.SideBar and PIXEL.Scale(200) or self.ContentPadding
+	PulsarUI.DrawRoundedBox(8, 0, 0, w, h, PulsarUI.Colors.Header)
+	local contentX = self.SideBar and PulsarUI.Scale(200) or self.ContentPadding
 	local contentY = self.HeaderH
-	PIXEL.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY, PIXEL.Colors.Background, true, true, true, true)
+	PulsarUI.DrawRoundedBoxEx(8, contentX, contentY, w - contentX - self.ContentPadding, h - contentY, PulsarUI.Colors.Background, true, true, true, true)
 	self:PaintHeader(0, 0, w, self.HeaderH)
 	self:PaintMore(w, h)
 end
 
-vgui.Register("PIXEL.Frame", PANEL, "EditablePanel")
+vgui.Register("PulsarUI.Frame", PANEL, "EditablePanel")

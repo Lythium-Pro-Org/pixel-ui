@@ -10,50 +10,50 @@ AccessorFunc(PANEL, "ImgurScale", "ImgurScale") -- Deprecated
 
 function PANEL:SetImgurID(id)
     self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
-    print("[PIXEL UI] PIXEL.NavbarItem:SetImgurID is deprecated, use PIXEL.NavbarItem:SetImageURL instead.")
+    print("[PulsarUI UI] PulsarUI.NavbarItem:SetImgurID is deprecated, use PulsarUI.NavbarItem:SetImageURL instead.")
     self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-    print("[PIXEL UI] PIXEL.NavbarItem:GetImgurID is deprecated, use PIXEL.NavbarItem:GetImageURL instead.")
+    print("[PulsarUI UI] PulsarUI.NavbarItem:GetImgurID is deprecated, use PulsarUI.NavbarItem:GetImageURL instead.")
     return (self:GetImageURL() or ""):match("i.imgur.com/(.-).png")
 end
 
 function PANEL:SetImgurScale(scale)
     self:SetImageScale(scale)
-    print("[PIXEL UI] PIXEL.NavbarItem:SetImgurScale is deprecated, use PIXEL.NavbarItem:SetImageScale instead.")
+    print("[PulsarUI UI] PulsarUI.NavbarItem:SetImgurScale is deprecated, use PulsarUI.NavbarItem:SetImageScale instead.")
     self.ImgurScale = scale
 end
 
 function PANEL:GetImgurScale()
-    print("[PIXEL UI] PIXEL.NavbarItem:GetImgurScale is deprecated, use PIXEL.NavbarItem:GetImageScale instead.")
+    print("[PulsarUI UI] PulsarUI.NavbarItem:GetImgurScale is deprecated, use PulsarUI.NavbarItem:GetImageScale instead.")
     return self:GetImageScale()
 end
 
-PIXEL.RegisterFont("UI.NavbarItem", "Rubik", 22, 600)
+PulsarUI.RegisterFont("UI.NavbarItem", "Rubik", 22, 600)
 
 function PANEL:SetColor(col)
-    self.BackgroundCol = PIXEL.Colors.Transparent
+    self.BackgroundCol = PulsarUI.Colors.Transparent
     self.BackgroundHoverCol = ColorAlpha(col, 40)
     self.BackgroundSelectCol = ColorAlpha(col, 80)
 end
 
 function PANEL:Init()
     self:SetName("N/A")
-    self:SetColor(PIXEL.Colors.Primary)
+    self:SetColor(PulsarUI.Colors.Primary)
     self:SetImageScale(0.2)
-    self.NormalCol = PIXEL.Colors.PrimaryText
-    self.HoverCol = PIXEL.Colors.SecondaryText
-    self.TextCol = PIXEL.CopyColor(self.NormalCol)
-    self.BackgroundCol = PIXEL.Colors.Transparent
-    self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
-    self.BackgroundSelectCol = ColorAlpha(PIXEL.Colors.Primary, 80)
+    self.NormalCol = PulsarUI.Colors.PrimaryText
+    self.HoverCol = PulsarUI.Colors.SecondaryText
+    self.TextCol = PulsarUI.CopyColor(self.NormalCol)
+    self.BackgroundCol = PulsarUI.Colors.Transparent
+    self.BackgroundHoverCol = ColorAlpha(PulsarUI.Colors.Primary, 40)
+    self.BackgroundSelectCol = ColorAlpha(PulsarUI.Colors.Primary, 80)
 end
 
 function PANEL:GetItemSize()
-    PIXEL.SetFont("UI.NavbarItem")
+    PulsarUI.SetFont("UI.NavbarItem")
 
-    return PIXEL.GetTextSize(self:GetName())
+    return PulsarUI.GetTextSize(self:GetName())
 end
 
 function PANEL:Paint(w, h)
@@ -70,23 +70,23 @@ function PANEL:Paint(w, h)
     end
 
     local animTime = FrameTime() * 12
-    self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
+    self.TextCol = PulsarUI.LerpColor(animTime, self.TextCol, textCol)
     local imageURL = self:GetImageURL()
 
     if imageURL then
         local imageSize = w * self:GetImageScale()
-        PIXEL.DrawImage(0, (self:GetTall() / 2) - (imageSize / 2), imageSize, imageSize, imageURL, color_white)
-        PIXEL.DrawSimpleText(self:GetName(), "UI.NavbarItem", imageSize + PIXEL.Scale(3), h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        PulsarUI.DrawImage(0, (self:GetTall() / 2) - (imageSize / 2), imageSize, imageSize, imageURL, color_white)
+        PulsarUI.DrawSimpleText(self:GetName(), "UI.NavbarItem", imageSize + PulsarUI.Scale(3), h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 
         return
     end
 
-    local boxW, boxH = w - PIXEL.Scale(16), h - PIXEL.Scale(16)
-    PIXEL.DrawRoundedBox(8, PIXEL.Scale(8), PIXEL.Scale(8), boxW, boxH, backgroundCol)
-    PIXEL.DrawSimpleText(self:GetName(), "UI.NavbarItem", w / 2, h / 2, self.TextCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    local boxW, boxH = w - PulsarUI.Scale(16), h - PulsarUI.Scale(16)
+    PulsarUI.DrawRoundedBox(8, PulsarUI.Scale(8), PulsarUI.Scale(8), boxW, boxH, backgroundCol)
+    PulsarUI.DrawSimpleText(self:GetName(), "UI.NavbarItem", w / 2, h / 2, self.TextCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
-vgui.Register("PIXEL.NavbarItem", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.NavbarItem", PANEL, "PulsarUI.Button")
 PANEL = {}
 
 function PANEL:Init()
@@ -94,11 +94,11 @@ function PANEL:Init()
     self.SelectionX = 0
     self.SelectionW = 0
     self.SelectionColor = Color(0, 0, 0)
-    self.BackgroundCol = PIXEL.Colors.Header
+    self.BackgroundCol = PulsarUI.Colors.Header
 end
 
 function PANEL:AddItem(id, name, doClick, order, color, imageURL)
-    local btn = vgui.Create("PIXEL.NavbarItem", self)
+    local btn = vgui.Create("PulsarUI.NavbarItem", self)
     local imgurMatch = (imageURL or ""):match("^[a-zA-Z0-9]+$")
     if imgurMatch then
         imageURL = "https://i.imgur.com/" .. imageURL .. ".png"
@@ -107,7 +107,7 @@ function PANEL:AddItem(id, name, doClick, order, color, imageURL)
     btn:SetImageURL(imageURL)
     btn:SetName(name)
     btn:SetZPos(order or table.Count(self.Items) + 1)
-    btn:SetColor((IsColor(color) and color) or PIXEL.Colors.Primary)
+    btn:SetColor((IsColor(color) and color) or PulsarUI.Colors.Primary)
     btn.Function = doClick
 
     btn.DoClick = function(s)
@@ -143,24 +143,24 @@ function PANEL:SelectItem(id)
 end
 
 function PANEL:PerformLayout(w, h)
-    self:DockMargin(PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8), PIXEL.Scale(8))
+    self:DockMargin(PulsarUI.Scale(8), PulsarUI.Scale(8), PulsarUI.Scale(8), PulsarUI.Scale(8))
 
     for k, v in pairs(self.Items) do
         v:Dock(LEFT)
-        v:SetWide(v:GetItemSize() + PIXEL.Scale(50))
+        v:SetWide(v:GetItemSize() + PulsarUI.Scale(50))
     end
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 
     if not self.SelectedItem then
         self.SelectionX = Lerp(FrameTime() * 10, self.SelectionX, 0)
         self.SelectionW = Lerp(FrameTime() * 10, self.SelectionX, 0)
-        self.SelectionColor = PIXEL.LerpColor(FrameTime() * 10, self.SelectionColor, PIXEL.Colors.Primary)
+        self.SelectionColor = PulsarUI.LerpColor(FrameTime() * 10, self.SelectionColor, PulsarUI.Colors.Primary)
 
         return
     end
 end
 
-vgui.Register("PIXEL.Navbar", PANEL, "Panel")
+vgui.Register("PulsarUI.Navbar", PANEL, "Panel")

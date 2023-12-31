@@ -6,10 +6,10 @@ AccessorFunc(PANEL, "Color", "Color")
 
 function PANEL:SetColor(color)
 	self.Color = color
-	self.NormalCol = PIXEL.CopyColor(self.Color)
-	self.HoverCol = PIXEL.OffsetColor(self.NormalCol, -15)
-	self.ClickedCol = PIXEL.OffsetColor(self.NormalCol, 15)
-	self.DisabledCol = PIXEL.CopyColor(PIXEL.Colors.Disabled)
+	self.NormalCol = PulsarUI.CopyColor(self.Color)
+	self.HoverCol = PulsarUI.OffsetColor(self.NormalCol, -15)
+	self.ClickedCol = PulsarUI.OffsetColor(self.NormalCol, 15)
+	self.DisabledCol = PulsarUI.CopyColor(PulsarUI.Colors.Disabled)
 	self.BackgroundCol = self.NormalCol
 end
 
@@ -18,9 +18,9 @@ function PANEL:Init()
 	self:SetToggle(false)
 	self:SetMouseInputEnabled(true)
 	self:SetCursor("hand")
-	local btnSize = PIXEL.Scale(30)
+	local btnSize = PulsarUI.Scale(30)
 	self:SetSize(btnSize, btnSize)
-	self:SetColor(PIXEL.Colors.Primary)
+	self:SetColor(PulsarUI.Colors.Primary)
 end
 
 function PANEL:DoToggle(...)
@@ -89,7 +89,7 @@ end
 
 function PANEL:Paint(w, h)
 	if not self:IsEnabled() then
-		PIXEL.DrawRoundedBox(PIXEL.Scale(6), 0, 0, w, h, self.DisabledCol)
+		PulsarUI.DrawRoundedBox(PulsarUI.Scale(6), 0, 0, w, h, self.DisabledCol)
 		self:PaintExtra(w, h)
 
 		return
@@ -104,10 +104,10 @@ function PANEL:Paint(w, h)
 	end
 
 	if not self.Clicky then
-		self.BackgroundCol = PIXEL.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
+		self.BackgroundCol = PulsarUI.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
 	end
 
-	PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+	PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 	self:PaintExtra(w, h)
 end
 
@@ -134,4 +134,4 @@ end
 function PANEL:DoMiddleClick()
 end
 
-vgui.Register("PIXEL.Button", PANEL, "Panel")
+vgui.Register("PulsarUI.Button", PANEL, "Panel")

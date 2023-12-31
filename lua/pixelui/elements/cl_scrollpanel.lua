@@ -21,7 +21,7 @@ function PANEL:Init()
         self:InvalidateParent()
     end
 
-    self.VBar = vgui.Create("PIXEL.Scrollbar", self)
+    self.VBar = vgui.Create("PulsarUI.Scrollbar", self)
     self.VBar:Dock(RIGHT)
     self:SetPadding(0)
     self:SetMouseInputEnabled(true)
@@ -30,7 +30,7 @@ function PANEL:Init()
     self.ScrollDelta = 0
     self.ScrollReturnWait = 0
     self:SetBarDockShouldOffset(true)
-    self.VBar:SetWide(PIXEL.Scale(8))
+    self.VBar:SetWide(PulsarUI.Scale(8))
 
     self.Canvas.PerformLayout = function(s, w, h)
         self:LayoutContent(w, h)
@@ -179,4 +179,4 @@ end
 function PANEL:Paint(w, h)
 end
 
-vgui.Register("PIXEL.ScrollPanel", PANEL, "DPanel")
+vgui.Register("PulsarUI.ScrollPanel", PANEL, "DPanel")

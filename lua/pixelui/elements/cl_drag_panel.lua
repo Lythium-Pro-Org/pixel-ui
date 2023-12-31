@@ -1,6 +1,6 @@
 local abs = math.abs
 local clamp = math.Clamp
-local scale = PIXEL.Scale
+local scale = PulsarUI.Scale
 local gradientMat = Material("gui/gradient")
 local PANEL = {}
 
@@ -18,31 +18,31 @@ function PANEL:Init()
 	self.DraggedPastY = 0
 end
 
-local headerCol = PIXEL.Colors.Header
-local gridCol = PIXEL.OffsetColor(headerCol, 4)
-local middleLine = PIXEL.OffsetColor(headerCol, 8)
+local headerCol = PulsarUI.Colors.Header
+local gridCol = PulsarUI.OffsetColor(headerCol, 4)
+local middleLine = PulsarUI.OffsetColor(headerCol, 8)
 
 function PANEL:Paint(w, h)
-	PIXEL.DrawRoundedBox(8, 0, 0, w, h, headerCol)
+	PulsarUI.DrawRoundedBox(8, 0, 0, w, h, headerCol)
 
 	for i = 0, h do
 		if i % 16 == 0 then
-			PIXEL.DrawRoundedBox(0, 0, i, w, 2, gridCol)
+			PulsarUI.DrawRoundedBox(0, 0, i, w, 2, gridCol)
 		end
 	end
 
 	for i = 0, w do
 		if i % 16 == 0 then
-			PIXEL.DrawRoundedBox(0, i, 0, 2, h, gridCol)
+			PulsarUI.DrawRoundedBox(0, i, 0, 2, h, gridCol)
 		end
 	end
 
-	PIXEL.DrawRoundedBox(0, (w / 2) - scale(2), 0, 2, h, middleLine)
-	PIXEL.DrawRoundedBox(0, 0, (h / 2) + scale(1), w, 2, middleLine)
+	PulsarUI.DrawRoundedBox(0, (w / 2) - scale(2), 0, 2, h, middleLine)
+	PulsarUI.DrawRoundedBox(0, 0, (h / 2) + scale(1), w, 2, middleLine)
 
 	if not self.DraggedPastY or not self.DraggedPastX then return end
 	surface.SetMaterial(gradientMat)
-	surface.SetDrawColor(PIXEL.Colors.Negative)
+	surface.SetDrawColor(PulsarUI.Colors.Negative)
 	local maxPastY = clamp(self.DraggedPastY, 0, 512)
 	local maxPastX = clamp(self.DraggedPastX, 0, 512)
 	surface.DrawTexturedRectRotated(0, 0, maxPastY, w * 2, 270) -- Top
@@ -115,7 +115,7 @@ function PANEL:PerformLayout()
 end
 
 
-vgui.Register("PIXEL.InnerDragPanel", PANEL, "EditablePanel")
+vgui.Register("PulsarUI.InnerDragPanel", PANEL, "EditablePanel")
 
 PANEL = {}
 
@@ -127,15 +127,15 @@ function PANEL:Init()
 	self.HasLayouted = false
 	self.OldW = false
 	self.OldH = false
-	self.Inner = vgui.Create("PIXEL.InnerDragPanel", self)
+	self.Inner = vgui.Create("PulsarUI.InnerDragPanel", self)
 
-	self.RecenterButton = vgui.Create("PIXEL.ImageButton", self)
+	self.RecenterButton = vgui.Create("PulsarUI.ImageButton", self)
 	self.RecenterButton:SetSize(scale(32), scale(32))
 	self.RecenterButton:SetImageURL("https://pixel-cdn.lythium.dev/i/center-icon")
-	self.RecenterButton:SetNormalColor(PIXEL.Colors.PrimaryText)
-	self.RecenterButton:SetHoverColor(PIXEL.Colors.Primary)
-	self.RecenterButton:SetClickColor(PIXEL.OffsetColor(PIXEL.Colors.Primary, 50))
-	self.RecenterButton:SetDisabledColor(PIXEL.Colors.DisabledText)
+	self.RecenterButton:SetNormalColor(PulsarUI.Colors.PrimaryText)
+	self.RecenterButton:SetHoverColor(PulsarUI.Colors.Primary)
+	self.RecenterButton:SetClickColor(PulsarUI.OffsetColor(PulsarUI.Colors.Primary, 50))
+	self.RecenterButton:SetDisabledColor(PulsarUI.Colors.DisabledText)
 	self.RecenterButton:SetFrameEnabled(true)
 	self.RecenterButton:SetRounded(8)
 	self.RecenterButton.DoClick = function()
@@ -160,4 +160,4 @@ end
 function PANEL:LayoutContent(w, h)
 end
 
-vgui.Register("PIXEL.DragPanel", PANEL, "EditablePanel")
+vgui.Register("PulsarUI.DragPanel", PANEL, "EditablePanel")

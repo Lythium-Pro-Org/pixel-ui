@@ -1,20 +1,20 @@
 --https://gist.github.com/theawesomecoder61/d2c3a3d42bbce809ca446a85b4dda754
 
 -- Draws an arc on your screen.
--- startang and endang are in degrees, 
+-- startang and endang are in degrees,
 -- radius is the total radius of the outside edge to the center.
 -- cx, cy are the x,y coordinates of the center of the arc.
 -- roughness determines how many triangles are drawn. Number between 1-360; 2 or 3 is a good number.
 
-PIXEL = PIXEL or {}
+PulsarUI = PulsarUI or {}
 
 
-function PIXEL.DrawUncachedArc(cx, cy, radius, thickness, startang, endang, roughness, color)
+function PulsarUI.DrawUncachedArc(cx, cy, radius, thickness, startang, endang, roughness, color)
 	surface.SetDrawColor(color)
-	PIXEL.DrawArc(PIXEL.PrecacheArc(cx, cy, radius, thickness, startang, endang, roughness))
+	PulsarUI.DrawArc(PulsarUI.PrecacheArc(cx, cy, radius, thickness, startang, endang, roughness))
 end
 
-function PIXEL.PrecacheArc(cx, cy, radius, thickness, startang, endang, roughness)
+function PulsarUI.PrecacheArc(cx, cy, radius, thickness, startang, endang, roughness)
 	local triarc = {}
 	-- local deg2rad = math.pi / 180
 	-- Define step
@@ -82,14 +82,14 @@ function PIXEL.PrecacheArc(cx, cy, radius, thickness, startang, endang, roughnes
 end
 
 --Draw a premade arc.
-function PIXEL.DrawArc(arc)
+function PulsarUI.DrawArc(arc)
 	for k, v in ipairs(arc) do
 		surface.DrawPoly(v)
 	end
 end
 
 -- https://github.com/Threebow/tdlib/blob/master/tdlib.lua#L39
-function PIXEL.DrawFilledArc(x, y, ang, p, rad, color, seg)
+function PulsarUI.DrawFilledArc(x, y, ang, p, rad, color, seg)
 	seg = seg or 80
 	ang = (-ang) + 180
 	local circle = {}

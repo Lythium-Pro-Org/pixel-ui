@@ -1,17 +1,17 @@
 
 local PANEL = {}
 local gradientMat = Material("nil")
-PIXEL.GetImage("https://pixel-cdn.lythium.dev/i/zxlflz5vp", function(mat)
+PulsarUI.GetImage("https://pixel-cdn.lythium.dev/i/zxlflz5vp", function(mat)
     gradientMat = mat
 end)
 
 local colorWheelMat = Material("nil")
-PIXEL.GetImage("https://pixel-cdn.lythium.dev/i/4lsnfph3b", function(mat)
+PulsarUI.GetImage("https://pixel-cdn.lythium.dev/i/4lsnfph3b", function(mat)
     colorWheelMat = mat
 end)
 
 local pickerMat = Material("nil")
-PIXEL.GetImage("https://pixel-cdn.lythium.dev/i/rhz6llj2", function(mat)
+PulsarUI.GetImage("https://pixel-cdn.lythium.dev/i/rhz6llj2", function(mat)
     pickerMat = mat
 end)
 
@@ -30,7 +30,7 @@ function PANEL:OnChange(color)
 end
 
 function PANEL:UpdateColor()
-    self.Color = PIXEL.HSLToColor(self.Hue, self.Saturation, self.Lightness)
+    self.Color = PulsarUI.HSLToColor(self.Hue, self.Saturation, self.Lightness)
     self:OnChange(self.Color)
 end
 
@@ -155,7 +155,7 @@ function PANEL:GetRingThickness()
 end
 
 function PANEL:GetHueColor()
-    return PIXEL.HSLToColor(self.Hue, 1, 0.5)
+    return PulsarUI.HSLToColor(self.Hue, 1, 0.5)
 end
 
 local whiteTexture = surface.GetTextureID("vgui/white")
@@ -208,7 +208,7 @@ function PANEL:Paint(w, h)
     surface.SetDrawColor(255, 255, 255, 255)
     surface.SetMaterial(colorWheelMat)
     surface.DrawTexturedRect(cX - radius, cY - radius, radius * 2, radius * 2)
-    local pickerSize = PIXEL.Scale(5)
+    local pickerSize = PulsarUI.Scale(5)
 
     local pickerVerts = {
         {
@@ -218,14 +218,14 @@ function PANEL:Paint(w, h)
             v = 1
         },
         {
-            x = cX + self.TriX * triangleRadius - PIXEL.Scale(5),
-            y = cY + self.TriY * triangleRadius + PIXEL.Scale(5),
+            x = cX + self.TriX * triangleRadius - PulsarUI.Scale(5),
+            y = cY + self.TriY * triangleRadius + PulsarUI.Scale(5),
             u = 0,
             v = 1
         },
         {
-            x = cX + self.TriX * triangleRadius - PIXEL.Scale(5),
-            y = cY + self.TriY * triangleRadius - PIXEL.Scale(5),
+            x = cX + self.TriX * triangleRadius - PulsarUI.Scale(5),
+            y = cY + self.TriY * triangleRadius - PulsarUI.Scale(5),
             u = 0,
             v = 0
         },
@@ -242,7 +242,7 @@ function PANEL:Paint(w, h)
     surface.DrawPoly(pickerVerts)
     local hpX = cX + math.cos(self.Hue) * (radius - self:GetRingThickness() / 2)
     local hpY = cY + math.sin(self.Hue) * (radius - self:GetRingThickness() / 2)
-    local size = PIXEL.Scale(16)
+    local size = PulsarUI.Scale(16)
 
     local huePickerVerts = {
         {
@@ -276,4 +276,4 @@ function PANEL:Paint(w, h)
     surface.DrawPoly(huePickerVerts)
 end
 
-vgui.Register("PIXEL.ColorPicker", PANEL, "Panel")
+vgui.Register("PulsarUI.ColorPicker", PANEL, "Panel")

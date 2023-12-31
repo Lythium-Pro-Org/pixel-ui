@@ -12,13 +12,13 @@ function PANEL:Init()
     self:SetIsMenu(true)
     self:SetDrawBorder(true)
     self:SetPaintBackground(true)
-    self:SetMinimumWidth(PIXEL.Scale(100))
+    self:SetMinimumWidth(PulsarUI.Scale(100))
     self:SetDrawOnTop(true)
     self:SetMaxHeight(ScrH() * 0.3)
     self:SetDeleteSelf(true)
     self:SetBarDockShouldOffset(true)
     self:SetPadding(0)
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 10)
+    self.BackgroundCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, 10)
     RegisterDermaMenuForClose(self)
 
     self.OptionTexts = {}
@@ -30,7 +30,7 @@ function PANEL:AddPanel(pnl)
 end
 
 function PANEL:AddOption(strText, funcFunction)
-    local pnl = vgui.Create("PIXEL.MenuOption", self)
+    local pnl = vgui.Create("PulsarUI.MenuOption", self)
     pnl:SetMenu(self)
     pnl:SetText(strText)
 
@@ -46,7 +46,7 @@ function PANEL:AddOption(strText, funcFunction)
 end
 
 function PANEL:AddCVar(strText, convar, on, off, funcFunction)
-    local pnl = vgui.Create("PIXEL.MenuOptionCVar", self)
+    local pnl = vgui.Create("PulsarUI.MenuOptionCVar", self)
     pnl:SetMenu(self)
     pnl:SetText(strText)
 
@@ -66,13 +66,13 @@ end
 
 function PANEL:AddSpacer(text, func)
     local pnl = vgui.Create("Panel", self)
-    local spacerCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 6)
+    local spacerCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, 6)
 
     pnl.Paint = function(p, w, h)
-        PIXEL.DrawRoundedBox(PIXEL.Scale(4), 0, 0, w, h, spacerCol)
+        PulsarUI.DrawRoundedBox(PulsarUI.Scale(4), 0, 0, w, h, spacerCol)
     end
 
-    pnl:SetTall(PIXEL.Scale(3))
+    pnl:SetTall(PulsarUI.Scale(3))
     self:AddPanel(pnl)
 
     self.OptionTexts[text] = pnl
@@ -81,7 +81,7 @@ function PANEL:AddSpacer(text, func)
 end
 
 function PANEL:AddSubMenu(strText, funcFunction)
-    local pnl = vgui.Create("PIXEL.MenuOption", self)
+    local pnl = vgui.Create("PulsarUI.MenuOption", self)
     local subMenu = pnl:AddSubMenu(strText, funcFunction)
     pnl:SetText(strText)
 
@@ -116,7 +116,7 @@ function PANEL:OpenSubMenu(item, menu)
     end
 
     if not IsValid(menu) then return end
-    local x, y = item:LocalToScreen(self:GetWide() + PIXEL.Scale(2), 0)
+    local x, y = item:LocalToScreen(self:GetWide() + PulsarUI.Scale(2), 0)
     menu:Open(x, y, false, item)
     self:SetOpenSubMenu(menu)
 end
@@ -200,7 +200,7 @@ function PANEL:Open(x, y, skipanimation, ownerpanel)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 end
 
 function PANEL:OptionSelectedInternal(option)
@@ -224,4 +224,4 @@ function PANEL:HighlightItem(item)
     end
 end
 
-vgui.Register("PIXEL.Menu", PANEL, "PIXEL.ScrollPanel")
+vgui.Register("PulsarUI.Menu", PANEL, "PulsarUI.ScrollPanel")

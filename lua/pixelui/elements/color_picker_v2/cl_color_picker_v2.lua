@@ -10,46 +10,46 @@ AccessorFunc(PANEL, "Alpha", "Alpha")
 AccessorFunc(PANEL, "R", "R")
 AccessorFunc(PANEL, "G", "G")
 AccessorFunc(PANEL, "B", "B")
-PIXEL.RegisterFont("UI.ColorPickerNumberEntry", "Rubik", 12)
+PulsarUI.RegisterFont("UI.ColorPickerNumberEntry", "Rubik", 12)
 
 function PANEL:Init()
 	self:SetShowTextEntries(true)
-	self:SetSize(PIXEL.Scale(256), PIXEL.Scale(50))
+	self:SetSize(PulsarUI.Scale(256), PulsarUI.Scale(50))
 	self.ColorBox = vgui.Create("EditablePanel", self)
 	self.ColorBox:Dock(LEFT)
 	self.ColorBox:SetWide(self:GetTall())
-	self.ColorBox:DockMargin(0, 0, PIXEL.Scale(10), 0)
+	self.ColorBox:DockMargin(0, 0, PulsarUI.Scale(10), 0)
 
 	self.ColorBox.Paint = function(s, w, h)
 		local alpha = self:GetAlpha()
 		if alpha < 255 then
-			PIXEL.Mask(function()
-				PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+			PulsarUI.Mask(function()
+				PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
 			end, function()
-				PIXEL.DrawImage(0, 0, w, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
+				PulsarUI.DrawImage(0, 0, w, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
 			end)
 		end
 
-		local color = PIXEL.SetColorTransparency(self:GetColor(), alpha)
-		PIXEL.DrawRoundedBox(8, 0, 0, w, h, color)
+		local color = PulsarUI.SetColorTransparency(self:GetColor(), alpha)
+		PulsarUI.DrawRoundedBox(8, 0, 0, w, h, color)
 	end
 
-	self.HueBar = vgui.Create("PIXEL.HueBar", self)
+	self.HueBar = vgui.Create("PulsarUI.HueBar", self)
 	self.HueBar:Dock(TOP)
-	self.HueBar:SetTall(PIXEL.Scale(20))
+	self.HueBar:SetTall(PulsarUI.Scale(20))
 	self.HueBar:DockMargin(0, 0, 0, 0)
-	self.SaturationBar = vgui.Create("PIXEL.SaturationBar", self)
+	self.SaturationBar = vgui.Create("PulsarUI.SaturationBar", self)
 	self.SaturationBar:Dock(TOP)
-	self.SaturationBar:SetTall(PIXEL.Scale(20))
-	self.SaturationBar:DockMargin(0, PIXEL.Scale(10), 0, 0)
-	self.LuminosityBar = vgui.Create("PIXEL.LuminosityBar", self)
+	self.SaturationBar:SetTall(PulsarUI.Scale(20))
+	self.SaturationBar:DockMargin(0, PulsarUI.Scale(10), 0, 0)
+	self.LuminosityBar = vgui.Create("PulsarUI.LuminosityBar", self)
 	self.LuminosityBar:Dock(TOP)
-	self.LuminosityBar:SetTall(PIXEL.Scale(20))
-	self.LuminosityBar:DockMargin(0, PIXEL.Scale(10), 0, 0)
-	self.AlphaBar = vgui.Create("PIXEL.AlphaBar", self)
+	self.LuminosityBar:SetTall(PulsarUI.Scale(20))
+	self.LuminosityBar:DockMargin(0, PulsarUI.Scale(10), 0, 0)
+	self.AlphaBar = vgui.Create("PulsarUI.AlphaBar", self)
 	self.AlphaBar:Dock(TOP)
-	self.AlphaBar:SetTall(PIXEL.Scale(20))
-	self.AlphaBar:DockMargin(0, PIXEL.Scale(10), 0, 0)
+	self.AlphaBar:SetTall(PulsarUI.Scale(20))
+	self.AlphaBar:DockMargin(0, PulsarUI.Scale(10), 0, 0)
 
 	self.HueBar.OnChange = function(_, hue)
 		local s, l, a = self:GetSaturation(), self:GetLuminosity(), self:GetAlpha()
@@ -96,10 +96,10 @@ function PANEL:SetAlphaBar(enabled)
 end
 
 function PANEL:CalculateHeight()
-	local height = self.HueBar:GetTall() + self.SaturationBar:GetTall() + self.LuminosityBar:GetTall() + PIXEL.Scale(20)
+	local height = self.HueBar:GetTall() + self.SaturationBar:GetTall() + self.LuminosityBar:GetTall() + PulsarUI.Scale(20)
 
 	if self.AlphaBar:IsVisible() then
-		height = height + self.AlphaBar:GetTall() + PIXEL.Scale(10)
+		height = height + self.AlphaBar:GetTall() + PulsarUI.Scale(10)
 	end
 
 	return height
@@ -135,7 +135,7 @@ function PANEL:UpdateColor(h, s, l, a, color)
 		color = HSLToColor(h, s, l)
 	end
 
-	local baseColor = PIXEL.CopyColor(color)
+	local baseColor = PulsarUI.CopyColor(color)
 	baseColor.a = 255
 
 	if IsValid(self.HueBar) then
@@ -206,4 +206,4 @@ function PANEL:DoConVarThink(convar)
 	return value, true
 end
 
-vgui.Register("PIXEL.ColorPickerV2", PANEL, "EditablePanel")
+vgui.Register("PulsarUI.ColorPickerV2", PANEL, "EditablePanel")

@@ -1,9 +1,7 @@
-PIXEL = PIXEL or {}
-PIXEL.UI = PIXEL.UI or {}
-PIXEL.UI.Version = "2.0.0"
-PIXEL.UI.PulsarFork = true
+PulsarUI = PulsarUI or {}
+PulsarUI.Version = "2.0.0"
 
-function PIXEL.LoadDirectory(path)
+function PulsarUI.LoadDirectory(path)
     local files, folders = file.Find(path .. "/*", "LUA")
 
     for _, fileName in ipairs(files) do
@@ -26,11 +24,11 @@ function PIXEL.LoadDirectory(path)
     return files, folders
 end
 
-function PIXEL.LoadDirectoryRecursive(basePath, onLoad)
-    local _, folders = PIXEL.LoadDirectory(basePath)
+function PulsarUI.LoadDirectoryRecursive(basePath, onLoad)
+    local _, folders = PulsarUI.LoadDirectory(basePath)
 
     for _, folderName in ipairs(folders) do
-        PIXEL.LoadDirectoryRecursive(basePath .. "/" .. folderName)
+        PulsarUI.LoadDirectoryRecursive(basePath .. "/" .. folderName)
     end
 
     if onLoad and isfunction(onLoad) then
@@ -38,8 +36,8 @@ function PIXEL.LoadDirectoryRecursive(basePath, onLoad)
     end
 end
 
-PIXEL.LoadDirectoryRecursive("pixelui")
-hook.Run("PIXEL.UI.FullyLoaded")
+PulsarUI.LoadDirectoryRecursive("pixelui")
+hook.Run("PulsarUI.FullyLoaded")
 
 if CLIENT then return end
 resource.AddWorkshop("2825396224")

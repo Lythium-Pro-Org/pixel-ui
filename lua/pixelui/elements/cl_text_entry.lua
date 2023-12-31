@@ -1,5 +1,5 @@
 
-PIXEL.RegisterFont("UI.TextEntryLabel", "Rubik", 10)
+PulsarUI.RegisterFont("UI.TextEntryLabel", "Rubik", 10)
 
 local PANEL = {}
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)
@@ -11,19 +11,19 @@ end
 
 function PANEL:Init()
 	self:SetLabel("test")
-	self.TextEntry = vgui.Create("PIXEL.TextEntryInternal", self)
-	self.PlaceholderTextCol = PIXEL.OffsetColor(PIXEL.Colors.SecondaryText, -110)
+	self.TextEntry = vgui.Create("PulsarUI.TextEntryInternal", self)
+	self.PlaceholderTextCol = PulsarUI.OffsetColor(PulsarUI.Colors.SecondaryText, -110)
 
-	self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, -25)
-	self.BaseBackgroundCol = PIXEL.CopyColor(self.BackgroundCol)
-	self.HoveredCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, -15)
-	self.FocusedCol = PIXEL.OffsetColor(PIXEL.Colors.Scroller, -5)
+	self.BackgroundCol = PulsarUI.OffsetColor(PulsarUI.Colors.Scroller, -25)
+	self.BaseBackgroundCol = PulsarUI.CopyColor(self.BackgroundCol)
+	self.HoveredCol = PulsarUI.OffsetColor(PulsarUI.Colors.Scroller, -15)
+	self.FocusedCol = PulsarUI.OffsetColor(PulsarUI.Colors.Scroller, -5)
 end
 
 function PANEL:PerformLayout(w, h)
 	self:LayoutContent(w, h)
 	self.TextEntry:Dock(FILL)
-	local xPad, yPad = PIXEL.Scale(8), PIXEL.Scale(8)
+	local xPad, yPad = PulsarUI.Scale(8), PulsarUI.Scale(8)
 	self:DockPadding(xPad, yPad, xPad, yPad)
 end
 
@@ -32,15 +32,15 @@ end
 
 function PANEL:Paint(w, h)
 	if not self:IsEnabled() then
-		PIXEL.DrawRoundedBoxEx(8, PIXEL.Scale(3), 0, w - PIXEL.Scale(3), h, self.BackgroundCol, false, true, false, true)
-		PIXEL.DrawRoundedBoxEx(8, 0, 0, PIXEL.Scale(3), h, self.DisabledCol, true, false, true, false)
+		PulsarUI.DrawRoundedBoxEx(8, PulsarUI.Scale(3), 0, w - PulsarUI.Scale(3), h, self.BackgroundCol, false, true, false, true)
+		PulsarUI.DrawRoundedBoxEx(8, 0, 0, PulsarUI.Scale(3), h, self.DisabledCol, true, false, true, false)
 
-		PIXEL.DrawSimpleText("Disabled", "UI.TextEntry", PIXEL.Scale(8), h / 2, PIXEL.Colors.SecondaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		PulsarUI.DrawSimpleText("Disabled", "UI.TextEntry", PulsarUI.Scale(8), h / 2, PulsarUI.Colors.SecondaryText, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		return
 	end
 
 	if self:GetValue() == "" then
-		PIXEL.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PIXEL.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		PulsarUI.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PulsarUI.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 	end
 
 	local label = self:GetLabel()
@@ -60,19 +60,19 @@ function PANEL:Paint(w, h)
 		backgroundCol = self.OverrideCol
 	end
 
-	self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
+	self.BackgroundCol = PulsarUI.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
 	local labelH = 0
 	if label then
-		_, labelH = PIXEL.GetTextSize(label, "UI.TextEntryLabel")
+		_, labelH = PulsarUI.GetTextSize(label, "UI.TextEntryLabel")
 	end
 
 	print(labelH)
 
-	PIXEL.DrawRoundedBox((h - labelH) / 2, 0, labelH, w, h - labelH, self.BackgroundCol)
+	PulsarUI.DrawRoundedBox((h - labelH) / 2, 0, labelH, w, h - labelH, self.BackgroundCol)
 
 	if label then
-		PIXEL.DrawSimpleText(label, "UI.TextEntryLabel", PIXEL.Scale(12), 0, PIXEL.Colors.PrimaryText, TEXT_ALIGN_LEFT)
+		PulsarUI.DrawSimpleText(label, "UI.TextEntryLabel", PulsarUI.Scale(12), 0, PulsarUI.Colors.PrimaryText, TEXT_ALIGN_LEFT)
 	end
 end
 
@@ -196,4 +196,4 @@ end
 function PANEL:OnLoseFocus()
 end
 
-vgui.Register("PIXEL.TextEntry", PANEL, "Panel")
+vgui.Register("PulsarUI.TextEntry", PANEL, "Panel")

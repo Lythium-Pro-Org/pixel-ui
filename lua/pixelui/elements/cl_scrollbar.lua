@@ -2,9 +2,9 @@
 local PANEL = {}
 
 function PANEL:Init()
-    self.NormalCol = PIXEL.Colors.Scroller
-    self.HoverCol = PIXEL.OffsetColor(self.NormalCol, 15)
-    self.Colour = PIXEL.CopyColor(self.NormalCol)
+    self.NormalCol = PulsarUI.Colors.Scroller
+    self.HoverCol = PulsarUI.OffsetColor(self.NormalCol, 15)
+    self.Colour = PulsarUI.CopyColor(self.NormalCol)
 end
 
 function PANEL:OnMousePressed()
@@ -12,11 +12,11 @@ function PANEL:OnMousePressed()
 end
 
 function PANEL:Paint(w, h)
-    self.Colour = PIXEL.LerpColor(FrameTime() * 12, self.Colour, (self:IsHovered() or self:GetParent().Dragging) and self.HoverCol or self.NormalCol)
-    PIXEL.DrawRoundedBox(w / 2, 0, 0, w, h, self.Colour)
+    self.Colour = PulsarUI.LerpColor(FrameTime() * 12, self.Colour, (self:IsHovered() or self:GetParent().Dragging) and self.HoverCol or self.NormalCol)
+    PulsarUI.DrawRoundedBox(w / 2, 0, 0, w, h, self.Colour)
 end
 
-vgui.Register("PIXEL.ScrollbarGrip", PANEL, "Panel")
+vgui.Register("PulsarUI.ScrollbarGrip", PANEL, "Panel")
 PANEL = {}
 AccessorFunc(PANEL, "m_bVisibleFullHeight", "VisibleFullHeight", FORCE_BOOL)
 
@@ -25,8 +25,8 @@ function PANEL:Init()
     self.Scroll = 0
     self.CanvasSize = 1
     self.BarSize = 1
-    self.BackgroundCol = PIXEL.OffsetColor(PIXEL.Colors.Background, 5)
-    self.Scrollbar = vgui.Create("PIXEL.ScrollbarGrip", self)
+    self.BackgroundCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, 5)
+    self.Scrollbar = vgui.Create("PulsarUI.ScrollbarGrip", self)
     self:SetVisibleFullHeight(false)
 end
 
@@ -185,7 +185,7 @@ function PANEL:PerformLayout(w, h)
 end
 
 function PANEL:Paint(w, h)
-    PIXEL.DrawRoundedBox(w / 2, 0, 0, w, h, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(w / 2, 0, 0, w, h, self.BackgroundCol)
 end
 
-vgui.Register("PIXEL.Scrollbar", PANEL, "Panel")
+vgui.Register("PulsarUI.Scrollbar", PANEL, "Panel")

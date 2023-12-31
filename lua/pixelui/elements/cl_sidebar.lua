@@ -1,5 +1,5 @@
 --[[
-	PIXEL UI - Copyright Notice
+	PulsarUI UI - Copyright Notice
 	© 2023 Thomas O'Sullivan - All rights reserved
 
 	This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ AccessorFunc(PANEL, "GradientColorRight", "GradientColorRight", FORCE_COLOR)
 function PANEL:SetGradientColor(col)
 	assert(type(col) == "table", "bad argument #1 to 'SetGradientColor' (table expected, got " .. type(col) .. ")")
 	self:SetGradientColorLeft(col)
-	local offsetCol = PIXEL.OffsetColor(col, -40, true)
+	local offsetCol = PulsarUI.OffsetColor(col, -40, true)
 	self:SetGradientColorRight(offsetCol)
 end
 
@@ -46,40 +46,40 @@ end
 
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id) .. ")")
-	print("[PIXEL UI] PIXEL.SidebarItem:SetImgurID is deprecated, use PIXEL.SidebarItem:SetImageURL instead")
+	print("[PulsarUI UI] PulsarUI.SidebarItem:SetImgurID is deprecated, use PulsarUI.SidebarItem:SetImageURL instead")
 	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
 	self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-	print("[PIXEL UI] PIXEL.SidebarItem:GetImgurID is deprecated, use PIXEL.SidebarItem:GetImageURL instead")
+	print("[PulsarUI UI] PulsarUI.SidebarItem:GetImgurID is deprecated, use PulsarUI.SidebarItem:GetImageURL instead")
 	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
-PIXEL.RegisterFont("SidebarItem", "Rubik", 19, 600)
+PulsarUI.RegisterFont("SidebarItem", "Rubik", 19, 600)
 
 function PANEL:Init()
 	self:SetName("N/A")
 	self:SetDrawOutline(true)
-	self:SetGradientColor(PIXEL.Colors.Primary)
-	self.TextCol = PIXEL.CopyColor(PIXEL.Colors.SecondaryText)
-	self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Transparent)
-	self.BackgroundHoverCol = ColorAlpha(PIXEL.Colors.Primary, 40)
-	self.BackgroundSelectCol = ColorAlpha(PIXEL.Colors.Primary, 80)
+	self:SetGradientColor(PulsarUI.Colors.Primary)
+	self.TextCol = PulsarUI.CopyColor(PulsarUI.Colors.SecondaryText)
+	self.BackgroundCol = PulsarUI.CopyColor(PulsarUI.Colors.Transparent)
+	self.BackgroundHoverCol = ColorAlpha(PulsarUI.Colors.Primary, 40)
+	self.BackgroundSelectCol = ColorAlpha(PulsarUI.Colors.Primary, 80)
 end
 
 function PANEL:Paint(w, h)
-	local textCol = PIXEL.Colors.SecondaryText
-	local backgroundCol = PIXEL.Colors.Transparent
-	local leftGradCol = PIXEL.Colors.Transparent
-	local rightGradCol = PIXEL.Colors.Transparent
+	local textCol = PulsarUI.Colors.SecondaryText
+	local backgroundCol = PulsarUI.Colors.Transparent
+	local leftGradCol = PulsarUI.Colors.Transparent
+	local rightGradCol = PulsarUI.Colors.Transparent
 
 	local gradientEnabled = self:GetGradientEnabled()
 
 	if self:IsHovered() then
-		textCol = PIXEL.Colors.PrimaryText
+		textCol = PulsarUI.Colors.PrimaryText
 		backgroundCol = self.BackgroundHoverCol
-		hoverLineCol = PIXEL.Colors.Primary
+		hoverLineCol = PulsarUI.Colors.Primary
 
 		if gradientEnabled then
 			leftGradCol = self.GradientColorLeftHover
@@ -88,7 +88,7 @@ function PANEL:Paint(w, h)
 	end
 
 	if self:IsDown() or self:GetToggle() then
-		textCol = PIXEL.Colors.PrimaryText
+		textCol = PulsarUI.Colors.PrimaryText
 		backgroundCol = self.BackgroundSelectCol
 
 		if gradientEnabled then
@@ -98,37 +98,37 @@ function PANEL:Paint(w, h)
 	end
 
 	local animTime = FrameTime() * 24
-	self.TextCol = PIXEL.LerpColor(animTime, self.TextCol, textCol)
-	self.BackgroundCol = PIXEL.LerpColor(animTime, self.BackgroundCol, backgroundCol)
+	self.TextCol = PulsarUI.LerpColor(animTime, self.TextCol, textCol)
+	self.BackgroundCol = PulsarUI.LerpColor(animTime, self.BackgroundCol, backgroundCol)
 
 	if gradientEnabled then
-		self.GradientColorLeft = PIXEL.LerpColor(animTime, self.GradientColorLeft, leftGradCol)
-		self.GradientColorRight = PIXEL.LerpColor(animTime, self.GradientColorRight, rightGradCol)
+		self.GradientColorLeft = PulsarUI.LerpColor(animTime, self.GradientColorLeft, leftGradCol)
+		self.GradientColorRight = PulsarUI.LerpColor(animTime, self.GradientColorRight, rightGradCol)
 	end
 
 	if self:GetDrawOutline() and gradientEnabled then
-		PIXEL.Mask(function()
-			PIXEL.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
+		PulsarUI.Mask(function()
+			PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
 		end, function()
 			local lX, lY = self:LocalToScreen()
-			PIXEL.DrawSimpleLinearGradient(lX, lY, w, h, self.GradientColorLeft, self.GradientColorRight, true)
+			PulsarUI.DrawSimpleLinearGradient(lX, lY, w, h, self.GradientColorLeft, self.GradientColorRight, true)
 		end)
 	elseif self:GetDrawOutline() then
-		PIXEL.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol, PIXEL.Scale(1))
+		PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol, PulsarUI.Scale(1))
 	end
 
 	local imageURL = self:GetImageURL()
 	if imageURL then
 		local iconSize = h * .65
-		PIXEL.DrawImage(PIXEL.Scale(10), (h - iconSize) / 2, iconSize, iconSize, imageURL, self.TextCol)
-		PIXEL.DrawSimpleText(self:GetName(), "SidebarItem", PIXEL.Scale(20) + iconSize, h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+		PulsarUI.DrawImage(PulsarUI.Scale(10), (h - iconSize) / 2, iconSize, iconSize, imageURL, self.TextCol)
+		PulsarUI.DrawSimpleText(self:GetName(), "SidebarItem", PulsarUI.Scale(20) + iconSize, h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 		return
 	end
 
-	PIXEL.DrawSimpleText(self:GetName(), "SidebarItem", PIXEL.Scale(10), h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+	PulsarUI.DrawSimpleText(self:GetName(), "SidebarItem", PulsarUI.Scale(10), h / 2, self.TextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 end
 
-vgui.Register("PIXEL.SidebarItem", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.SidebarItem", PANEL, "PulsarUI.Button")
 
 PANEL = {}
 AccessorFunc(PANEL, "ImageURL", "ImageURL", FORCE_STRING)
@@ -143,48 +143,48 @@ AccessorFunc(PANEL, "ImgurOffset", "ImgurOffset", FORCE_NUMBER) -- Deprecated
 
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id) .. ")")
-	print("[PIXEL UI] PIXEL.Sidebar:SetImgurID is deprecated, use PIXEL.Sidebar:SetImageURL instead")
+	print("[PulsarUI UI] PulsarUI.Sidebar:SetImgurID is deprecated, use PulsarUI.Sidebar:SetImageURL instead")
 	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
 	self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-	print("[PIXEL UI] PIXEL.Sidebar:GetImgurID is deprecated, use PIXEL.Sidebar:GetImageURL instead")
+	print("[PulsarUI UI] PulsarUI.Sidebar:GetImgurID is deprecated, use PulsarUI.Sidebar:GetImageURL instead")
 	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
 function PANEL:SetImgurScale(scale)
 	assert(type(scale) == "number", "bad argument #1 to 'SetImgurScale' (number expected, got " .. type(scale) .. ")")
-	print("[PIXEL UI] PIXEL.Sidebar:SetImgurScale is deprecated, use PIXEL.Sidebar:SetImageScale instead")
+	print("[PulsarUI UI] PulsarUI.Sidebar:SetImgurScale is deprecated, use PulsarUI.Sidebar:SetImageScale instead")
 	self:SetImageScale(scale)
 	self.ImgurScale = scale
 end
 
 function PANEL:GetImgurScale()
-	print("[PIXEL UI] PIXEL.Sidebar:GetImgurScale is deprecated, use PIXEL.Sidebar:GetImageScale instead")
+	print("[PulsarUI UI] PulsarUI.Sidebar:GetImgurScale is deprecated, use PulsarUI.Sidebar:GetImageScale instead")
 	return self:GetImageScale()
 end
 
 function PANEL:SetImgurOffset(offset)
 	assert(type(offset) == "number", "bad argument #1 to 'SetImgurOffset' (number expected, got " .. type(offset) .. ")")
-	print("[PIXEL UI] PIXEL.Sidebar:SetImgurOffset is deprecated, use PIXEL.Sidebar:SetImageOffset instead")
+	print("[PulsarUI UI] PulsarUI.Sidebar:SetImgurOffset is deprecated, use PulsarUI.Sidebar:SetImageOffset instead")
 	self:SetImageOffset(offset)
 	self.ImgurOffset = offset
 end
 
 function PANEL:GetImgurOffset()
-	print("[PIXEL UI] PIXEL.Sidebar:GetImgurOffset is deprecated, use PIXEL.Sidebar:GetImageOffset instead")
+	print("[PulsarUI UI] PulsarUI.Sidebar:GetImgurOffset is deprecated, use PulsarUI.Sidebar:GetImageOffset instead")
 	return self:GetImageOffset()
 end
 
 function PANEL:Init()
 	self.Items = {}
-	self.Scroller = vgui.Create("PIXEL.ScrollPanel", self)
+	self.Scroller = vgui.Create("PulsarUI.ScrollPanel", self)
 	self.Scroller:SetBarDockShouldOffset(true)
 
 	self.Scroller.LayoutContent = function(s, w, h)
-		local spacing = PIXEL.Scale(8)
-		local height = PIXEL.Scale(35)
+		local spacing = PulsarUI.Scale(8)
+		local height = PulsarUI.Scale(35)
 
 		for k, v in pairs(self.Items) do
 			v:SetTall(height)
@@ -197,11 +197,11 @@ function PANEL:Init()
 	self:SetImageOffset(0)
 	self:SetButtonOffset(0)
 
-	self.BackgroundCol = PIXEL.CopyColor(PIXEL.Colors.Header)
+	self.BackgroundCol = PulsarUI.CopyColor(PulsarUI.Colors.Header)
 end
 
 function PANEL:AddItem(id, name, imageURL, doClick, order)
-	local btn = vgui.Create("PIXEL.SidebarItem", self.Scroller)
+	local btn = vgui.Create("PulsarUI.SidebarItem", self.Scroller)
 	btn:SetZPos(order or table.Count(self.Items) + 1)
 	btn:SetName(name)
 
@@ -249,21 +249,21 @@ function PANEL:SelectItem(id)
 end
 
 function PANEL:PerformLayout(w, h)
-	local sideSpacing = PIXEL.Scale(7)
-	local topSpacing = PIXEL.Scale(7)
+	local sideSpacing = PulsarUI.Scale(7)
+	local topSpacing = PulsarUI.Scale(7)
 	self:DockPadding(sideSpacing, self:GetImageURL() and w * self:GetImageScale() + self:GetImageOffset() + self:GetButtonOffset() + topSpacing * 2 or topSpacing, sideSpacing, topSpacing)
 	self.Scroller:Dock(FILL)
 	self.Scroller:GetCanvas():DockPadding(0, 0, self.Scroller.VBar.Enabled and sideSpacing or 0, 0)
 end
 
 function PANEL:Paint(w, h)
-	PIXEL.DrawRoundedBoxEx(PIXEL.Scale(6), 0, 0, w, h, self.BackgroundCol, false, false, true)
+	PulsarUI.DrawRoundedBoxEx(PulsarUI.Scale(6), 0, 0, w, h, self.BackgroundCol, false, false, true)
 
 	local imageURL = self:GetImageURL()
 	if imageURL then
 		local imageSize = w * self:GetImageScale()
-		PIXEL.DrawImage((w - imageSize) / 2, self:GetImageOffset() + PIXEL.Scale(15), imageSize, imageSize, imageURL, color_white)
+		PulsarUI.DrawImage((w - imageSize) / 2, self:GetImageOffset() + PulsarUI.Scale(15), imageSize, imageSize, imageURL, color_white)
 	end
 end
 
-vgui.Register("PIXEL.Sidebar", PANEL, "Panel")
+vgui.Register("PulsarUI.Sidebar", PANEL, "Panel")

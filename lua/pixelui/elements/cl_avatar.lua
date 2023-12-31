@@ -61,4 +61,4 @@ function PANEL:Paint(w, h)
     render.ClearStencil()
 end
 
-vgui.Register("PIXEL.Avatar", PANEL, "Panel")
+vgui.Register("PulsarUI.Avatar", PANEL, "Panel")

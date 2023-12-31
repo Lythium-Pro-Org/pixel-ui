@@ -5,7 +5,7 @@ local queue = {}
 
 local useProxy = false
 
-file.CreateDir(PIXEL.DownloadPath)
+file.CreateDir(PulsarUI.DownloadPath)
 
 local function endsWithExtension(str)
     local fileName = str:match(".+/(.-)$")
@@ -23,7 +23,7 @@ local function processQueue()
 
         http.Fetch((useProxy and ("https://proxy.duckduckgo.com/iu/?u=" .. url)) or url,
             function(body, len, headers, code)
-                if len > 2097152 then
+                if len > 2097152 or code ~= 200 then
                     materials[filePath] = Material("nil")
                 else
                     local writeFilePath = filePath
@@ -50,11 +50,11 @@ local function processQueue()
     end
 end
 
-function PIXEL.GetImage(url, callback, matSettings)
+function PulsarUI.GetImage(url, callback, matSettings)
     local protocol = url:match("^([%a]+://)")
     local urlWithoutProtocol = url
     if not protocol then
-        print("[PIXEL UI] Trying to run PIXEL.GetImage without URL protocol.")
+        print("[PulsarUI UI] Trying to run PulsarUI.GetImage without URL protocol.")
     else
         urlWithoutProtocol = string.gsub(url, protocol, "")
     end
@@ -66,8 +66,8 @@ function PIXEL.GetImage(url, callback, matSettings)
 
     local urlWithoutFileName = url:sub(protocol:len() + 1, fileNameStart - 1)
 
-    local dirPath = PIXEL.DownloadPath .. urlWithoutFileName
-    local filePath = PIXEL.DownloadPath .. urlWithoutProtocol
+    local dirPath = PulsarUI.DownloadPath .. urlWithoutFileName
+    local filePath = PulsarUI.DownloadPath .. urlWithoutProtocol
 
     file.CreateDir(dirPath)
 
@@ -99,7 +99,7 @@ function PIXEL.GetImage(url, callback, matSettings)
     end
 end
 
-function PIXEL.GetImgur(id, callback, _, matSettings)
+function PulsarUI.GetImgur(id, callback, _, matSettings)
     local url = "i.imgur.com/" .. id .. ".png"
-    PIXEL.GetImage(url, callback, matSettings)
+    PulsarUI.GetImage(url, callback, matSettings)
 end

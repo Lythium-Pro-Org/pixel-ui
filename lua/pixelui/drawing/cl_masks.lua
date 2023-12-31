@@ -1,7 +1,7 @@
-PIXEL = PIXEL or {}
+PulsarUI = PulsarUI or {}
 
 -- Credit to https://gitlab.com/sleeppyy/xenin-framework/-/blob/master/laux/xeninui/libs/essentials.laux?ref_type=heads#L448-504
-function PIXEL.Mask(maskFunc, drawFunc, pixel)
+function PulsarUI.Mask(maskFunc, drawFunc, pixel)
 	pixel = pixel or 1
 
 	render.ClearStencil()
@@ -30,7 +30,7 @@ function PIXEL.Mask(maskFunc, drawFunc, pixel)
 	render.ClearStencil()
 end
 
-function PIXEL.InverseMask(maskFunc, drawFunc, pixel)
+function PulsarUI.InverseMask(maskFunc, drawFunc, pixel)
 	pixel = pixel or 1
 
 	render.ClearStencil()

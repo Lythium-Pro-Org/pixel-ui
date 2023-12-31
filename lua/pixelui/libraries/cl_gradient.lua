@@ -5,13 +5,13 @@
 -- Licensed under Mozilla Public License v2.0
 
 local mat_white = Material("vgui/white")
-PIXEL = PIXEL or {}
+PulsarUI = PulsarUI or {}
 
-function PIXEL.DrawSimpleLinearGradient(x, y, w, h, startColor, endColor, horizontal)
-	PIXEL.DrawLinearGradient(x, y, w, h, {{offset = 0, color = startColor}, {offset = 1, color = endColor}}, horizontal)
+function PulsarUI.DrawSimpleLinearGradient(x, y, w, h, startColor, endColor, horizontal)
+	PulsarUI.DrawLinearGradient(x, y, w, h, {{offset = 0, color = startColor}, {offset = 1, color = endColor}}, horizontal)
 end
 
-function PIXEL.DrawLinearGradient(x, y, w, h, stops, horizontal)
+function PulsarUI.DrawLinearGradient(x, y, w, h, stops, horizontal)
 	if #stops == 0 then
 		return
 	elseif #stops == 1 then

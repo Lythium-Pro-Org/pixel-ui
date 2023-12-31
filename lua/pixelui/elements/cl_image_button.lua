@@ -10,7 +10,7 @@ AccessorFunc(PANEL, "ClickColor", "ClickColor")
 AccessorFunc(PANEL, "DisabledColor", "DisabledColor")
 
 function PANEL:Init()
-    self.ImageCol = PIXEL.CopyColor(color_white)
+    self.ImageCol = PulsarUI.CopyColor(color_white)
     self:SetImageURL("https://pixel-cdn.lythium.dev/i/loading")
 
     self:SetNormalColor(color_white)
@@ -28,7 +28,7 @@ function PANEL:Paint(w, h)
     self:PaintBackground(w, h)
 
     if self:IsHovered() and self:GetFrameEnabled() then
-        PIXEL.DrawRoundedBox(self:GetRounded(), 0, 0, w, h, self:GetHoverColor())
+        PulsarUI.DrawRoundedBox(self:GetRounded(), 0, 0, w, h, self:GetHoverColor())
     end
 
     local imageSize = h * self:GetImageSize()
@@ -36,11 +36,11 @@ function PANEL:Paint(w, h)
 
     if self:GetFrameEnabled() then
         imageSize = imageSize * .45
-        imageOffset = (h / 2) - (imageSize / 2) + PIXEL.Scale(1)
+        imageOffset = (h / 2) - (imageSize / 2) + PulsarUI.Scale(1)
     end
 
     if not self:IsEnabled() then
-        PIXEL.DrawImage(imageOffset, imageOffset, imageSize, imageSize, self:GetImageURL(), self:GetDisabledColor())
+        PulsarUI.DrawImage(imageOffset, imageOffset, imageSize, imageSize, self:GetImageURL(), self:GetDisabledColor())
 
         return
     end
@@ -55,8 +55,8 @@ function PANEL:Paint(w, h)
         col = self:GetClickColor()
     end
 
-    self.ImageCol = PIXEL.LerpColor(FrameTime() * 12, self.ImageCol, col)
-    PIXEL.DrawImage(imageOffset, imageOffset, imageSize, imageSize, self:GetImageURL(), self.ImageCol)
+    self.ImageCol = PulsarUI.LerpColor(FrameTime() * 12, self.ImageCol, col)
+    PulsarUI.DrawImage(imageOffset, imageOffset, imageSize, imageSize, self:GetImageURL(), self.ImageCol)
 end
 
-vgui.Register("PIXEL.ImageButton", PANEL, "PIXEL.Button")
+vgui.Register("PulsarUI.ImageButton", PANEL, "PulsarUI.Button")

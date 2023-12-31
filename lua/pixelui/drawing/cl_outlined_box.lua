@@ -3,7 +3,7 @@
 local setDrawColor = surface.SetDrawColor
 local drawOutlinedRect = surface.DrawOutlinedRect
 
-function PIXEL.DrawOutlinedBox(x, y, w, h, thickness, col)
+function PulsarUI.DrawOutlinedBox(x, y, w, h, thickness, col)
     setDrawColor(col.r, col.g, col.b, col.a)
     for i = 0, thickness - 1 do
         drawOutlinedRect(x + i, y + i, w - i * 2, h - i * 2)
@@ -18,13 +18,13 @@ local drawRect = surface.DrawRect
 local roundedBoxCache = {}
 local whiteTexture = surface.GetTextureID("vgui/white")
 
-function PIXEL.DrawOutlinedRoundedBox(borderSize, x, y, w, h, col, thickness)
+function PulsarUI.DrawOutlinedRoundedBox(borderSize, x, y, w, h, col, thickness)
     thickness = thickness or 1
 
     setDrawColor(col.r, col.g, col.b, col.a)
 
     if borderSize <= 0 then
-        PIXEL.DrawOutlinedBox(x, y, w, h, thickness, col)
+        PulsarUI.DrawOutlinedBox(x, y, w, h, thickness, col)
         return
     end
 

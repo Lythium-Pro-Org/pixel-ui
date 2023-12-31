@@ -4,7 +4,7 @@ do
     local currencySymbol = "$"
     local currencyLeft = true
 
-    hook.Add("PostGamemodeLoaded", "PIXEL.UI.GetMoneyFormatSettings", function()
+    hook.Add("PostGamemodeLoaded", "PulsarUI.GetMoneyFormatSettings", function()
         local config = (GM or GAMEMODE).Config
         if not config then return end
 
@@ -22,7 +22,7 @@ do
         local abs = math.abs
         local round = math.Round
 
-        function PIXEL.FormatMoney(val)
+        function PulsarUI.FormatMoney(val)
             if not val then return addCurrency("0") end
 
             val = round(val)
@@ -49,7 +49,7 @@ do
 end
 
 local floor, format = math.floor, string.format
-function PIXEL.FormatTime(time)
+function PulsarUI.FormatTime(time)
     if not time then return end
 
     local s = time % 60
