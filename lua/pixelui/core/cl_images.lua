@@ -54,7 +54,7 @@ function PulsarUI.GetImage(url, callback, matSettings)
     local protocol = url:match("^([%a]+://)")
     local urlWithoutProtocol = url
     if not protocol then
-        print("[PulsarUI UI] Trying to run PulsarUI.GetImage without URL protocol.")
+        print("[PulsarUI] Trying to run PulsarUI.GetImage without URL protocol.")
     else
         urlWithoutProtocol = string.gsub(url, protocol, "")
     end

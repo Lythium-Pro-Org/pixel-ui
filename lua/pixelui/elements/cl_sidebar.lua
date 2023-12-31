@@ -1,5 +1,5 @@
 --[[
-	PulsarUI UI - Copyright Notice
+	PulsarUI - Copyright Notice
 	© 2023 Thomas O'Sullivan - All rights reserved
 
 	This program is free software: you can redistribute it and/or modify
@@ -46,13 +46,13 @@ end
 
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id) .. ")")
-	print("[PulsarUI UI] PulsarUI.SidebarItem:SetImgurID is deprecated, use PulsarUI.SidebarItem:SetImageURL instead")
+	print("[PulsarUI] PulsarUI.SidebarItem:SetImgurID is deprecated, use PulsarUI.SidebarItem:SetImageURL instead")
 	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
 	self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-	print("[PulsarUI UI] PulsarUI.SidebarItem:GetImgurID is deprecated, use PulsarUI.SidebarItem:GetImageURL instead")
+	print("[PulsarUI] PulsarUI.SidebarItem:GetImgurID is deprecated, use PulsarUI.SidebarItem:GetImageURL instead")
 	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
@@ -143,37 +143,37 @@ AccessorFunc(PANEL, "ImgurOffset", "ImgurOffset", FORCE_NUMBER) -- Deprecated
 
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id) .. ")")
-	print("[PulsarUI UI] PulsarUI.Sidebar:SetImgurID is deprecated, use PulsarUI.Sidebar:SetImageURL instead")
+	print("[PulsarUI] PulsarUI.Sidebar:SetImgurID is deprecated, use PulsarUI.Sidebar:SetImageURL instead")
 	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
 	self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-	print("[PulsarUI UI] PulsarUI.Sidebar:GetImgurID is deprecated, use PulsarUI.Sidebar:GetImageURL instead")
+	print("[PulsarUI] PulsarUI.Sidebar:GetImgurID is deprecated, use PulsarUI.Sidebar:GetImageURL instead")
 	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
 function PANEL:SetImgurScale(scale)
 	assert(type(scale) == "number", "bad argument #1 to 'SetImgurScale' (number expected, got " .. type(scale) .. ")")
-	print("[PulsarUI UI] PulsarUI.Sidebar:SetImgurScale is deprecated, use PulsarUI.Sidebar:SetImageScale instead")
+	print("[PulsarUI] PulsarUI.Sidebar:SetImgurScale is deprecated, use PulsarUI.Sidebar:SetImageScale instead")
 	self:SetImageScale(scale)
 	self.ImgurScale = scale
 end
 
 function PANEL:GetImgurScale()
-	print("[PulsarUI UI] PulsarUI.Sidebar:GetImgurScale is deprecated, use PulsarUI.Sidebar:GetImageScale instead")
+	print("[PulsarUI] PulsarUI.Sidebar:GetImgurScale is deprecated, use PulsarUI.Sidebar:GetImageScale instead")
 	return self:GetImageScale()
 end
 
 function PANEL:SetImgurOffset(offset)
 	assert(type(offset) == "number", "bad argument #1 to 'SetImgurOffset' (number expected, got " .. type(offset) .. ")")
-	print("[PulsarUI UI] PulsarUI.Sidebar:SetImgurOffset is deprecated, use PulsarUI.Sidebar:SetImageOffset instead")
+	print("[PulsarUI] PulsarUI.Sidebar:SetImgurOffset is deprecated, use PulsarUI.Sidebar:SetImageOffset instead")
 	self:SetImageOffset(offset)
 	self.ImgurOffset = offset
 end
 
 function PANEL:GetImgurOffset()
-	print("[PulsarUI UI] PulsarUI.Sidebar:GetImgurOffset is deprecated, use PulsarUI.Sidebar:GetImageOffset instead")
+	print("[PulsarUI] PulsarUI.Sidebar:GetImgurOffset is deprecated, use PulsarUI.Sidebar:GetImageOffset instead")
 	return self:GetImageOffset()
 end
 

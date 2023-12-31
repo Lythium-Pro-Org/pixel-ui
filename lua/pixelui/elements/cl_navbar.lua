@@ -10,23 +10,23 @@ AccessorFunc(PANEL, "ImgurScale", "ImgurScale") -- Deprecated
 
 function PANEL:SetImgurID(id)
     self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
-    print("[PulsarUI UI] PulsarUI.NavbarItem:SetImgurID is deprecated, use PulsarUI.NavbarItem:SetImageURL instead.")
+    print("[PulsarUI] PulsarUI.NavbarItem:SetImgurID is deprecated, use PulsarUI.NavbarItem:SetImageURL instead.")
     self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-    print("[PulsarUI UI] PulsarUI.NavbarItem:GetImgurID is deprecated, use PulsarUI.NavbarItem:GetImageURL instead.")
+    print("[PulsarUI] PulsarUI.NavbarItem:GetImgurID is deprecated, use PulsarUI.NavbarItem:GetImageURL instead.")
     return (self:GetImageURL() or ""):match("i.imgur.com/(.-).png")
 end
 
 function PANEL:SetImgurScale(scale)
     self:SetImageScale(scale)
-    print("[PulsarUI UI] PulsarUI.NavbarItem:SetImgurScale is deprecated, use PulsarUI.NavbarItem:SetImageScale instead.")
+    print("[PulsarUI] PulsarUI.NavbarItem:SetImgurScale is deprecated, use PulsarUI.NavbarItem:SetImageScale instead.")
     self.ImgurScale = scale
 end
 
 function PANEL:GetImgurScale()
-    print("[PulsarUI UI] PulsarUI.NavbarItem:GetImgurScale is deprecated, use PulsarUI.NavbarItem:GetImageScale instead.")
+    print("[PulsarUI] PulsarUI.NavbarItem:GetImgurScale is deprecated, use PulsarUI.NavbarItem:GetImageScale instead.")
     return self:GetImageScale()
 end
 

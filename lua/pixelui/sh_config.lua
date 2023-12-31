@@ -1,5 +1,5 @@
 --[[
-    Should we override the default derma popups for the PulsarUI UI reskins?
+    Should we override the default derma popups for the PulsarUI reskins?
     0 = No - forced off.
     1 = No - but users can opt in via convar (pixel_ui_override_popups).
     2 = Yes - but users must opt in via convar.
@@ -8,7 +8,7 @@
 PulsarUI.OverrideDermaMenus = 0
 
 --[[
-    Should we disable the PulsarUI UI Reskin of the notification?
+    Should we disable the PulsarUI Reskin of the notification?
 ]]
 PulsarUI.DisableNotification = false
 

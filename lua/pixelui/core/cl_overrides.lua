@@ -8,7 +8,7 @@ function PulsarUI.CreateToggleableOverride(method, override, toggleGetter)
     end
 end
 
-local overridePopupsCvar = CreateClientConVar("pixel_ui_override_popups", (PulsarUI.OverrideDermaMenus > 1) and "1" or "0", true, false, "Should the default derma popups be restyled with PulsarUI UI?", 0, 1)
+local overridePopupsCvar = CreateClientConVar("pixel_ui_override_popups", (PulsarUI.OverrideDermaMenus > 1) and "1" or "0", true, false, "Should the default derma popups be restyled with PulsarUI?", 0, 1)
 function PulsarUI.ShouldOverrideDermaPopups()
     local overrideSetting = PulsarUI.OverrideDermaMenus
 

@@ -13,7 +13,7 @@ function PANEL:SetIcon(icon)
 
     local imgurMatch = (icon or ""):match("^[a-zA-Z0-9]+$")
     if imgurMatch then
-        print("[PulsarUI UI] Using imgur icons inside of PulsarUI.TextButton is deprecated.")
+        print("[PulsarUI] Using imgur icons inside of PulsarUI.TextButton is deprecated.")
         icon = "https://i.imgur.com/" .. icon .. ".png"
     end
 

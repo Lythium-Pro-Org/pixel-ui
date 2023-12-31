@@ -12,13 +12,13 @@ AccessorFunc(PANEL, "ImageURL", "ImageURL", FORCE_STRING)
 
 function PANEL:SetImgurID(id)
 	assert(type(id) == "string", "bad argument #1 to SetImgurID, string expected, got " .. type(id))
-	print("[PulsarUI UI] PulsarUI.Frame:SetImgurID is deprecated, use PulsarUI.Frame:SetImageURL instead")
+	print("[PulsarUI] PulsarUI.Frame:SetImgurID is deprecated, use PulsarUI.Frame:SetImageURL instead")
 	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
 	self.ImgurID = id
 end
 
 function PANEL:GetImgurID()
-	print("[PulsarUI UI] PulsarUI.Frame:GetImgurID is deprecated, use PulsarUI.Frame:GetImageURL instead")
+	print("[PulsarUI] PulsarUI.Frame:GetImgurID is deprecated, use PulsarUI.Frame:GetImageURL instead")
 	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
