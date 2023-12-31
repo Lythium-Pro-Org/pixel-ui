@@ -36,7 +36,7 @@ function PulsarUI.LoadDirectoryRecursive(basePath, onLoad)
     end
 end
 
-PulsarUI.LoadDirectoryRecursive("pixelui")
+PulsarUI.LoadDirectoryRecursive("pulsarui")
 hook.Run("PulsarUI.FullyLoaded")
 
 if CLIENT then return end
