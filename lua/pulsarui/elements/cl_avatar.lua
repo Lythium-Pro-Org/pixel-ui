@@ -4,12 +4,14 @@ AccessorFunc(PANEL, "MaskSize", "MaskSize", FORCE_NUMBER)
 function PANEL:Init()
     self.Avatar = vgui.Create("AvatarImage", self)
     self.Avatar:SetPaintedManually(true)
+
     self.CirclePoly = {}
     self:SetMaskSize(1)
 end
 
 function PANEL:PerformLayout(w, h)
     self.Avatar:SetSize(w, h)
+
     self.CirclePoly = {}
     local maskSize = self:GetMaskSize()
     local t = 0

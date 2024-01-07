@@ -108,6 +108,7 @@ function PANEL:LayoutContent(w, h)
     self.UpButton:SetPos(w - height - (h / 4), (h / 2) - height)
     self.DownButton:SetSize(height, height)
     self.DownButton:SetPos(w - height - (h / 4), h - self.UpButton:GetY() - height)
+
     local zPos = self:GetZPos()
     self.UpButton:SetZPos(zPos + 1)
     self.DownButton:SetZPos(zPos + 1)
