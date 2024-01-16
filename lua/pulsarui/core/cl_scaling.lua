@@ -25,5 +25,4 @@ hook.Add("OnScreenSizeChanged", "PulsarUI.UpdateScaledConstants", function()
     for varName, size in pairs(constants) do
         scaledConstants[varName] = PulsarUI.Scale(size)
     end
-    scrH = ScrH()
 end)
