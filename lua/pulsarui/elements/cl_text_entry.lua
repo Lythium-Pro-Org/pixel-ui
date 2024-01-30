@@ -33,7 +33,7 @@ function PANEL:Paint(w, h)
     end
 
     local outlineThickness = PulsarUI.Scale(1)
-    PulsarUI.DrawOutlinedRoundedBox(4, 0, 0, w, h, self.OutlineCol, outlineThickness)
+    PulsarUI.DrawOutlinedBox(0, 0, w, h, outlineThickness, self.OutlineCol)
 
     local col = PulsarUI.Colors.Transparent
 
@@ -47,7 +47,7 @@ function PANEL:Paint(w, h)
 
     self.InnerOutlineCol = PulsarUI.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
 
-    PulsarUI.DrawOutlinedRoundedBox(4, outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, self.InnerOutlineCol, PulsarUI.Scale(1))
+    PulsarUI.DrawOutlinedBox(outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, PulsarUI.Scale(1), self.InnerOutlineCol)
 end
 
 function PANEL:LayoutContent(w, h) end

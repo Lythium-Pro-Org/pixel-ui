@@ -80,12 +80,6 @@ function PANEL:Paint(w, h)
     local x, y = self:LocalToScreen()
     local wh
 
-    -- PulsarUI.Mask(function()
-    --     PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
-    -- end, function()
-    --     PulsarUI.DrawLinearGradient(x, y, w, h, self.Steps, true)
-    -- end)
-
     PulsarUI.DrawLinearGradient(x, y, w, h, self.Steps, true)
 
     if not self.LastX then return end

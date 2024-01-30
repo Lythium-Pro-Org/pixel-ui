@@ -8,10 +8,23 @@ local mat_white = Material("vgui/white")
 PulsarUI = PulsarUI or {}
 
 function PulsarUI.DrawSimpleLinearGradient(x, y, w, h, startColor, endColor, horizontal)
+	if not x then return end
+	if not y then return end
+	if not w then return end
+	if not h then return end
+
+	if not IsColor(startColor) then return end
+	if not IsColor(endColor) then return end
+
 	PulsarUI.DrawLinearGradient(x, y, w, h, {{offset = 0, color = startColor}, {offset = 1, color = endColor}}, horizontal)
 end
 
 function PulsarUI.DrawLinearGradient(x, y, w, h, stops, horizontal)
+	if not x then return end
+	if not y then return end
+	if not w then return end
+	if not h then return end
+
 	if #stops == 0 then
 		return
 	elseif #stops == 1 then

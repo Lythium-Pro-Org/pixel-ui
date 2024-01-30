@@ -58,12 +58,8 @@ function PANEL:Paint(w, h)
     local x, y = self:LocalToScreen()
     local wh
 
-    PulsarUI.Mask(function()
-        PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
-    end, function()
-        local color = HSLToColor(self:GetHue(), 1, self:GetLuminosity())
-        PulsarUI.DrawSimpleLinearGradient(x, y, w, h, Color(128, 128, 128), color, true)
-    end)
+    local color = HSLToColor(self:GetHue(), 1, self:GetLuminosity())
+    PulsarUI.DrawSimpleLinearGradient(x, y, w, h, Color(128, 128, 128), Color(color.r, color.g, color.b), true)
 
     if not self.LastX then return end
     local newX = self.LastX

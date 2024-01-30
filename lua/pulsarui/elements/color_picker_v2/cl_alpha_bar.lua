@@ -37,17 +37,6 @@ function PANEL:Paint(w, h)
 	local x, y = self:LocalToScreen()
 	local wh
 
-	-- PulsarUI.Mask(function()
-	-- 	PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, color_white)
-	-- end, function()
-	-- 	for i = 0, w / 2 do
-	-- 		local x2 = i * h
-	-- 		if x2 > w then break end
-	-- 		PulsarUI.DrawImage(x2, 0, h, h, "https://pixel-cdn.lythium.dev/i/transparent-squares", color_white)
-	-- 	end
-
-	-- 	PulsarUI.DrawSimpleLinearGradient(x, y, w, h, self:GetBaseColor(), Color(200, 200, 200, 0), true)
-	-- end)
 
 	PulsarUI.DrawSimpleLinearGradient(x, y, w, h, self:GetBaseColor(), Color(200, 200, 200, 0), true)
 
