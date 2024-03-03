@@ -1,6 +1,7 @@
 local PANEL = {}
 PulsarUI.RegisterFont("StepCounterStep", "Rubik", 19, 700)
 AccessorFunc(PANEL, "Step", "Step", FORCE_NUMBER)
+AccessorFunc(PANEL, "ActiveStep", "ActiveStep", FORCE_BOOL)
 AccessorFunc(PANEL, "Enabled", "Enabled", FORCE_BOOL)
 
 function PANEL:Init()
@@ -11,14 +12,25 @@ function PANEL:Init()
     self.TextCol = PulsarUI.Colors.SecondaryText
 end
 
+local floor = math.floor
+
 function PANEL:Paint(w, h)
-    local backgroundCol = self.BackgroundCol
+    local backgroundCol = PulsarUI.Colors.Transparent
 
     if self:GetEnabled() then
         backgroundCol = self.EnabledCol
     end
 
-    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, backgroundCol)
+
+    if self:GetActiveStep() then
+        backgroundCol = PulsarUI.Colors.Primary
+    end
+
+    PulsarUI.DrawRoundedBox(h / 2, 0, 0, w, h, self.BackgroundCol)
+    local xOffset = PulsarUI.Scale1440(4)
+    local activeBoxH = h - PulsarUI.Scale1440(8)
+
+    PulsarUI.DrawRoundedBox(activeBoxH / 2, xOffset, xOffset, activeBoxH, activeBoxH, backgroundCol)
     PulsarUI.DrawSimpleText(self:GetStep(), "StepCounterStep", w / 2, h / 2, self.TextCol, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
 end
 
@@ -42,6 +54,10 @@ end
 
 function PANEL:SetCurrentStep(num)
     self.CurrentStep = num
+    if IsValid(self.Steps[num]) then
+        self.Steps[num]:SetActiveStep(true)
+    end
+
     self:ReloadSteps()
 end
 
@@ -54,6 +70,10 @@ function PANEL:SetStepCount(count)
 
         if self:GetCurrentStep() and i < self:GetCurrentStep() then
             self.Steps[i]:SetEnabled(true)
+        end
+
+        if i == self:GetCurrentStep() then
+            self.Steps[i]:SetActiveStep(true)
         end
     end
 
@@ -74,22 +94,18 @@ function PANEL:Paint(w, h)
     for k, v in ipairs(self.Steps) do
         local nextStep = self.Steps[k + 1]
         if not nextStep then continue end
-        local startX = v:GetX() + v:GetWide()
-        local endX = nextStep:GetX()
+        local startX = (v:GetX() + v:GetWide()) + PulsarUI.Scale1440(4)
+        local endX = nextStep:GetX() - PulsarUI.Scale1440(8)
         local width = endX - startX
         local tall = PulsarUI.Scale(4)
         local yPos = v:GetY() + (v:GetTall() / 2) - (tall / 2)
         local backgroundCol = PulsarUI.Colors.Header
 
         if self.Steps[k]:GetEnabled() and not nextStep:GetEnabled() then
-            startX, yPos = self:LocalToScreen(startX, yPos)
-            PulsarUI.DrawSimpleLinearGradient(startX, yPos, width, tall, PulsarUI.Colors.Positive, backgroundCol, true)
-            continue
-        elseif nextStep:GetEnabled() then
             backgroundCol = PulsarUI.Colors.Positive
         end
 
-        PulsarUI.DrawRoundedBox(0, startX, yPos, width, tall, backgroundCol)
+        PulsarUI.DrawRoundedBox(tall / 2, startX, yPos, width, tall, backgroundCol)
     end
 end
 
@@ -105,7 +121,7 @@ function PANEL:PerformLayout(w, h)
 
         if self:GetTitle() then
             local _, textH = PulsarUI.GetTextSize(self:GetTitle(), self:GetFont())
-            v:SetY(PulsarUI.Scale(35) + (textH / 3))
+            v:SetY(PulsarUI.Scale(25) + (textH / 3))
         end
     end
 end

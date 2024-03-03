@@ -6,9 +6,12 @@ function PANEL:Init()
     self.PlaceholderTextCol = PulsarUI.OffsetColor(PulsarUI.Colors.SecondaryText, -110)
 
     self.DisabledCol = PulsarUI.OffsetColor(PulsarUI.Colors.Background, 6)
+
+    self.InnerColor = PulsarUI.OffsetColor(PulsarUI.Colors.Header, 5)
+
+    self.OutlineColor = PulsarUI.CopyColor(PulsarUI.Colors.Transparent)
     self.FocusedOutlineCol = PulsarUI.Colors.PrimaryText
 
-    self.OutlineCol = PulsarUI.OffsetColor(PulsarUI.Colors.Scroller, 10)
     self.InnerOutlineCol = PulsarUI.CopyColor(PulsarUI.Colors.Transparent)
 end
 
@@ -32,8 +35,6 @@ function PANEL:Paint(w, h)
         PulsarUI.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PulsarUI.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     end
 
-    local outlineThickness = PulsarUI.Scale(1)
-    PulsarUI.DrawOutlinedBox(0, 0, w, h, outlineThickness, self.OutlineCol)
 
     local col = PulsarUI.Colors.Transparent
 
@@ -45,9 +46,11 @@ function PANEL:Paint(w, h)
         col = self.OverrideCol
     end
 
-    self.InnerOutlineCol = PulsarUI.LerpColor(FrameTime() * 8, self.InnerOutlineCol, col)
+    self.OutlineColor = PulsarUI.LerpColor(FrameTime() * 8, self.OutlineColor, col)
 
-    PulsarUI.DrawOutlinedBox(outlineThickness, outlineThickness, w - outlineThickness * 2, h - outlineThickness * 2, PulsarUI.Scale(1), self.InnerOutlineCol)
+    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.OutlineColor)
+    local innerWidth, innerHeight = w - (PulsarUI.Scale1440(2) * 2), h - (PulsarUI.Scale1440(2) * 2)
+    PulsarUI.DrawRoundedBox(6, PulsarUI.Scale1440(2), PulsarUI.Scale1440(2), innerWidth, innerHeight, self.InnerColor)
 end
 
 function PANEL:LayoutContent(w, h) end

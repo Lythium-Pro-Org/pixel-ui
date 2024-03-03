@@ -44,7 +44,7 @@ do
     function PulsarUI.GenerateFont(size, weight, font, name)
         weight = weight or 700
         PulsarUI.Fonts = PulsarUI.Fonts or {}
-        fontName = name or "PulsarUI.Font.Size" .. size
+        local fontName = name or ("PulsarUI.Font.Size" .. size)
         font = font or "Rubik"
 
         if !PulsarUI.Fonts[fontName] or PulsarUI.Fonts[fontName].size != size or PulsarUI.Fonts[fontName].weight != weight then

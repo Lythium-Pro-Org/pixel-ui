@@ -5,6 +5,7 @@ do
     local currencyLeft = true
 
     hook.Add("PostGamemodeLoaded", "PulsarUI.GetMoneyFormatSettings", function()
+        ---@diagnostic disable-next-line: undefined-field
         local config = (GM or GAMEMODE).Config
         if not config then return end
 

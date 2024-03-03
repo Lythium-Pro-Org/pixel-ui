@@ -10,7 +10,7 @@ end
 
 local disableClipping = DisableClipping
 local start3d2d, end3d2d = cam.Start3D2D, cam.End3D2D
-local Icon = icon
+local Icon
 
 local function drawOverhead(ent, pos, text, ang, scale, col)
     if ang then
@@ -115,7 +115,7 @@ function PulsarUI.DrawEntImageOverhead(ent, imageURL, size, angleOverride, posOv
     if checkDistance(ent) then return end
 
     if posOverride then
-        drawOverhead(ent, ent:LocalToWorld(posOverride), text, angleOverride, scaleOverride)
+        drawImageOverhead(ent, ent:LocalToWorld(posOverride), imageURL, size, angleOverride, scaleOverride, colOverride)
         return
     end
 
