@@ -1,9 +1,17 @@
-
+--- @class PulsarUI.Button : Panel
+--- @field SetIsToggle fun(self: PulsarUI.Button, value: boolean)
+--- @field GetIsToggle fun(self: PulsarUI.Button): boolean
+--- @field SetToggle fun(self: PulsarUI.Button, value: boolean)
+--- @field GetToggle fun(self: PulsarUI.Button): boolean
+--- @field SetColor fun(self: PulsarUI.Button, color: Color)
+--- @field GetColor fun(self: PulsarUI.Button): Color
 local PANEL = {}
 AccessorFunc(PANEL, "IsToggle", "IsToggle", FORCE_BOOL)
 AccessorFunc(PANEL, "Toggle", "Toggle", FORCE_BOOL)
 AccessorFunc(PANEL, "Color", "Color")
 
+--- Set the color of the button
+--- @param color Color
 function PANEL:SetColor(color)
 	self.Color = color
 	self.NormalCol = PulsarUI.CopyColor(self.Color)
@@ -23,6 +31,8 @@ function PANEL:Init()
 	self:SetColor(PulsarUI.Colors.Primary)
 end
 
+--- Toggles the button
+--- @param ... any
 function PANEL:DoToggle(...)
 	if not self:GetIsToggle() then return end
 	self:SetToggle(not self:GetToggle())
@@ -31,6 +41,8 @@ end
 
 local localPly
 
+--- Ran when the mouse is pressed
+--- @param mouseCode number
 function PANEL:OnMousePressed(mouseCode)
 	if not self:IsEnabled() then return end
 
@@ -50,6 +62,8 @@ function PANEL:OnMousePressed(mouseCode)
 	self:DragMousePress(mouseCode)
 end
 
+--- Ran when the mouse is released
+--- @param mouseCode number
 function PANEL:OnMouseReleased(mouseCode)
 	self:MouseCapture(false)
 	if not self:IsEnabled() then return end
@@ -84,6 +98,9 @@ function PANEL:OnMouseReleased(mouseCode)
 	self.Depressed = nil
 end
 
+--- Allows the button to have a custom paint function without overriding the original paint function
+--- @param w number
+--- @param h number
 function PANEL:PaintExtra(w, h)
 end
 
@@ -99,38 +116,49 @@ function PANEL:Paint(w, h)
 
 	if self:IsDown() or self:GetToggle() then
 		bgCol = self.ClickedCol
-	elseif self:IsHovered() and not self.Clicky then
+	elseif self:IsHovered() then
 		bgCol = self.HoverCol
 	end
 
-	if not self.Clicky then
-		self.BackgroundCol = PulsarUI.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
-	end
+	self.BackgroundCol = PulsarUI.LerpColor(FrameTime() * 12, self.BackgroundCol, bgCol)
 
 	PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 	self:PaintExtra(w, h)
 end
 
+--- Get if the button is down
+--- @return boolean
 function PANEL:IsDown()
 	return self.Depressed
 end
 
+--- Ran when the button is pressed
+--- @param mouseCode number
 function PANEL:OnPressed(mouseCode)
 end
 
+--- Ran when the button is released
+--- @param mouseCode number
 function PANEL:OnReleased(mouseCode)
 end
 
+--- Ran when the button is toggled
+--- @param enabled boolean
 function PANEL:OnToggled(enabled)
 end
 
+--- Ran when the button is clicked
+--- This shouldnt be used. Use OnPressed, OnReleased or OnToggled.
+--- @vararg any
 function PANEL:DoClick(...)
 	self:DoToggle(...)
 end
 
+--- Ran when the button is right clicked
 function PANEL:DoRightClick()
 end
 
+--- Ran when the button is middle clicked
 function PANEL:DoMiddleClick()
 end
 

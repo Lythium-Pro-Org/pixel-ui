@@ -47,7 +47,7 @@ do
         local fontName = name or ("PulsarUI.Font.Size" .. size)
         font = font or "Rubik"
 
-        if !PulsarUI.Fonts[fontName] or PulsarUI.Fonts[fontName].size != size or PulsarUI.Fonts[fontName].weight != weight then
+        if !PulsarUI.Fonts[fontName] or PulsarUI.Fonts[fontName].size ~= size or PulsarUI.Fonts[fontName].weight ~= weight then
             PulsarUI.Fonts[fontName] = {
                 name = fontName,
                 size = size,

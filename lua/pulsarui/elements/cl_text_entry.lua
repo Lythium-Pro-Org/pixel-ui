@@ -31,11 +31,6 @@ function PANEL:Paint(w, h)
         return
     end
 
-    if self:GetValue() == "" then
-        PulsarUI.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PulsarUI.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
-    end
-
-
     local col = PulsarUI.Colors.Transparent
 
     if self:IsEditing() then
@@ -51,6 +46,10 @@ function PANEL:Paint(w, h)
     PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.OutlineColor)
     local innerWidth, innerHeight = w - (PulsarUI.Scale1440(2) * 2), h - (PulsarUI.Scale1440(2) * 2)
     PulsarUI.DrawRoundedBox(6, PulsarUI.Scale1440(2), PulsarUI.Scale1440(2), innerWidth, innerHeight, self.InnerColor)
+
+    if self:GetValue() == "" then
+        PulsarUI.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PulsarUI.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    end
 end
 
 function PANEL:LayoutContent(w, h) end

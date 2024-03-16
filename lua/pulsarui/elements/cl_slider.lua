@@ -1,8 +1,13 @@
-
+--- @class PulsaUI.Slider : PulsarUI.Button
+--- @field Grip PulsarUI.Button
+--- @field Fraction number
+--- @field NormalCol Color
+--- @field HoverCol Color
+--- @field BackgroundCol Color
+--- @field FillCol Color
 local PANEL = {}
 
 function PANEL:Init()
-    self:SetClicky(false)
     self.Fraction = 0
 
     self.Grip = vgui.Create("PulsarUI.Button", self)
@@ -13,7 +18,8 @@ function PANEL:Init()
     local currentCol = self.NormalCol
 
     self.Grip.Paint = function(s, w, h)
-        PulsarUI.DrawRoundedBox(8, 0, 0, w, h, currentCol)
+        local width = PulsarUI.Scale(6)
+        PulsarUI.DrawRoundedBox(width / 2, (w / 2) - (width / 2), 0, width, h, currentCol)
     end
 
     self.Grip.Think = function(s)
@@ -47,13 +53,18 @@ function PANEL:OnMousePressed()
     self.Grip:RequestFocus()
 end
 
+--- A function to be called when the slider value changes
+--- @param fraction number
 function PANEL:OnValueChanged(fraction)
 end
 
 function PANEL:Paint(w, h)
-    local rounding = PulsarUI.Scale(8)
-    PulsarUI.DrawRoundedBox(rounding, 0, 0, w, h, self.BackgroundCol)
-    PulsarUI.DrawRoundedBox(rounding, 0, 0, self.Fraction * w, h, self.FillCol)
+    local height = h / 1.5
+    local roundedness = height / 2
+    local fractionW = (self.Fraction * w)
+    local gap = PulsarUI.Scale(6)
+    PulsarUI.DrawRoundedBox(roundedness, fractionW+ gap, (h / 2) - (height / 2), w - (fractionW + gap), height, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(roundedness, 0, (h / 2) - (height / 2), fractionW - gap, height, self.FillCol)
 end
 
 function PANEL:PerformLayout(w, h)

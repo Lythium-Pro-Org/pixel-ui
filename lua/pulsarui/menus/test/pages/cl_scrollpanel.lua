@@ -12,7 +12,7 @@ function PANEL:Init()
         self.ClickyTextButton:Dock(TOP)
         self.ClickyTextButton:DockMargin(sc(5), sc(5), sc(5), sc(5))
         self.ClickyTextButton:SetTall(sc(50))
-        self.ClickyTextButton:SetText("Clicky Button!")
+        self.ClickyTextButton:SetText("Text Button!")
     end
 end
 

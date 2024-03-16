@@ -2,6 +2,19 @@ local abs = math.abs
 local clamp = math.Clamp
 local scale = PulsarUI.Scale
 local gradientMat = Material("gui/gradient")
+
+--- @class PulsarUI.InnerDragPanel : EditablePanel
+--- @field LargeNum number
+--- @field Sized boolean
+--- @field Hit boolean
+--- @field ParentW number
+--- @field ParentH number
+--- @field DraggedPastX number
+--- @field DraggedPastY number
+--- @field Dragging table
+--- @field Hovered boolean
+--- @field x number
+--- @field y number
 local PANEL = {}
 
 function PANEL:Init()
@@ -112,15 +125,26 @@ function PANEL:PerformLayout()
 	self.ParentH = parentH
 	self:SetSize(parentW * self.LargeNum, parentH * self.LargeNum)
 	self:Center()
+	self:LayoutContent(self:GetWide(), self:GetTall())
 end
 
+function PANEL:LayoutContent(w, h)
+end
 
 vgui.Register("PulsarUI.InnerDragPanel", PANEL, "EditablePanel")
 
+--- @class PulsarUI.DragPanel : EditablePanel
 PANEL = {}
 
+--- Recenters the inner panel
 function PANEL:Recenter()
 	self.Inner:Center()
+end
+
+--- Gets the inner panel
+--- @return PulsarUI.InnerDragPanel
+function PANEL:GetInner()
+	return self.Inner
 end
 
 function PANEL:Init()
@@ -129,6 +153,7 @@ function PANEL:Init()
 	self.OldH = false
 	self.Inner = vgui.Create("PulsarUI.InnerDragPanel", self)
 
+	--- @class PulsarUI.ImageButton
 	self.RecenterButton = vgui.Create("PulsarUI.ImageButton", self)
 	self.RecenterButton:SetSize(scale(32), scale(32))
 	self.RecenterButton:SetImageURL("https://pixel-cdn.lythium.dev/i/center-icon")

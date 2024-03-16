@@ -1,66 +1,47 @@
+--- @class PulsarUI.Avatar : Panel
+--- @field SetRounded fun(self: PulsarUI.Avatar, value: number)
+--- @field GetRounded fun(self: PulsarUI.Avatar): number
+--- @field SetMaskSize fun(self: PulsarUI.Avatar, value: number) This function does nothing and will be removed in the future.
+--- @field GetMaskSize fun(self: PulsarUI.Avatar): number This function does nothing and will be removed in the future.
+--- @field Avatar AvatarImage
 local PANEL = {}
+AccessorFunc(PANEL, "Rounded", "Rounded", FORCE_NUMBER)
 AccessorFunc(PANEL, "MaskSize", "MaskSize", FORCE_NUMBER)
 
 function PANEL:Init()
     self.Avatar = vgui.Create("AvatarImage", self)
     self.Avatar:SetPaintedManually(true)
 
-    self.CirclePoly = {}
-    self:SetMaskSize(1)
+    self:SetRounded(PulsarUI.Scale(8))
 end
 
 function PANEL:PerformLayout(w, h)
     self.Avatar:SetSize(w, h)
-
-    self.CirclePoly = {}
-    local maskSize = self:GetMaskSize()
-    local t = 0
-
-    for i = 1, 360 do
-        t = math.rad(i * 720) / 720
-
-        self.CirclePoly[i] = {
-            x = w / 2 + math.cos(t) * maskSize,
-            y = h / 2 + math.sin(t) * maskSize
-        }
-    end
 end
 
+--- Set the player to draw the avatar from
+--- @param ply Player
+--- @param size number The resolution of the avatar. Allowed values are 32, 64, 184
 function PANEL:SetPlayer(ply, size)
     self.Avatar:SetPlayer(ply, size)
 end
 
+--- Set the steam id to draw the avatar from
+--- @param id string
+--- @param size number The resolution of the avatar. Allowed values are 32, 64, 184
 function PANEL:SetSteamID(id, size)
     self.Avatar:SetSteamID(id, size)
 end
 
-local render = render
-local surface = surface
-local whiteTexture = surface.GetTextureID("vgui/white")
-
 function PANEL:Paint(w, h)
-    render.ClearStencil()
-    render.SetStencilEnable(true)
-    render.SetStencilWriteMask(1)
-    render.SetStencilTestMask(1)
-    render.SetStencilFailOperation(STENCILOPERATION_REPLACE)
-    render.SetStencilPassOperation(STENCILOPERATION_ZERO)
-    render.SetStencilZFailOperation(STENCILOPERATION_ZERO)
-    render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_NEVER)
-    render.SetStencilReferenceValue(1)
-    surface.SetTexture(whiteTexture)
-    surface.SetDrawColor(255, 255, 255, 255)
-    surface.DrawPoly(self.CirclePoly)
-    render.SetStencilFailOperation(STENCILOPERATION_ZERO)
-    render.SetStencilPassOperation(STENCILOPERATION_REPLACE)
-    render.SetStencilZFailOperation(STENCILOPERATION_ZERO)
-    render.SetStencilCompareFunction(STENCILCOMPARISONFUNCTION_EQUAL)
-    render.SetStencilReferenceValue(1)
-    self.Avatar:SetPaintedManually(false)
-    self.Avatar:PaintManual()
-    self.Avatar:SetPaintedManually(true)
-    render.SetStencilEnable(false)
-    render.ClearStencil()
+    PulsarUI.Mask(
+        function()
+            PulsarUI.DrawFullRoundedBox(self:GetRounded(), 0, 0, w, h, color_white)
+        end,
+        function()
+            self.Avatar:PaintManual()
+        end
+    )
 end
 
 vgui.Register("PulsarUI.Avatar", PANEL, "Panel")

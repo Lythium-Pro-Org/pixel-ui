@@ -28,6 +28,10 @@ function PANEL:Init()
         self:ChangeTab("PulsarUI.Test.Text")
     end)
 
+    self.Sidebar:AddItem("PulsarUI.Test.DragPanel", "DragPanel", "8bKjn4t", function()
+        self:ChangeTab("PulsarUI.Test.DragPanel")
+    end)
+
     self.Sidebar:AddItem("PulsarUI.Test.Other", "Other", "8bKjn4t", function()
         self:ChangeTab("PulsarUI.Test.Other")
     end)
@@ -82,6 +86,6 @@ end
 
 vgui.Register("PulsarUI.Test.Main", PANEL, "PulsarUI.Frame")
 
-concommand.Add("pixel_test", function()
+concommand.Add("pulsar_test", function()
     PulsarUI.TestFrame = vgui.Create("PulsarUI.Test.Main")
 end)
