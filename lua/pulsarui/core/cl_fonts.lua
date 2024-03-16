@@ -31,10 +31,16 @@ do
     PulsarUI.ScaledFonts = PulsarUI.ScaledFonts or {}
     local scaledFonts = PulsarUI.ScaledFonts
 
+    local fontSizeCvar = CreateClientConVar("pulsar_ui_font_resize", "1", true, false, "How many times bigger should we make all fonts registed with PulsarUI. Please rejoin the server after running this.", 1, 2)
+
     function PulsarUI.RegisterFont(name, font, size, weight)
+        local resizeAmount = fontSizeCvar:GetFloat()
+        size = size * resizeAmount
+
         scaledFonts[name] = {
             font = font,
             size = size,
+            resize = resizeAmount,
             weight = weight
         }
 
