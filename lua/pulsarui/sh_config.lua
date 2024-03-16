@@ -1,7 +1,7 @@
 --[[
     Should we override the default derma popups for the PulsarUI reskins?
     0 = No - forced off.
-    1 = No - but users can opt in via convar (pixel_ui_override_popups).
+    1 = No - but users can opt in via convar (pulsar_ui_override_popups).
     2 = Yes - but users must opt in via convar.
     3 = Yes - forced on.
 ]]

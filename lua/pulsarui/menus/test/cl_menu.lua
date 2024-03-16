@@ -89,3 +89,6 @@ vgui.Register("PulsarUI.Test.Main", PANEL, "PulsarUI.Frame")
 concommand.Add("pulsar_test", function()
     PulsarUI.TestFrame = vgui.Create("PulsarUI.Test.Main")
 end)
+
+local font = "Noto Sans"
+PulsarUI.RegisterFont(font .. "Test", font, 40, 400)
