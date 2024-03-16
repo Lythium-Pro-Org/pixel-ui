@@ -41,10 +41,3 @@ hook.Run("PulsarUI.FullyLoaded")
 
 if CLIENT then return end
 resource.AddWorkshop("2825396224")
-
-local files, _ = file.Find("resource/fonts/NotoSans_*", "GAME", "nameasc")
-
-for _, fileName in ipairs(files) do
-    print("Adding font file: " .. fileName)
-    resource.AddFile("resource/fonts/" .. fileName)
-end
