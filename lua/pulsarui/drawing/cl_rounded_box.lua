@@ -1,10 +1,24 @@
+local corners = {}
 
+do
+	local stupid_corners = {
+		tex_corner8 = "gui/corner8",
+		tex_corner16 = "gui/corner16",
+		tex_corner32 = "gui/corner32",
+		tex_corner64 = "gui/corner64",
+		tex_corner512 = "gui/corner512"
+	}
 
-local cornerTex8 = surface.GetTextureID("gui/corner8")
-local cornerTex16 = surface.GetTextureID("gui/corner16")
-local cornerTex32 = surface.GetTextureID("gui/corner32")
-local cornerTex64 = surface.GetTextureID("gui/corner64")
-local cornerTex512 = surface.GetTextureID("gui/corner512")
+	for k, v in next, stupid_corners do
+		corners[k] = CreateMaterial("better_" .. v:gsub("gui/", ""), "UnlitGeneric", {
+			["$basetexture"] = v,
+			["$alphatest"] = 1,
+			["$alphatestreference"] = 0.5,
+			["$vertexalpha"] = 1,
+			["$vertexcolor"] = 1
+		})
+	end
+end
 
 local round = math.Round
 local min = math.min
@@ -13,6 +27,7 @@ local setDrawColor = surface.SetDrawColor
 local drawRect = surface.DrawRect
 local drawTexturedRectUV = surface.DrawTexturedRectUV
 local setTexture = surface.SetTexture
+local setMaterial = surface.SetMaterial
 
 function PulsarUI.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
 	setDrawColor(col.r, col.g, col.b, col.a)
@@ -34,8 +49,13 @@ function PulsarUI.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRigh
 	drawRect(x, yAfterBorder, borderSize, doubleHeightWithoutBorder)
 	drawRect(xPlusWidthWithoutBorder, yAfterBorder, borderSize, doubleHeightWithoutBorder)
 
-	local tex = borderSize > 64 and cornerTex512 or borderSize > 32 and cornerTex64 or borderSize > 16 and cornerTex32 or borderSize > 8 and cornerTex16 or cornerTex8
-	setTexture(tex)
+	local material = corners.tex_corner8
+	if borderSize > 8 then material = corners.tex_corner16 end
+	if borderSize > 16 then material = corners.tex_corner32 end
+	if borderSize > 32 then material = corners.tex_corner64 end
+	if borderSize > 64 then material = corners.tex_corner512 end
+
+	setMaterial(material)
 
 	if topLeft then
 		drawTexturedRectUV(x, y, borderSize, borderSize, 0, 0, 1, 1)
