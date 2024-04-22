@@ -1,5 +1,20 @@
-
+---@class PulsarUI.TextEntryInternal : TextEntry
+---@field SetEnterAllowed fun(self: PulsarUI.TextEntryInternal, allowed: boolean)
+---@field GetEnterAllowed fun(self: PulsarUI.TextEntryInternal): boolean
+---@field SetUpdateOnType fun(self: PulsarUI.TextEntryInternal, update: boolean)
+---@field GetUpdateOnType fun(self: PulsarUI.TextEntryInternal): boolean
+---@field SetNumeric fun(self: PulsarUI.TextEntryInternal, numeric: boolean)
+---@field GetNumeric fun(self: PulsarUI.TextEntryInternal): boolean
+---@field SetHistoryEnabled fun(self: PulsarUI.TextEntryInternal, enabled: boolean)
+---@field GetHistoryEnabled fun(self: PulsarUI.TextEntryInternal): boolean
+---@field SetTabbingDisabled fun(self: PulsarUI.TextEntryInternal, disabled: boolean)
+---@field GetTabbingDisabled fun(self: PulsarUI.TextEntryInternal): boolean
+---@field SetPlaceholderText fun(self: PulsarUI.TextEntryInternal, text: string)
+---@field GetPlaceholderText fun(self: PulsarUI.TextEntryInternal): string
+---@field SetFont fun(self: PulsarUI.TextEntryInternal, font: string, isPixel: boolean)
+---@field SetEditable fun(self: PulsarUI.TextEntryInternal, enabled: boolean)
 local PANEL = {}
+
 AccessorFunc(PANEL, "m_bAllowEnter", "EnterAllowed", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bUpdateOnType", "UpdateOnType", FORCE_BOOL)
 AccessorFunc(PANEL, "m_bNumeric", "Numeric", FORCE_BOOL)
@@ -51,7 +66,7 @@ function PANEL:OnKeyCodeTyped(code)
         self.HistoryPos = 0
     end
 
-    if self.m_bHistory or IsValid(self.Menu) then
+    if self:GetHistoryEnabled() or IsValid(self.Menu) then
         if code == KEY_UP then
             self.HistoryPos = self.HistoryPos - 1
             self:UpdateFromHistory()
@@ -68,9 +83,8 @@ function PANEL:OnKeyCode(code)
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnKeyCode then
-        parent:OnKeyCode()
-    end
+    ---@diagnostic disable-next-line: undefined-field
+    if parent.OnKeyCode then parent:OnKeyCode() end
 end
 
 function PANEL:UpdateFromHistory()
@@ -152,9 +166,8 @@ function PANEL:OnChange()
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnChange then
-        parent:OnChange()
-    end
+    ---@diagnostic disable-next-line: undefined-field
+    if parent.OnChange then parent:OnChange() end
 end
 
 function PANEL:OpenAutoComplete(tab)
@@ -187,7 +200,9 @@ function PANEL:OnEnter()
     local parent = self:GetParent()
     if not parent then return end
 
+    ---@diagnostic disable-next-line: undefined-field
     if parent.OnEnter then
+        ---@diagnostic disable-next-line: undefined-field
         parent:OnEnter()
     end
 end
@@ -211,7 +226,9 @@ function PANEL:OnValueChange(value)
     local parent = self:GetParent()
     if not parent then return end
 
+    ---@diagnostic disable-next-line: undefined-field
     if parent.OnValueChange then
+        ---@diagnostic disable-next-line: undefined-field
         parent:OnValueChange(value)
     end
 end
@@ -229,6 +246,8 @@ function PANEL:AllowInput(value)
     if self:CheckNumeric(value) then return true end
     local parent = self:GetParent()
     if not parent then return end
+
+    ---@diagnostic disable-next-line: undefined-field
     if parent.AllowInput and parent:AllowInput(value) then return true end
 end
 
@@ -242,9 +261,8 @@ function PANEL:OnGetFocus()
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnGetFocus then
-        parent:OnGetFocus()
-    end
+    ---@diagnostic disable-next-line: undefined-field
+    if parent.OnGetFocus then parent:OnGetFocus() end
 end
 
 function PANEL:OnLoseFocus()
@@ -253,9 +271,8 @@ function PANEL:OnLoseFocus()
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.OnLoseFocus then
-        parent:OnLoseFocus()
-    end
+    ---@diagnostic disable-next-line: undefined-field
+    if parent.OnLoseFocus then parent:OnLoseFocus() end
 end
 
 function PANEL:OnMousePressed(mcode)
@@ -272,9 +289,8 @@ function PANEL:GetAutoComplete(txt)
     local parent = self:GetParent()
     if not parent then return end
 
-    if parent.GetAutoComplete then
-        parent:GetAutoComplete()
-    end
+    ---@diagnostic disable-next-line: undefined-field
+    if parent.GetAutoComplete then parent:GetAutoComplete() end
 end
 
 function PANEL:GetInt()

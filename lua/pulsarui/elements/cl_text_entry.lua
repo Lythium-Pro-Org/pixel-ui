@@ -1,3 +1,12 @@
+---@class PulsarUI.TextEntry : Panel
+---@field TextEntry PulsarUI.TextEntryInternal
+---@field PlaceholderTextCol Color
+---@field DisabledCol Color
+---@field InnerColor Color
+---@field OutlineColor Color
+---@field FocusedOutlineCol Color
+---@field InnerOutlineCol Color
+---@field OverrideCol Color
 local PANEL = {}
 
 function PANEL:Init()
@@ -43,9 +52,9 @@ function PANEL:Paint(w, h)
 
     self.OutlineColor = PulsarUI.LerpColor(FrameTime() * 8, self.OutlineColor, col)
 
-    PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.OutlineColor)
-    local innerWidth, innerHeight = w - (PulsarUI.Scale1440(2) * 2), h - (PulsarUI.Scale1440(2) * 2)
-    PulsarUI.DrawRoundedBox(6, PulsarUI.Scale1440(2), PulsarUI.Scale1440(2), innerWidth, innerHeight, self.InnerColor)
+    PulsarUI.DrawRoundedBox(6, 0, 0, w, h, self.InnerColor)
+
+    PulsarUI.DrawOutlinedRoundedBox(6, 0, 0, w, h, self.OutlineColor, 4)
 
     if self:GetValue() == "" then
         PulsarUI.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PulsarUI.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
@@ -65,8 +74,6 @@ function PANEL:SetValue(value) self.TextEntry:SetValue(value) end
 
 function PANEL:IsMultiline() return self.TextEntry:IsMultiline() end
 function PANEL:SetMultiline(isMultiline) self.TextEntry:SetMultiline(isMultiline) end
-
-function PANEL:IsEditing() return self.TextEntry:IsEditing() end
 
 function PANEL:GetEnterAllowed() return self.TextEntry:GetEnterAllowed() end
 function PANEL:SetEnterAllowed(allow) self.TextEntry:SetEnterAllowed(allow) end

@@ -1,4 +1,22 @@
-
+--- @class PulsarUI.Label : Panel
+--- @field SetText fun(self: PulsarUI.Label, value: string)
+--- @field GetText fun(self: PulsarUI.Label): string
+--- @field SetFont fun(self: PulsarUI.Label, value: string)
+--- @field GetFont fun(self: PulsarUI.Label): string
+--- @field SetTextAlign fun(self: PulsarUI.Label, value: number)
+--- @field GetTextAlign fun(self: PulsarUI.Label): number
+--- @field SetTextColor fun(self: PulsarUI.Label, value: Color)
+--- @field GetTextColor fun(self: PulsarUI.Label): Color
+--- @field SetEllipses fun(self: PulsarUI.Label, value: boolean)
+--- @field GetEllipses fun(self: PulsarUI.Label): boolean
+--- @field SetAutoHeight fun(self: PulsarUI.Label, value: boolean)
+--- @field GetAutoHeight fun(self: PulsarUI.Label): boolean
+--- @field SetAutoWidth fun(self: PulsarUI.Label, value: boolean)
+--- @field GetAutoWidth fun(self: PulsarUI.Label): boolean
+--- @field SetAutoSize fun(self: PulsarUI.Label, value: boolean)
+--- @field GetAutoSize fun(self: PulsarUI.Label): boolean
+--- @field SetAutoWrap fun(self: PulsarUI.Label, value: boolean)
+--- @field GetAutoWrap fun(self: PulsarUI.Label): boolean
 local PANEL = {}
 AccessorFunc(PANEL, "Text", "Text", FORCE_STRING)
 AccessorFunc(PANEL, "Font", "Font", FORCE_STRING)

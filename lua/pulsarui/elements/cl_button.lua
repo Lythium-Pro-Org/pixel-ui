@@ -5,6 +5,7 @@
 --- @field GetToggle fun(self: PulsarUI.Button): boolean
 --- @field SetColor fun(self: PulsarUI.Button, color: Color)
 --- @field GetColor fun(self: PulsarUI.Button): Color
+--- @field Hovered boolean
 local PANEL = {}
 AccessorFunc(PANEL, "IsToggle", "IsToggle", FORCE_BOOL)
 AccessorFunc(PANEL, "Toggle", "Toggle", FORCE_BOOL)
@@ -104,6 +105,7 @@ end
 function PANEL:PaintExtra(w, h)
 end
 
+
 function PANEL:Paint(w, h)
 	if not self:IsEnabled() then
 		PulsarUI.DrawRoundedBox(PulsarUI.Scale(6), 0, 0, w, h, self.DisabledCol)
@@ -144,7 +146,8 @@ end
 
 --- Ran when the button is toggled
 --- @param enabled boolean
-function PANEL:OnToggled(enabled)
+--- @param ... any
+function PANEL:OnToggled(enabled, ...)
 end
 
 --- Ran when the button is clicked
