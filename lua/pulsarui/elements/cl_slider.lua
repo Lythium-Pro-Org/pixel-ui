@@ -7,9 +7,16 @@
 --- @field FillCol Color
 local PANEL = {}
 
+function PANEL:SetPrimaryCol(color)
+    self.NormalCol =  PulsarUI.CopyColor(color)
+    self.HoverCol = PulsarUI.OffsetColor(color, -15)
+    self.FillCol = PulsarUI.OffsetColor(PulsarUI.Colors.Header, 5):Mix(self.NormalCol, 0.2)
+end
+
 function PANEL:Init()
     self.Fraction = 0
 
+    ---@class PulsarUI.Button
     self.Grip = vgui.Create("PulsarUI.Button", self)
     self.Grip:NoClipping(true)
     self.Grip:SetMouseInputEnabled(true)
@@ -42,7 +49,7 @@ function PANEL:Init()
     end
 
     self.BackgroundCol = PulsarUI.Colors.Header
-    self.FillCol = PulsarUI.OffsetColor(PulsarUI.Colors.Header, 5)
+    self.FillCol = PulsarUI.OffsetColor(PulsarUI.Colors.Header, 5):Mix(self.NormalCol, 0.2)
 end
 
 function PANEL:OnMousePressed()
@@ -63,7 +70,7 @@ function PANEL:Paint(w, h)
     local roundedness = height / 2
     local fractionW = (self.Fraction * w)
     local gap = PulsarUI.Scale(6)
-    PulsarUI.DrawRoundedBox(roundedness, fractionW+ gap, (h / 2) - (height / 2), w - (fractionW + gap), height, self.BackgroundCol)
+    PulsarUI.DrawRoundedBox(roundedness, fractionW + gap, (h / 2) - (height / 2), w - (fractionW + gap), height, self.BackgroundCol)
     PulsarUI.DrawRoundedBox(roundedness, 0, (h / 2) - (height / 2), fractionW - gap, height, self.FillCol)
 end
 

@@ -28,7 +28,7 @@ AccessorFunc(PANEL, "GradientColorRight", "GradientColorRight", FORCE_COLOR)
 function PANEL:SetGradientColor(col)
 	assert(type(col) == "table", "bad argument #1 to 'SetGradientColor' (table expected, got " .. type(col) .. ")")
 	self:SetGradientColorLeft(col)
-	local offsetCol = PulsarUI.OffsetColor(col, -40, true)
+	local offsetCol = PulsarUI.OffsetColor(col, -40)
 	self:SetGradientColorRight(offsetCol)
 end
 
@@ -42,18 +42,6 @@ function PANEL:SetGradientColorRight(color)
 	self.GradientColorRight = color
 	self.GradientColorRightHover = ColorAlpha(color, color.a - 30)
 	self.GradientColorRightSelect = ColorAlpha(color, color.a - 40)
-end
-
-function PANEL:SetImgurID(id)
-	assert(type(id) == "string", "bad argument #1 to 'SetImgurID' (string expected, got " .. type(id) .. ")")
-	print("[PulsarUI] PulsarUI.SidebarItem:SetImgurID is deprecated, use PulsarUI.SidebarItem:SetImageURL instead")
-	self:SetImageURL("https://i.imgur.com/" .. id .. ".png")
-	self.ImgurID = id
-end
-
-function PANEL:GetImgurID()
-	print("[PulsarUI] PulsarUI.SidebarItem:GetImgurID is deprecated, use PulsarUI.SidebarItem:GetImageURL instead")
-	return (self:GetImageURL() or ""):match("https://i.imgur.com/(.-).png")
 end
 
 PulsarUI.RegisterFont("SidebarItem", "Rubik", 19, 600)
@@ -79,7 +67,6 @@ function PANEL:Paint(w, h)
 	if self:IsHovered() then
 		textCol = PulsarUI.Colors.PrimaryText
 		backgroundCol = self.BackgroundHoverCol
-		hoverLineCol = PulsarUI.Colors.Primary
 
 		if gradientEnabled then
 			leftGradCol = self.GradientColorLeftHover
@@ -114,7 +101,7 @@ function PANEL:Paint(w, h)
 			PulsarUI.DrawSimpleLinearGradient(lX, lY, w, h, self.GradientColorLeft, self.GradientColorRight, true)
 		end)
 	elseif self:GetDrawOutline() then
-		PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol, PulsarUI.Scale(1))
+		PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.BackgroundCol)
 	end
 
 	local imageURL = self:GetImageURL()

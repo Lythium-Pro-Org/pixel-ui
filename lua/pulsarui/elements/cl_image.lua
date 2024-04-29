@@ -1,3 +1,14 @@
+---@class PulsarUI.Image : EditablePanel
+---@field SetMaterial fun(self: PulsarUI.Image, material: IMaterial)
+---@field GetMaterial fun(self: PulsarUI.Image): IMaterial
+---@field SetImageColor fun(self: PulsarUI.Image, color: Color)
+---@field GetImageColor fun(self: PulsarUI.Image): Color
+---@field SetKeepAspect fun(self: PulsarUI.Image, keepAspect: boolean)
+---@field GetKeepAspect fun(self: PulsarUI.Image): boolean
+---@field SetMatName fun(self: PulsarUI.Image, matName?: string)
+---@field GetMatName fun(self: PulsarUI.Image): string
+---@field SetFailsafeMatName fun(self: PulsarUI.Image, failsafeMatName: string)
+---@field GetFailsafeMatName fun(self: PulsarUI.Image): string
 local PANEL = {}
 AccessorFunc(PANEL, "Material", "Material")
 AccessorFunc(PANEL, "ImageColor", "ImageColor")
@@ -23,7 +34,7 @@ function PANEL:SetOnViewMaterial(materialName, failsafeMatName)
 end
 
 function PANEL:Unloaded()
-    return self.MatName ~= nil
+    return self:GetMatName() ~= nil
 end
 
 function PANEL:LoadMaterial()
@@ -116,7 +127,8 @@ function PANEL:Paint()
     self:LoadMaterial()
     if not self.Material then return true end
     setMaterial(self.Material)
-    setDrawColor(self.ImageColor.r, self.ImageColor.g, self.ImageColor.b, self.ImageColor.a)
+    local imageCol = self:GetImageColor()
+    setDrawColor(imageCol.r, imageCol.g, imageCol.b, imageCol.a)
 
     if self:GetKeepAspect() then
         local w = self.ActualWidth

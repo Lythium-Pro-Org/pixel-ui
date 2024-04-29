@@ -1,3 +1,12 @@
+---@class PulsarUI.NumberEntry : PulsarUI.TextEntry
+---@field SetHideButtons fun(self: PulsarUI.NumberEntry, hide: boolean)
+---@field GetHideButtons fun(self: PulsarUI.NumberEntry): boolean
+---@field SetInterval fun(self: PulsarUI.NumberEntry, interval: number)
+---@field GetInterval fun(self: PulsarUI.NumberEntry): number
+---@field SetMin fun(self: PulsarUI.NumberEntry, min: number)
+---@field GetMin fun(self: PulsarUI.NumberEntry): number
+---@field SetMax fun(self: PulsarUI.NumberEntry, max: number)
+---@field GetMax fun(self: PulsarUI.NumberEntry): number
 local PANEL = {}
 AccessorFunc(PANEL, "HideButtons", "HideButtons", FORCE_BOOL)
 AccessorFunc(PANEL, "Interval", "Interval", FORCE_NUMBER)

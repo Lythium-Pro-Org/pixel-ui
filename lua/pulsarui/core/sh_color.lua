@@ -193,11 +193,14 @@ function PulsarUI.SetColorTransparency(color, transparency)
     return Color(color.r, color.g, color.b, transparency)
 end
 
+---@class Color
 local colorMeta = FindMetaTable("Color")
 colorMeta.Copy = PulsarUI.CopyColor
 colorMeta.IsLight = PulsarUI.IsColorLight
 colorMeta.EqualTo = PulsarUI.IsColorEqualTo
 
+--- Offset the color by a certain amount.
+---@param offset number
 function colorMeta:Offset(offset)
     self.r = self.r + offset
     self.g = self.g + offset
@@ -208,11 +211,27 @@ end
 
 local lerp = Lerp
 
+--- Linearly interpolate the color to another color.
+---@param t number the interpolation value
+---@param to Color the color to interpolate to
 function colorMeta:Lerp(t, to)
     self.r = lerp(t, self.r, to.r)
     self.g = lerp(t, self.g, to.g)
     self.b = lerp(t, self.b, to.b)
     self.a = lerp(t, self.a, to.a)
+
+    return self
+end
+
+--- Mix the color with another color.
+---@param to Color the color to mix with
+---@param percentage number the percentage of the color to mix
+function colorMeta:Mix(to, percentage)
+    percentage = percentage or 0.5
+
+    self.r = self.r * (1 - percentage) + to.r * percentage
+    self.g = self.g * (1 - percentage) + to.g * percentage
+    self.b = self.b * (1 - percentage) + to.b * percentage
 
     return self
 end

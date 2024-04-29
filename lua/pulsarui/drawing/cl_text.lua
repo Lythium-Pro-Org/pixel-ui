@@ -1,5 +1,3 @@
-
-
 local ceil = math.ceil
 local getTextSize = PulsarUI.GetTextSize
 local setTextPos = surface.SetTextPos
@@ -85,6 +83,7 @@ function PulsarUI.DrawDualText(title, subtitle, x, y, h)
     drawShadowText(subtitle[1], subtitle[2], x, y + tH / 2, subtitle[3], subtitle[4], 1, subtitle[5], subtitle[6])
 end
 
+
 local textWrapCache = {}
 
 local function charWrap(text, font, remainingWidth, maxWidth)
@@ -130,7 +129,7 @@ function PulsarUI.WrapText(text, width, font) --Edit of https://github.com/FPtje
         totalWidth = totalWidth + wordlen
 
         if wordlen >= width then
-            local splitWord, splitPoint = charWrap(word, font,  width - (totalWidth - wordlen), width)
+            local splitWord, splitPoint = charWrap(word, font, width - (totalWidth - wordlen), width)
             totalWidth = splitPoint
             return splitWord
         elseif totalWidth < width then
