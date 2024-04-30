@@ -47,6 +47,7 @@ function PANEL:Init()
     self.m_bLoseFocusOnClickAway = true
     self:SetCursor("beam")
     self:SetFontInternal(PulsarUI.GetRealFont("UI.TextEntry"))
+    self:SetDrawLanguageID(false)
 end
 
 function PANEL:IsEditing()
