@@ -30,14 +30,14 @@ function PulsarUI.DrawOutlinedRoundedBoxEx(borderSize, x, y, w, h, col, thicknes
     thickness = mathFloor(thickness)
     local halfThickness = mathFloor(thickness * 0.5)
 
-    PulsarUI.DrawRoundedBoxEx(borderSize, x + halfThickness, y + halfThickness, w - thickness, h - thickness, color_white, topLeft, topRight, bottomLeft,
+    PulsarUI.DrawFullRoundedBoxEx(borderSize, x + halfThickness, y + halfThickness, w - thickness, h - thickness, color_white, topLeft, topRight, bottomLeft,
         bottomRight)
 
     render.SetStencilCompareFunction(STENCIL_NOTEQUAL)
     render.SetStencilFailOperation(STENCIL_KEEP)
     render.SetStencilPassOperation(STENCIL_KEEP)
 
-    PulsarUI.DrawRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
+    PulsarUI.DrawFullRoundedBoxEx(borderSize, x, y, w, h, col, topLeft, topRight, bottomLeft, bottomRight)
 
     render.SetStencilEnable(false)
 end

@@ -40,7 +40,7 @@ end
 function PANEL:Paint(w, h)
     PulsarUI.Mask(
         function()
-            PulsarUI.DrawRoundedBox(8, 0, 0, w, h, self.m_BaseRGB)
+            PulsarUI.DrawFullRoundedBox(8, 0, 0, w, h, self.m_BaseRGB)
         end,
         function()
             surface.SetDrawColor(self.m_BaseRGB.r, self.m_BaseRGB.g, self.m_BaseRGB.b, 255)
@@ -68,7 +68,7 @@ function PANEL:UpdateColor(x, y)
     local h = ColorToHSV(self.m_BaseRGB)
 
     local color = HSVToColor(h, saturation, value)
-    print(PulsarUI.IsColorLight(color))
+
     if PulsarUI.IsColorLight(color) then
         self.KnobColor = color_black
     else

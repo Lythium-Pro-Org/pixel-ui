@@ -127,7 +127,7 @@ function PANEL:Init()
     ---@class EditablePanel
     self.ColorPreview = vgui.Create("EditablePanel", self.RGBEntryContainer)
     self.ColorPreview.Paint = function(_, w, h)
-        PulsarUI.DrawRoundedBox(h / 2, 0, 0, w, h, self:GetColor())
+        PulsarUI.DrawFullRoundedBox(h / 2, 0, 0, w, h, self:GetColor())
     end
 
     ---@class PulsarUI.RGBPicker

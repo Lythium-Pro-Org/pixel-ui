@@ -79,7 +79,7 @@ function PANEL:Paint(w, h)
     local barH = h - PulsarUI.Scale(4)
 
     PulsarUI.Mask(function()
-        PulsarUI.DrawRoundedBox(barH / 2, 0, PulsarUI.Scale(2), w, barH, color_white)
+        PulsarUI.DrawFullRoundedBox(barH / 2, 0, PulsarUI.Scale(2), w, barH, color_white)
     end,
     function()
         PulsarUI.DrawLinearGradient(x, y, w + PulsarUI.Scale(4), h, self.Steps, true)
@@ -96,8 +96,8 @@ function PANEL:Paint(w, h)
         newX = w - (h / 2)
     end
 
-    PulsarUI.DrawRoundedBox(h / 2, newX - (h / 2), 0, h, h, self:GetColor())
-    PulsarUI.DrawOutlinedRoundedBox(h / 2, newX - (h / 2), 0, h, h, color_black, 12)
+    PulsarUI.DrawFullRoundedBox(h / 2, newX - (h / 2), 0, h, h, self:GetColor())
+    PulsarUI.DrawOutlinedRoundedBox(h / 2, newX - (h / 2), 0, h, h, color_white, 12)
 end
 
 vgui.Register("PulsarUI.RGBPicker", PANEL, "EditablePanel")
