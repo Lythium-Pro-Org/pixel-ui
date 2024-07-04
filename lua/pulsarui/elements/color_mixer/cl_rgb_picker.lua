@@ -14,7 +14,7 @@ function PANEL:Init()
     self.LastX = 0
     self.Steps = {}
 
-    self.Material = Material( "gui/colors.png" )
+    self.Material = Material("gui/colors.png")
 end
 
 function PANEL:PerformLayout(w, h)
@@ -74,16 +74,16 @@ function PANEL:OnMouseReleased(mcode)
 end
 
 function PANEL:Paint(w, h)
-    local x, y = self:LocalToScreen(-PulsarUI.Scale(4), 0) // why the the fuck we have to -4 pixels idfk
+    local x, y = self:LocalToScreen(-PulsarUI.Scale(4), 0) -- why the the fuck we have to -4 pixels idfk
 
     local barH = h - PulsarUI.Scale(4)
 
     PulsarUI.Mask(function()
-        PulsarUI.DrawFullRoundedBox(barH / 2, 0, PulsarUI.Scale(2), w, barH, color_white)
-    end,
-    function()
-        PulsarUI.DrawLinearGradient(x, y, w + PulsarUI.Scale(4), h, self.Steps, true)
-    end)
+            PulsarUI.DrawFullRoundedBox(barH / 2, 0, PulsarUI.Scale(2), w, barH, color_white)
+        end,
+        function()
+            PulsarUI.DrawLinearGradient(x, y, w + PulsarUI.Scale(4), h, self.Steps, true)
+        end)
 
 
     local newX = self.LastX
