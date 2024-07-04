@@ -182,7 +182,7 @@ do
 end
 
 function PulsarUI.LerpColor(t, from, to)
-    return createColor(from.r, from.g, from.b, from.a):Lerp(t, to)
+    return createColor(from.r, from.g, from.b, from.a):Lerp(to, t)
 end
 
 function PulsarUI.IsColorEqualTo(from, to)
@@ -209,18 +209,40 @@ function colorMeta:Offset(offset)
     return self
 end
 
-local lerp = Lerp
+if not colorMeta.Lerp then
+    local lerp = Lerp
+    local isColor = IsColor
+    local deprecation_warning_shown = false
 
---- Linearly interpolate the color to another color.
----@param t number the interpolation value
----@param to Color the color to interpolate to
-function colorMeta:Lerp(t, to)
-    self.r = lerp(t, self.r, to.r)
-    self.g = lerp(t, self.g, to.g)
-    self.b = lerp(t, self.b, to.b)
-    self.a = lerp(t, self.a, to.a)
+    --- Linearly interpolate the color to another color.
+    ---@param target Color The target color to interpolate towards.
+    ---@param fraction number The interpolation fraction. `0` means fully original color, `0.5` means in the middle between the `2` colors, `1` means fully target color, etc.
+    function colorMeta:Lerp(target, fraction)
+        if isColor(fraction) then
+            -- Don't break addons using this based on Pixel UI for now.
+            local rememberFraction = fraction
+            ---@diagnostic disable-next-line: cast-local-type
+            fraction = target
+            ---@diagnostic disable-next-line: cast-local-type
+            target = rememberFraction
 
-    return self
+            if not deprecation_warning_shown then
+                deprecation_warning_shown = true
+                -- Scream at them at least once though, should be fine to keep this backwards compatibility until the update.
+                ErrorNoHaltWithStack("Deprecated PIXEL-UI Color:Lerp(fraction, target) is used.")
+            end
+        end
+
+        ---@diagnostic disable-next-line: param-type-mismatch
+        self.r = lerp(fraction, self.r, target.r)
+        ---@diagnostic disable-next-line: param-type-mismatch
+        self.g = lerp(fraction, self.g, target.g)
+        ---@diagnostic disable-next-line: param-type-mismatch
+        self.b = lerp(fraction, self.b, target.b)
+        ---@diagnostic disable-next-line: param-type-mismatch
+        self.a = lerp(fraction, self.a, target.a)
+        return self
+    end
 end
 
 --- Mix the color with another color.
