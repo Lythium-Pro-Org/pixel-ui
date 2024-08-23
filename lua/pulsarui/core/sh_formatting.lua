@@ -10,7 +10,7 @@ do
 
         if config.currency ~= nil then currencySymbol = config.currency end
         if config.currencyLeft ~= nil then currencyLeft = config.currencyLeft end
-    end)
+    end
     load()
     hook.Add("PostGamemodeLoaded", "PIXEL.UI.GetMoneyFormatSettings", load)
 
