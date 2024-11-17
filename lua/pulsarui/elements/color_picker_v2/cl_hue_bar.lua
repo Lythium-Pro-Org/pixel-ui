@@ -50,7 +50,7 @@ function PANEL:OnCursorMoved(x, y)
     local hue = clamp(wide, 0, 1)
     hue = floor(hue * self.Times)
     self:SetHue(hue)
-    local col = self:GetColor(hue)
+    local col = self:GetColor()
 
     if col then
         self:OnChange(self:GetHue())
@@ -91,6 +91,7 @@ function PANEL:Paint(w, h)
     PulsarUI.DrawRoundedBox(8, newX - (h / 2), 0, h, h, color_white)
     x, y, wh = newX + scale(3), scale(3), h - scale(6)
     PulsarUI.DrawRoundedBox(4, x - (h / 2), y, wh, wh, self:GetColor())
+
 end
 
 vgui.Register("PulsarUI.HueBar", PANEL, "EditablePanel")

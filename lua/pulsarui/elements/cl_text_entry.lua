@@ -54,7 +54,8 @@ function PANEL:Paint(w, h)
 
     PulsarUI.DrawRoundedBox(6, 0, 0, w, h, self.InnerColor)
 
-    PulsarUI.DrawOutlinedRoundedBox(6, 0, 0, w, h, self.OutlineColor, 4)
+    local screenX, screenY = self:LocalToScreen(0, 0)
+    PulsarUI.paint.outlines.drawOutline(6, screenX, screenY, w, h, self.OutlineColor, nil, 2 )
 
     if self:GetValue() == "" then
         PulsarUI.DrawSimpleText(self:GetPlaceholderText() or "", "UI.TextEntry", PulsarUI.Scale(10), h / 2, self.PlaceholderTextCol, TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)

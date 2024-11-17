@@ -32,7 +32,7 @@ function PANEL:OnCursorMoved(x, y)
     local wide = x / self:GetWide()
     local saturation = clamp(wide, 0, 1)
     self:SetSaturation(saturation)
-    local col = self:GetColor(hue)
+    local col = self:GetColor()
 
     if col then
         self:OnChange(self:GetSaturation())
