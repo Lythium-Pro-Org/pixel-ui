@@ -1,0 +1,54 @@
+name: Build GMA
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download fastgmad latest release
+      id: download-fastgmad
+      uses: actions/github-script@v4
+      with:
+        script: |
+          const { data: releases } = await github.repos.listReleases({
+            owner: 'WilliamVenner',
+            repo: 'fastgmad'
+          });
+          const latestRelease = releases[0];
+          const asset = latestRelease.assets.find(a => a.name.endsWith('_linux.zip'));
+          const downloadUrl = asset.browser_download_url;
+          return downloadUrl;
+        result-encoding: string
+
+    - name: Download fastgmad zip
+      run: wget ${{ steps.download-fastgmad.outputs.result }} -O fastgmad.zip
+
+    - name: Unzip fastgmad
+      run: unzip fastgmad.zip -d fastgmad
+
+    - name: Move fastgmad binary
+      run: mv ./fastgmad/ ../fastgmad
+
+    - name: Delete unnecessary files
+      run: rm -rf ./.git ./.github ./.vscode ./fastgmad ./fastgmad.zip
+
+    - name: Run fastgmad
+      run: ../fastgmad/fastgmad create -folder ./ -out ../pulsarui.gma
+
+    - name: Move GMA
+      run: mv ../pulsarui.gma ./pulsarui.gma
+
+    - name: Upload GMA to release
+      uses: xresloader/upload-to-github-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+          file: ./pulsarui.gma
+          update_latest_release: true
